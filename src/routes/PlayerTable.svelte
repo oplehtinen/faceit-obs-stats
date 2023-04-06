@@ -1,8 +1,10 @@
 <script lang="ts">
+  export const ssr = false;
 	import { onMount } from "svelte";
     import {getTournamentStatsForPlayer} from "../lib/faceit";
     export let teamRoster : Array<object>;
     export let color : string = "neutral-content";
+    let playerStats : Array<object>;
 
     onMount(async () => {
         const allPlayerStats = await getTournamentStatsForPlayer("9a5a7b34-29dd-4708-95aa-e37b4128b9c2");
@@ -11,10 +13,10 @@
             const playerStats = allPlayerStats.find(p => p.player_id == player.player_id);
             player.stats = playerStats.stats;
         });
-        console.log(teamRoster);
+        playerStats = teamRoster; 
     });
-
 </script>
+
 <table class="table {color} w-full">
     <thead>
       <tr>
@@ -24,7 +26,8 @@
       </tr>
     </thead>
     <tbody>
-    {#each teamRoster as player}
+    {#if playerStats}
+    {#each playerStats as player}
     <tr>
       <td>
         <div class="flex items-center space-x-3">
@@ -46,14 +49,13 @@
         </div>
       </td>
       <td>
-        {#if player.stats}
-            {player.stats["Average K/D Ratio"]}
-        {/if}
+        {player.stats["Average K/D Ratio"]}
         <br/>
         <span class="badge {color} badge-ghost badge-sm">{player.stats["Penta Kills"]} ässää</span>
       </td>
       <td>{player.stats["Win Rate %"]}</td>
     </tr>
     {/each}
+    {/if}
     </tbody>
   </table>
