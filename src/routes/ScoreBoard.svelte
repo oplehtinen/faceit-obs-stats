@@ -5,7 +5,7 @@
     export let team2Score : number;
 </script>
 
-<div class="stats shadow absolute inset-x-10 top-5">
+<div class="stats shadow w-auto flex justify-center flex-row my-8">
   
     <div class="stat place-items-center">
       <div class="stat-title">{team1}</div>
