@@ -12,7 +12,6 @@ const faceitAPI = async (endpoint) => {
 	return data;
 };
 
-// get match details
 const getMatchDetails = async (matchId: string) => {
 	const endpoint = `matches/${matchId}`;
 	const data = await faceitAPI(endpoint);
@@ -33,4 +32,26 @@ const getTournamentStatsForPlayer = async (tournamentId: string) => {
 	//console.log(data);
 	return data.players;
 };
-export { getMatchDetails, getMatchStatsForPlayer, getTournamentStatsForPlayer };
+
+const getTeamStatsForMap = async (teams: Array<T>, map: string) => {
+	console.log(teams);
+	const mapData = async (teamId: string, map: string) => {
+		const endpoint = `teams/${teamId}/stats/csgo`;
+		const data = await faceitAPI(endpoint);
+		const maps = data.segments;
+		// find the correct map and return the map stats
+		const mapStats = maps.find((mapStats) => mapStats.label === map);
+		//console.log(mapStats);
+		return mapStats.stats;
+	};
+
+	const teamStats = [
+		await mapData(teams[0].faction_id, map),
+		await mapData(teams[1].faction_id, map)
+	];
+
+	console.log(teamStats);
+	return teamStats;
+};
+
+export { getMatchDetails, getMatchStatsForPlayer, getTournamentStatsForPlayer, getTeamStatsForMap };
