@@ -3,12 +3,11 @@
 	import { circOut } from 'svelte/easing';
 	export let map: any;
 	export let teamData: any;
-	export let teamLogo: string;
 	console.log(teamData);
 </script>
 
 <div
-	class="card aspect-21/9 shadow-xl grid flex-grow w-full image-full"
+	class="card aspect-21/9 shadow-xl grid flex-grow image-full"
 	in:fly={{ y: -150, duration: 1100, easing: circOut }}
 >
 	<figure><img src={teamData.mapImage} class="w-full" alt="map" /></figure>
@@ -19,7 +18,7 @@
 				<div class="stat {team.color}">
 					<div class="stat-figure">
 						<div class="w-16 rounded-full">
-							<img src={teamLogo} alt="logo" />
+							<img src={team.avatar} alt="logo" />
 						</div>
 					</div>
 					<div class="stat-value {team.color}">{team['Win Rate %']}%</div>
