@@ -19,6 +19,20 @@ const getMatchDetails = async (matchId: string) => {
 	return data;
 };
 
+const getTournamentDetails = async (tournamentId: string) => {
+	const endpoint = `championships/${tournamentId}`;
+	const data = await faceitAPI(endpoint);
+	console.log(data);
+	return data;
+};
+
+const getOrganizerDetails = async (organizerId: string) => { 
+	const endpoint = `organizers/${organizerId}`;
+	const data = await faceitAPI(endpoint);
+	//console.log(data);
+	return data;
+};
+
 const getMatchStatsForPlayer = async (matchId: string) => {
 	const endpoint = `matches/${matchId}/stats`;
 	const data = await faceitAPI(endpoint);
@@ -41,8 +55,7 @@ const getTeamStatsForMap = async (teams: Array<T>, map: string) => {
 		const maps = data.segments;
 		// find the correct map and return the map stats
 		const mapStats = maps.find((mapStats) => mapStats.label === map);
-		//console.log(mapStats);
-		return mapStats.stats;
+		return mapStats ? mapStats.stats : {};
 	};
 
 	const teamStats = [
@@ -54,4 +67,11 @@ const getTeamStatsForMap = async (teams: Array<T>, map: string) => {
 	return teamStats;
 };
 
-export { getMatchDetails, getMatchStatsForPlayer, getTournamentStatsForPlayer, getTeamStatsForMap };
+export { 
+	getMatchDetails, 
+	getTournamentDetails,
+	getOrganizerDetails,
+	getMatchStatsForPlayer, 
+	getTournamentStatsForPlayer, 
+	getTeamStatsForMap 
+};
