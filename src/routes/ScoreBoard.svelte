@@ -5,6 +5,7 @@
 	export let status: string;
 	import { onMount } from 'svelte';
 	onMount(() => {
+		status == 'SCHEDULED' ? (status = '') : status;
 		status == 'VOTING' ? (status = 'KARTTAVALINTA') : status;
 		status == 'READY' ? (status = 'ONKS PELII?') : status;
 		status == 'LIVE' ? (status = 'VÄLIAIKA?') : status;
@@ -23,14 +24,10 @@
 		<div class="stat-value">{teams[0].score}</div>
 	</div>
 	<div class="stat w-64 place-items-center text-primary">
-		{#if status == 'SCHEDULED'}
+		{#if startTime.minutes > 0 || startTime.seconds > 0}
 			<span class="countdown font-mono text-2xl">
 				<span style="--value:{startTime.minutes};" />:
 				<span style="--value:{startTime.seconds};" />
-			</span>
-		{:else}
-			<span class="countdown font-mono text-2xl">
-				{status}
 			</span>
 		{/if}
 		<div class="w-24 h-24 rounded mix-blend-screen">

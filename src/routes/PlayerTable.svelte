@@ -14,7 +14,9 @@
 		);
 		//console.log(allPlayerStats);
 		teamRoster.forEach((player) => {
-			const playerStats = allPlayerStats.find((p) => p.player_id == player.player_id);
+			const playerStats = allPlayerStats.find(
+				(p: { player_id: any }) => p.player_id == player.player_id
+			);
 			player.stats = playerStats.stats;
 		});
 		playerStats = teamRoster;
@@ -51,7 +53,7 @@
 						</div>
 					</td>
 					<td>
-						{player.stats['Average K/D Ratio']}
+						{Math.round((player.stats.Kills / player.stats.Deaths + Number.EPSILON) * 100) / 100}
 						<br />
 						{#if parseFloat(player.stats['Penta Kills']) == 1}
 							<span class="badge {color} badge-ghost badge-sm"
