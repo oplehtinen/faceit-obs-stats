@@ -24,12 +24,12 @@
 		<div class="stat-value">{teams[0].score}</div>
 	</div>
 	<div class="stat w-64 place-items-center text-primary">
-		{#if startTime.minutes > 0 || startTime.seconds > 0}
+		<!-- 		{#if (status = 'BLBLsdhsdhB')}
 			<span class="countdown font-mono text-2xl">
 				<span style="--value:{startTime.minutes};" />:
 				<span style="--value:{startTime.seconds};" />
 			</span>
-		{/if}
+		{/if} -->
 		<div class="w-24 h-24 rounded mix-blend-screen">
 			<img src={organizerData.avatar} />
 		</div>

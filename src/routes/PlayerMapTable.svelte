@@ -13,8 +13,8 @@
 
 	onMount(async () => {
 		const allPlayerStats = await getTournamentStatsForPlayer(
-			'257e9332-35a6-44bc-bd20-85f9f51a29e1'
-			//tournamentId
+			//'9a5a7b34-29dd-4708-95aa-e37b4128b9c2'
+			tournamentId
 		);
 		//console.log(allPlayerStats);
 		teamRoster.forEach((player) => {
@@ -25,6 +25,11 @@
 		});
 		playerStats = teamRoster;
 		console.log(playerStats);
+		// sort by highest kills
+		playerStats.sort((a, b) => {
+			return b.mapstats.Kills - a.mapstats.Kills;
+		});
+		console.log(playerStats);
 	});
 </script>
 
@@ -32,9 +37,11 @@
 	<thead>
 		<tr>
 			<th>Peluri</th>
-			{#if playerStats && playerStats[0].stats.Kills}
-				<th>K/D</th>
-				<th>Voittoprosentti</th>
+			{#if playerStats}
+				<th>K</th>
+				<th>A</th>
+				<th>D</th>
+				<th>HS %</th>
 			{/if}
 		</tr>
 	</thead>
@@ -59,24 +66,23 @@
 							</div>
 						</div>
 					</td>
-					{#if player.stats.Kills}
+					{#if player.mapstats.Kills}
 						<td>
-							{Math.round((player.stats.Kills / player.stats.Deaths + Number.EPSILON) * 100) / 100}
-							<br />
-							{#if parseFloat(player.stats['Penta Kills']) == 1}
+							{player.mapstats.Kills}
+							<!-- 							<br />
+							{#if parseFloat(player.mapstats['Penta Kills']) == 1}
 								<span class="badge {color} badge-ghost badge-sm"
-									>{player.stats['Penta Kills']} ässä</span
+									>{player.mapstats['Penta Kills']} ässä</span
 								>
 							{:else}
 								<span class="badge {color} badge-ghost badge-sm"
-									>{player.stats['Penta Kills']} ässää</span
+									>{player.mapstats['Penta Kills']} ässää</span
 								>
-							{/if}
+							{/if} -->
 						</td>
-						<td>{player.stats['Win Rate %']}%</td>
-					{:else}
-						<td>-</td>
-						<td>-</td>
+						<td>{player.mapstats.Assists}</td>
+						<td>{player.mapstats.Deaths}</td>
+						<td>{player.mapstats['Headshots %']}%</td>
 					{/if}
 				</tr>
 			{/each}
