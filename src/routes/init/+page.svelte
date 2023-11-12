@@ -8,18 +8,18 @@
 	export let data;
 	export let form;
 	//let matchId = data?.matchId;
-	console.log(data);
+	data;
 	onMount(async () => {
-		console.log('matchId:' + $matchId);
+		'matchId:' + $matchId;
 		if (form?.success && data) {
-			console.log('form success');
+			('form success');
 			const newMatchId: string = url?.toString().split('/').pop()?.toString() || '';
 			updateMatchId(newMatchId);
 		}
 	});
 
 	const updateMatchId = async (newMatchId: string) => {
-		console.log('matchId:' + matchId);
+		'matchId:' + matchId;
 		const response = await fetch('/api/match', {
 			method: 'POST',
 			headers: {
@@ -28,7 +28,7 @@
 			body: JSON.stringify({ newMatchId: $matchId })
 		});
 		const data = await response.json();
-		console.log(data);
+		data;
 	};
 
 	//onDestroy(unsubscribe);
@@ -52,7 +52,7 @@
 				bind:value={$matchId}
 				on:input={(e) => {
 					$matchId = $matchId.replace('https://www.faceit.com/en/csgo/room/', '');
-					console.log('matchId:' + $matchId);
+					'matchId:' + $matchId;
 					updateMatchId($matchId);
 				}}
 				placeholder="faceit.com/en/csgo/room/1-id"

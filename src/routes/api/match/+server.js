@@ -6,7 +6,7 @@ import { getMatchStats } from '../../../lib/faceit';
 let matchId = '';
 
 export async function POST({ request }) {
-	console.log("api:" + matchId);
+	("api:" + matchId);
 	const { newMatchId } = await request.json();
 	matchId = newMatchId
 

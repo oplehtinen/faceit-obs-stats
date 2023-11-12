@@ -1,19 +1,25 @@
 <script lang="ts">
 	export let organizerData: any;
+	export let status: string;
 	organizerData.division =
 		organizerData.division.split(' ')[0] + '. ' + organizerData.division.split(' ')[1];
 </script>
 
 <div class="flex w-full">
-	<div class="card w-full bg-black text-neutral-content">
-		<div class="card-body items-center flex-row justify-around text-center text-primary">
-			<div>
-				<h2 class="card-title font-light text-3xl">{organizerData.name}</h2>
-				<h3 class="card-subtitle text-5xl">{organizerData.division}</h3>
+	<div class="card w-full bg-black bg-opacity-80 mt-0 text-neutral-content">
+		<div class="card-body items-center flex flex-row justify-between text-center text-primary">
+			<div class="w-2/5 text-center">
+				<span class="font-light text-4xl">{organizerData.name + ' '}</span>
+				<span class="text-4xl">{organizerData.division}</span>
 			</div>
-			<button class="btn gap-2 text-lg">Lähetys alkaa pian</button>
-			<div class="flex-row justify-around">
-				<h2 class="card-title font-light text-3xl text-white mb-4">Studiossa</h2>
+			<div class=" shrink">
+				<button class="btn gap-2 text-lg"
+					>Lähetys {status == 'SCHEDULED' ? 'alkaa' : 'jatkuu'} pian</button
+				>
+			</div>
+
+			<div class="flex justify-between w-2/5">
+				<h2 class="card-title font-light text-4xl text-white mr-4">Studiossa</h2>
 				<div class="chat chat-start">
 					<div class="chat-image avatar">
 						<div class="w-16 mask mask-squircle">

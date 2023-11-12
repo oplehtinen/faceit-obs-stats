@@ -2,21 +2,23 @@
 	export const ssr = false;
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
-	import { circOut } from 'svelte/easing';
+	import { circOut, expoIn, expoOut } from 'svelte/easing';
 	import { getTournamentStatsForPlayer } from '../lib/faceit';
 	export let teamRoster: Array<any>;
+	export let index = 0;
 	export let tournamentId: any;
 	export let color: string = 'neutral-content';
 	let playerStats: Array<any>;
 
-	console.log(teamRoster);
+	let allPlayerStats;
+	teamRoster;
 
 	onMount(async () => {
-		const allPlayerStats = await getTournamentStatsForPlayer(
+		allPlayerStats = await getTournamentStatsForPlayer(
 			'257e9332-35a6-44bc-bd20-85f9f51a29e1'
 			//tournamentId
 		);
-		//console.log(allPlayerStats);
+		//(allPlayerStats);
 		teamRoster.forEach((player) => {
 			const playerStats = allPlayerStats.find(
 				(p: { player_id: any }) => p.player_id == player.player_id
@@ -28,9 +30,12 @@
 	});
 </script>
 
-<table class="table table-auto text-base {color} w-full">
-	<thead>
-		<tr>
+<table
+	out:fly={{ x: index == 0 ? -1000 : 1000, duration: 1500, easing: expoOut }}
+	class="table table-auto text-base opacity-90 {color} w-full"
+>
+	<thead in:fly={{ x: index == 0 ? -550 : 1050, duration: 700, easing: expoIn }}>
+		<tr in:fly={{ x: index == 0 ? -550 : 1050, duration: 700, easing: expoIn }}>
 			<th>Peluri</th>
 			{#if playerStats && playerStats[0].stats.Kills}
 				<th>K/D</th>
@@ -38,12 +43,12 @@
 			{/if}
 		</tr>
 	</thead>
-	<tbody>
+	<tbody in:fly={{ x: index == 0 ? -550 : 1050, duration: 700, easing: expoIn }}>
 		{#if playerStats}
 			{#each playerStats as player}
-				<tr in:fly={{ y: 150, duration: 1100, easing: circOut }}>
+				<tr in:fly={{ x: index == 0 ? -550 : 1050, duration: 700, easing: expoIn }}>
 					<td>
-						<div class="flex items-center space-x-3">
+						<div class="flex items-center space-x-3 mx-5">
 							<div class="avatar">
 								<div class="mask mask-squircle w-12 h-12">
 									{#if player.avatar != ''}
@@ -55,7 +60,7 @@
 							</div>
 							<div>
 								<div class="font-bold">{player.nickname}</div>
-								<div class="text-sm opacity-50">Faceit level: {player.game_skill_level}</div>
+								<div class="text-sm bg-opacity-50">Faceit level: {player.game_skill_level}</div>
 							</div>
 						</div>
 					</td>

@@ -2,21 +2,24 @@
 	export const ssr = false;
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
-	import { circOut } from 'svelte/easing';
+	import { circOut, expoIn, expoOut } from 'svelte/easing';
 	import { getTournamentStatsForPlayer } from '../lib/faceit';
-	export let teamRoster: Array<any>;
+	import type { player, playerStat } from '$lib/dataTypes';
+	export let teamRoster: player[];
 	export let tournamentId: any;
-	export let color: string = 'neutral-content';
-	let playerStats: Array<any>;
+	export let index = 0;
+	export let color: string = 'text-primary-content';
+	//export let : string = 'neutral-content';
+	let playerStats: playerStat[];
 
-	console.log(teamRoster);
+	teamRoster;
 
 	onMount(async () => {
 		const allPlayerStats = await getTournamentStatsForPlayer(
 			//'9a5a7b34-29dd-4708-95aa-e37b4128b9c2'
 			tournamentId
 		);
-		//console.log(allPlayerStats);
+		//(allPlayerStats);
 		teamRoster.forEach((player) => {
 			const playerStats = allPlayerStats.find(
 				(p: { player_id: any }) => p.player_id == player.player_id
@@ -24,7 +27,7 @@
 			player.stats = playerStats ? playerStats.stats : {};
 		});
 		playerStats = teamRoster;
-		console.log(playerStats);
+		playerStats;
 		// sort by highest kills
 		playerStats.sort((a, b) => {
 			return b.mapstats.Kills - a.mapstats.Kills;
@@ -33,9 +36,12 @@
 	});
 </script>
 
-<table class="table table-auto text-base {color} w-full">
-	<thead>
-		<tr>
+<table
+	out:fly={{ x: index == 0 ? -1000 : 1000, duration: 1500, easing: expoOut }}
+	class="table table-auto text-base {color} opacity-90 w-full"
+>
+	<thead in:fly={{ x: index == 0 ? -550 : 1050, duration: 700, easing: expoIn }}>
+		<tr in:fly={{ x: index == 0 ? -550 : 1050, duration: 700, easing: expoIn }}>
 			<th>Peluri</th>
 			{#if playerStats}
 				<th>K</th>
@@ -45,10 +51,10 @@
 			{/if}
 		</tr>
 	</thead>
-	<tbody>
+	<tbody in:fly={{ x: index == 0 ? -550 : 1050, duration: 700, easing: expoIn }}>
 		{#if playerStats}
 			{#each playerStats as player}
-				<tr in:fly={{ y: 150, duration: 1100, easing: circOut }}>
+				<tr in:fly={{ x: index == 0 ? -550 : 1050, duration: 700, easing: expoIn }}>
 					<td>
 						<div class="flex items-center space-x-3">
 							<div class="avatar">
@@ -62,7 +68,7 @@
 							</div>
 							<div>
 								<div class="font-bold">{player.nickname}</div>
-								<div class="text-sm opacity-50">Faceit level: {player.game_skill_level}</div>
+								<div class="text-sm bg-opacity-50">Faceit level: {player.game_skill_level}</div>
 							</div>
 						</div>
 					</td>

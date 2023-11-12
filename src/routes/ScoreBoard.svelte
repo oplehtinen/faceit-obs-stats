@@ -13,7 +13,7 @@
 	});
 </script>
 
-<div class="stats shadow w-auto flex justify-between flex-row mt-12">
+<div class="stats shadow w-auto flex bg-opacity-90 justify-between flex-row mt-4">
 	<div class="avatar w-64 stat place-items-center">
 		<div class="w-24 h-24 rounded mix-blend-screen">
 			<img src={teams[0].avatar} />

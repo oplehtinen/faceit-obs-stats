@@ -14,12 +14,12 @@
 	obs
 		.connect(obsSettings.address, obsSettings.password)
 		.then(() => {
-			console.log(`Connected to OBS at ${obsSettings.address}`);
+			`Connected to OBS at ${obsSettings.address}`;
 			// change scene
 			obs.call('SaveReplayBuffer');
 		})
 		.catch((err) => {
-			console.log(err);
+			err;
 		});
 
 	// save replay buffer

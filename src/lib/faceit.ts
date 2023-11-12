@@ -1,20 +1,27 @@
 import { PUBLIC_FACEIT_API_KEY } from '$env/static/public';
-
+import type {
+	mapData,
+	mapData,
+	mapData,
+	mapName,
+	mapStat,
+	mapStatsForTeams,
+	matchDetails,
+	matchId,
+	matchStats,
+	playerStat,
+	team,
+	teamId,
+	teamStats,
+	tournamentId
+} from './dataTypes';
 // cache the data for 1 minute
 const cache = new Map();
 const cacheTTL = 1 * 60 * 1000;
+import { endpointData } from '../stores';
 
-
-const faceitAPI = async (endpoint) => {
-
-	// if the data is in the cache, return it
-	if (cache.has(endpoint)) {
-		const { data, timestamp } = cache.get(endpoint);
-		if (Date.now() - timestamp < cacheTTL) {
-			console.log('cache hit');
-			return data;
-		}
-	}
+const faceitAPI = async (endpoint: string) => {
+	console.log(`https://open.faceit.com/data/v4/${endpoint}`);
 
 	const response = await fetch(`https://open.faceit.com/data/v4/${endpoint}`, {
 		method: 'GET',
@@ -24,38 +31,35 @@ const faceitAPI = async (endpoint) => {
 		}
 	});
 	const json = await response.json();
-	// add the data to the cache
-	cache.set(endpoint, {
-		json,
-		timestamp: Date.now()
-	});
-
-
+	// if error, log it
+	if (json.errors) {
+		console.log(json.errors);
+	}
 	return json;
 };
 
-const getMatchDetails = async (matchId: string) => {
-	const endpoint = `matches/${matchId}`;
+const getMatchDetails = async (id: matchId): Promise<matchDetails> => {
+	const endpoint = `matches/${id}`;
 	const data = await faceitAPI(endpoint);
-	//console.log(data);
+	//(data);
 	return data;
 };
 
-const getTournamentDetails = async (tournamentId: string) => {
+const getTournamentDetails = async (tournamentId: string): Promise<unknown> => {
 	const endpoint = `championships/${tournamentId}`;
 	const data = await faceitAPI(endpoint);
-	//console.log(data);
+	//(data);
 	return data;
 };
 
 const getOrganizerDetails = async (organizerId: string) => {
 	const endpoint = `organizers/${organizerId}`;
 	const data = await faceitAPI(endpoint);
-	//console.log(data);
+	//(data);
 	return data;
 };
 
-const getMatchStats = async (matchId: string) => {
+const getMatchStats = async (matchId: string): Promise<matchStats[]> => {
 	const endpoint = `matches/${matchId}/stats`;
 	const data = await faceitAPI(endpoint);
 
@@ -63,47 +67,82 @@ const getMatchStats = async (matchId: string) => {
 	if (data.errors) {
 		return {};
 	}
-	//console.log(data);
+	console.log(data);
 	return data;
 };
 
-const getTournamentStatsForPlayer = async (tournamentId: string) => {
+const getTournamentStatsForPlayer = async (tournamentId: tournamentId): Promise<playerStat[]> => {
 	const endpoint = `hubs/${tournamentId}/stats?offset=0&limit=100`;
 	const data = await faceitAPI(endpoint);
-	//console.log(data);
+	console.log('tournid' + tournamentId);
+	//(data);
 	return data.players;
 };
+const mapData = async (teamId: teamId): Promise<mapData[]> => {
+	const endpoint = `teams/${teamId}/stats/csgo`;
+	const data = await faceitAPI(endpoint);
+	console.log(data);
+	const maps = data?.segments || [];
+	return maps;
+};
+const getTeamStatsForMaps = async (
+	teams: team[],
+	tournamentMaps: mapName[]
+): Promise<mapStatsForTeams> => {
+	// for each team, get the map stats
+	const createMapStats = async (): Promise<mapStatsForTeams> => {
+		const mapStats: mapStatsForTeams = {};
+		for (let i = 0; i < teams.length; i++) {
+			const team = teams[i];
+			const maps = await mapData(team.faction_id);
+			//(maps);
+			// for each map, get the stats
+			for (let j = 0; j < maps.length; j++) {
+				const map = maps[j];
+				const mapName = map.label;
+				const teamName = 'team' + (i + 1);
+				const mapData: mapData = {
+					img_regular: map.img_regular,
+					label: map.label
+				};
+				const mapStat: mapStat = {
+					Matches: map.stats.Matches,
+					Wins: map.stats.Wins,
+					'Win Rate %': map.stats['Win Rate %']
+				};
 
-const getTeamStatsForMap = async (teams: Array<T>, map: string) => {
-	//console.log(teams);
-	const mapData = async (teamId: string, map: string) => {
-		const endpoint = `teams/${teamId}/stats/csgo`;
-		const data = await faceitAPI(endpoint);
-		const maps = data?.segments || [];
-		// find the correct map and return the map stats
-		const mapStats = maps.find((mapStats) => mapStats.label === map);
-		//console.log(mapStats);
-		return mapStats ? mapStats.stats : {};
+				// if the map is not in the tournament maps, skip it
+				console.log(tournamentMaps);
+				if (!tournamentMaps.includes(mapName)) {
+					continue;
+				}
+				mapStats[mapName] = mapStats[mapName] || [];
+				mapStats[mapName].stats = mapStats[mapName].stats || [];
+				mapStats[mapName].mapData = mapData;
+				mapStats[mapName].stats[i] = mapStat;
+
+				//maps[map.label] = mapStat;
+			}
+		}
+		return new Promise((resolve) => {
+			resolve(mapStats);
+		});
 	};
 
-	const teamStats = [
-		await mapData(teams[0].faction_id, map),
-		await mapData(teams[1].faction_id, map)
-	];
+	const mapStats = await createMapStats();
 
-	/* 	// if team stats are not found, return empty object
-		if (!teamStats[0].Matches || !teamStats[1].Matches) {
-			return {
+	// loop through the maps, if there is only 1 team, add the other team's stats as 0
+	for (const map in mapStats) {
+		const mapStat = mapStats[map];
+		if (mapStat.stats[0] && !mapStat.stats[1]) {
+			mapStat.stats[1] = {
 				Matches: 0,
-				
+				Wins: 0,
+				'Win Rate %': 0
 			};
-		} else {
-			console.log("map stats for " + map);
-			console.log(teamStats);
-		} */
-
-	//console.log(teamStats);
-	return teamStats;
+		}
+	}
+	return mapStats;
 };
 
 export {
@@ -112,5 +151,5 @@ export {
 	getOrganizerDetails,
 	getMatchStats,
 	getTournamentStatsForPlayer,
-	getTeamStatsForMap
+	getTeamStatsForMaps as getTeamStatsForMap
 };
