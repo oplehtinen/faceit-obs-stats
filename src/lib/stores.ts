@@ -12,3 +12,19 @@ if (browser) {
     matchId.subscribe(value => localStorage.setItem('matchId', value));
     // also update the store for the server
 }
+
+export const matchDetails = writable(null);
+
+export const matchData = writable(null);
+
+export const matchResults = writable(null);
+
+export const matchStatus = writable(null);
+
+export const matchVoting = writable(null);
+
+export const mapData = writable(null);
+
+export const mapStatsForTeams = writable(null);
+
+export const teams = writable();

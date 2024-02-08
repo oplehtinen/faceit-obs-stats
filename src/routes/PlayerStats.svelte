@@ -1,13 +1,15 @@
 <script lang="ts">
 	import PlayerTable from './PlayerTable.svelte';
 	import PlayerMapTable from './PlayerMapTable.svelte';
-	import type { mapData, team } from '$lib/dataTypes';
+	import type { mapData, team } from '$lib/dataTypes.d.ts';
 	import { fly } from 'svelte/transition';
 	import { expoIn } from 'svelte/easing';
 	import MapCard from './MapCard.svelte';
+	import type { player } from '$lib/dataTypes.d.ts';
+	import type { matchStats } from '$lib/dataTypes.d.ts';
 	export let teams: team[];
 	export let tournamentId: string;
-	export let matchStats;
+	export let matchStats: matchStats;
 	export let nextMap: any;
 	export let mapInfo: undefined | { mapData: mapData; stats: any };
 	let mapName: string;
@@ -17,7 +19,7 @@
 
 	if (nextMap > 0) {
 		teams.forEach((team, i) => {
-			team.roster.forEach((player, j) => {
+			team.roster.forEach((player: player, j) => {
 				player.mapstats = matchStats.rounds[nextMap - 1].teams[i].players.find(
 					(p: { player_id: any }) => p.player_id == player.player_id
 				).player_stats;
@@ -70,7 +72,7 @@
 		</div>
 	{:else}
 		<div class="grid w-full">
-			<PlayerTable teamRoster={teams[0].roster} index="0" {tournamentId} color="primary-content" />
+			<PlayerTable teamRoster={teams[0].roster} index={0} {tournamentId} color="primary-content" />
 		</div>
 		<div out:fly={{ y: 2000, duration: 500, easing: expoIn }} class="divider divider-horizontal">
 			VS
@@ -79,7 +81,7 @@
 			<PlayerTable
 				teamRoster={teams[1].roster}
 				{tournamentId}
-				index="1"
+				index={1}
 				color="text-secondary-content"
 			/>
 		</div>

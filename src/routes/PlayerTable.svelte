@@ -36,54 +36,104 @@
 >
 	<thead in:fly={{ x: index == 0 ? -550 : 1050, duration: 700, easing: expoIn }}>
 		<tr in:fly={{ x: index == 0 ? -550 : 1050, duration: 700, easing: expoIn }}>
-			<th>Peluri</th>
-			{#if playerStats && playerStats[0].stats.Kills}
-				<th>K/D</th>
-				<th>Voittoprosentti</th>
+			{#if index == 0}
+				<th>Peluri</th>
+				{#if playerStats && playerStats[0].stats}
+					<th>K/D</th>
+					<th>Voittoprosentti</th>
+				{/if}
+			{:else}
+				{#if playerStats && playerStats[0].stats}
+					<th class="text-right">Voittoprosentti</th>
+					<th class="text-right">K/D</th>
+				{/if}<th class="text-right">Peluri</th>
 			{/if}
 		</tr>
 	</thead>
 	<tbody in:fly={{ x: index == 0 ? -550 : 1050, duration: 700, easing: expoIn }}>
 		{#if playerStats}
 			{#each playerStats as player}
-				<tr in:fly={{ x: index == 0 ? -550 : 1050, duration: 700, easing: expoIn }}>
-					<td>
-						<div class="flex items-center space-x-3 mx-5">
-							<div class="avatar">
-								<div class="mask mask-squircle w-12 h-12">
-									{#if player.avatar != ''}
-										<img src={player.avatar} alt="Avatar Tailwind CSS Component" />
-									{:else}
-										<div class="bg-neutral-focus text-neutral-content rounded-full w-24" />
-									{/if}
+				{#if index == 0}
+					<tr in:fly={{ x: index == 0 ? -550 : 1050, duration: 700, easing: expoIn }}>
+						<td>
+							<div class="flex items-center space-x-3 mx-5">
+								<div class="avatar">
+									<div class="mask mask-squircle w-12 h-12">
+										{#if player.avatar != ''}
+											<img src={player.avatar} alt="Avatar Tailwind CSS Component" />
+										{:else}
+											<div class="bg-neutral-focus text-neutral-content rounded-full w-24" />
+										{/if}
+									</div>
+								</div>
+								<div>
+									<div class="font-bold">{player.nickname}</div>
+									<div class="text-sm bg-opacity-50">Faceit level: {player.game_skill_level}</div>
 								</div>
 							</div>
-							<div>
-								<div class="font-bold">{player.nickname}</div>
-								<div class="text-sm bg-opacity-50">Faceit level: {player.game_skill_level}</div>
-							</div>
-						</div>
-					</td>
-					{#if player.stats.Kills}
-						<td>
-							{Math.round((player.stats.Kills / player.stats.Deaths + Number.EPSILON) * 100) / 100}
-							<br />
-							{#if parseFloat(player.stats['Penta Kills']) == 1}
-								<span class="badge {color} badge-ghost badge-sm"
-									>{player.stats['Penta Kills']} ässä</span
-								>
-							{:else}
-								<span class="badge {color} badge-ghost badge-sm"
-									>{player.stats['Penta Kills']} ässää</span
-								>
-							{/if}
 						</td>
-						<td>{player.stats['Win Rate %']}%</td>
-					{:else}
-						<td>-</td>
-						<td>-</td>
-					{/if}
-				</tr>
+						{#if player.stats.Kills}
+							<td>
+								{Math.round((player.stats.Kills / player.stats.Deaths + Number.EPSILON) * 100) /
+									100}
+								<br />
+								{#if parseFloat(player.stats['Penta Kills']) == 1}
+									<span class="badge {color} badge-ghost badge-sm"
+										>{player.stats['Penta Kills']} ässä</span
+									>
+								{:else}
+									<span class="badge {color} badge-ghost badge-sm"
+										>{player.stats['Penta Kills']} ässää</span
+									>
+								{/if}
+							</td>
+							<td>{player.stats['Win Rate %']}%</td>
+						{:else}
+							<td>-</td>
+							<td>-</td>
+						{/if}
+					</tr>
+				{:else}
+					<tr in:fly={{ x: 1050, duration: 700, easing: expoIn }}>
+						{#if player.stats.Kills}
+							<td class="text-right">{player.stats['Win Rate %']}%</td>
+							<td class="text-right">
+								{Math.round((player.stats.Kills / player.stats.Deaths + Number.EPSILON) * 100) /
+									100}
+								<br />
+								{#if parseFloat(player.stats['Penta Kills']) == 1}
+									<span class="badge {color} badge-ghost badge-sm"
+										>{player.stats['Penta Kills']} ässä</span
+									>
+								{:else}
+									<span class="badge {color} badge-ghost badge-sm"
+										>{player.stats['Penta Kills']} ässää</span
+									>
+								{/if}
+							</td>
+						{:else}
+							<td class="text-right">-</td>
+							<td class="text-right">-</td>
+						{/if}
+						<td>
+							<div class="flex items-center justify-end space-x-3 mx-5">
+								<div class="avatar">
+									<div class="mask mask-squircle w-12 h-12">
+										{#if player.avatar != ''}
+											<img src={player.avatar} alt="Avatar Tailwind CSS Component" />
+										{:else}
+											<div class="bg-neutral-focus text-neutral-content rounded-full w-24" />
+										{/if}
+									</div>
+								</div>
+								<div>
+									<div class="font-bold">{player.nickname}</div>
+									<div class="text-sm bg-opacity-50">Faceit level: {player.game_skill_level}</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+				{/if}
 			{/each}
 		{/if}
 	</tbody>

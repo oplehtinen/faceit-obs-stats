@@ -8,7 +8,7 @@
 		matchStatus,
 		nextMapIndex,
 		team
-	} from '$lib/dataTypes';
+	} from '$lib/dataTypes.d.ts';
 	import { onMount } from 'svelte';
 	import {
 		getMatchDetails,
@@ -16,7 +16,8 @@
 		getOrganizerDetails,
 		getTournamentDetails
 	} from '../lib/faceit';
-	import { maps } from '../lib/maps';
+	import { maps } from '$lib/maps';
+	import { teams as teamsData } from '$lib/stores';
 	import IntroPage from './IntroPage.svelte';
 	import MapPicks from './MapPicks.svelte';
 	import MapStats from './MapStats.svelte';
@@ -29,6 +30,7 @@
 	let mapPicks: mapName[];
 	let mapData: Array<any>;
 	let teams: team[];
+	import { get } from 'svelte/store';
 	let tournamentData: any;
 	let tournamentId: any;
 	//let matchId: any;
@@ -43,11 +45,12 @@
 	let carouselIndex = 1;
 	let nextMap: nextMapIndex = 0;
 	let status: matchStatus = 'SCHEDULED';
-	let tournamentMaps = [];
+	let tournamentMaps: any[] = [];
 	let mapInfo: {
 		mapData: mapData | undefined;
 		stats: any;
 	};
+	// get the teams from the store
 	//let matchId = $matchIdString;
 	'matchId: from da store' + matchId;
 	//let matchId = env.PUBLIC_MATCHID;
@@ -60,7 +63,9 @@
 		//matchData = await getMatchDetails('1-eaea5eb1-0291-4352-b60d-f6d47fc5924f'); // random peli b01
 		//matchData = await getMatchDetails('1-73922f88-3f0a-4148-98fd-02750f3fcec9'); // pe demopeli 20.00
 		matchData = await getMatchDetails(matchId);
-
+		teamsData.subscribe((value) => {
+			teams = value;
+		});
 		status = matchData.status ?? 'VOTING';
 		'fetched match id: ' + matchData.match_id;
 		const update = setInterval(async () => {
@@ -86,11 +91,7 @@
 		tournamentId = matchData.competition_id;
 		//matchId = matchData.match_id;
 		matchStats = await getMatchStats(matchId);
-		teams = [matchData.teams.faction1, matchData.teams.faction2];
-		teams[0].score = matchData.results ? parseFloat(matchData.results.score.faction1) : 0;
-		teams[1].score = matchData.results ? parseFloat(matchData.results.score.faction2) : 0;
-		teams[0].color = 'text-neutral-content';
-		teams[1].color = 'text-secondary-content';
+		teams = $teamsData;
 		nextMap = matchData.results && matchData.results.score ? teams[0].score + teams[1].score : 0;
 		//nextMap = 1;
 		tournamentMaps = [
@@ -181,14 +182,14 @@
 	<IntroPage {organizerData} {status} />
 {/if}
 
-<!-- {#if status == 'SCHEDULED' && mapData && teams}
+{#if status == 'SCHEDULED' && mapData && teams}
 	<MapStats mapData={allMaps} {teams} />
 {/if}
 
 {#if teams && tournamentId && status !== 'VOTING' && nextMap !== undefined && matchStats !== undefined}
 	<div class="divider divider-vertical" />
 	<PlayerStats {teams} {tournamentId} {matchStats} {nextMap} />
-{:else}{/if} -->
+{:else}{/if}
 
 <!-- <div class="flex w-full mt-8">
 	<div class="card w-full bg-black text-neutral-content">

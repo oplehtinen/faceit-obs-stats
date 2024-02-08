@@ -1,9 +1,9 @@
-export type matchId = string;
-export type tournamentId = string;
-export type organizerId = string;
-export type teamId = string;
+export type matchId = string & { _: never };
+export type tournamentId = string & { _: never };
+export type organizerId = string & { _: never };
+export type teamId = string & { _: never };
 export type players = Array<player>;
-export type playerId = string;
+export type playerId = string & { _: never };
 export type nickname = string;
 export type playerAvatar = string;
 export type teamLogo = string;
@@ -28,7 +28,7 @@ export type mapData = {
 	guid: mapName;
 	game_map_id: mapName;
 };
-interface mapStat {
+export type mapStat = {
 	Matches: number;
 	Wins: number;
 	'Win Rate %': number;
@@ -101,7 +101,7 @@ export type {
 	teamStats,
 	mapStatsForTeams
 };
-interface matchDetails {
+export type matchDetails = {
 	match_id: matchId;
 	competition_id: tournamentId;
 	competition_name: string;
@@ -114,10 +114,10 @@ interface matchDetails {
 		map: { pick: mapPicks };
 	};
 	/*     "scheduled_at": 1694710800,
-    "configured_at": 1694713799,
-    "started_at": 1694714403,
-    "finished_at": 1694718192, */
+	"configured_at": 1694713799,
+	"started_at": 1694714403,
+	"finished_at": 1694718192, */
 	results: matchResults;
 	status: matchStatus;
 }
-interface tournamentDetails {}
+interface tournamentDetails { }
