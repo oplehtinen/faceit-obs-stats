@@ -1,23 +1,22 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import { getTeamStatsForMap } from '../lib/faceit';
 	import MapCard from './MapCard.svelte';
 	import type { mapStatsForTeams, team } from '$lib/dataTypes';
-	export let teams: team[];
-	export let tournamentMaps: Array<string>;
 	let mapStatsTeam: mapStatsForTeams;
-	onMount(async () => {
-		console.log(tournamentMaps);
-		mapStatsTeam = await getTeamStatsForMap(teams, tournamentMaps);
+	onMount(() => {
+		mapStatsTeam = $page.data.mapStatsTeam as mapStatsForTeams;
+		console.log($page.data);
 		console.log(mapStatsTeam);
 	});
+	const teamArr = [$page.data.teamsData.faction1, $page.data.teamsData.faction2];
 </script>
 
-<div class="flex flex-wrap justify-center flex-row my-4 mx-auto w-screen">
+<div class="flex flex-wrap justify-center flex-row my-auto gap-8 mx-auto w-screen h-4/6">
 	{#if mapStatsTeam}
 		{#each Object.entries(mapStatsTeam) as [key, map], i}
 			<div class="m-2">
-				<MapCard stats={map.stats} data={map.mapData} nextMap={false} order={i * 300} {teams} />
+				<MapCard data={map} nextMap={false} order={i * 300} teams={teamArr} />
 			</div>
 		{/each}
 	{/if}

@@ -25,5 +25,8 @@ export default {
   },
   content: ['./src/routes/**/*.{svelte,js,ts}'],
   plugins: [require("@tailwindcss/typography"), require('daisyui')],
+  daisyui: {
+    themes: ["luxury"],
+  }
 }
 

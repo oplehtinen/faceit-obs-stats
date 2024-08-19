@@ -1,29 +1,46 @@
 <script lang="ts">
 	import '../app.css';
 	import { onDestroy } from 'svelte';
-	import { status, teams } from '$lib/stores';
-	import { getMatchDetails, getMatchStats } from '$lib/faceit';
-	import { onMount } from 'svelte';
-
-	let statusText = '';
-	let matchStats: matchStats;
-	let nextMap: number;
 	import { PUBLIC_MATCHID } from '$env/static/public';
-	const matchId = PUBLIC_MATCHID;
-	const unsubscribe = status.subscribe((value) => (statusText = value));
+	import ScoreBoard from './ScoreBoard.svelte';
+	import {
+		organizerStore,
+		matchDetailsStore,
+		matchIdStore,
+		teamsStore,
+		playerStatsStore
+	} from '$lib/stores';
+	import { getMatchDetails, getOrganizerDetails, getTournamentStatsForPlayer } from '$lib/faceit';
+	import { onMount } from 'svelte';
+	import { tick } from 'svelte';
+	import { writable } from 'svelte/store';
+	import type { matchId } from '$lib/dataTypes';
+	import { page } from '$app/stores';
+	export let data;
 	onMount(async () => {
-		matchStats = await getMatchStats(matchId);
-		const matchData = await getMatchDetails(matchId);
-		const teams = [matchData.teams.faction1, matchData.teams.faction2];
-		teams[0].score = matchData.results ? parseFloat(matchData.results.score.faction1) : 0;
-		teams[1].score = matchData.results ? parseFloat(matchData.results.score.faction2) : 0;
-		teams[0].color = 'text-neutral-content';
-		teams[1].color = 'text-secondary-content';
-		$teams = teams;
-		console.log(teams);
-		nextMap = matchData.results && matchData.results.score ? teams[0].score + teams[1].score : 0;
+		await tick();
+		console.log(data);
+		/* 	// find matching player stats for each player in the team roster
+		if ($playerStatsStore) {
+			$teamsStore.faction1.roster.forEach((player: any, i: number) => {
+				const playerStat = playerStats.find((p: any) => p.player_id == player.player_id);
+				if (playerStat) {
+					player.stats = playerStat.stats;
+				}
+			});
+			$teamsStore.faction2.roster.forEach((player: any, i: number) => {
+				const playerStat = playerStats.find((p: any) => p.player_id == player.player_id);
+				if (playerStat) {
+					player.stats = playerStat.stats;
+				}
+			});
+			console.log($teamsStore);
+		} */
+
+		/* 		console.log(playerStats);
+		console.log(matchDetailsData);
+		console.log(organizerData); */
 	});
-	onDestroy(unsubscribe);
 </script>
 
 <div

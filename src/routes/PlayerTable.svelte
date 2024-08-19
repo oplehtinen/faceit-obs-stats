@@ -1,58 +1,42 @@
 <script lang="ts">
 	export const ssr = false;
 	import { onMount } from 'svelte';
+	import { expoOut, expoIn } from 'svelte/easing';
 	import { fly } from 'svelte/transition';
-	import { circOut, expoIn, expoOut } from 'svelte/easing';
-	import { getTournamentStatsForPlayer } from '../lib/faceit';
-	export let teamRoster: Array<any>;
-	export let index = 0;
-	export let tournamentId: any;
-	export let color: string = 'neutral-content';
-	let playerStats: Array<any>;
-
-	let allPlayerStats;
-	teamRoster;
-
-	onMount(async () => {
-		allPlayerStats = await getTournamentStatsForPlayer(
-			'257e9332-35a6-44bc-bd20-85f9f51a29e1'
-			//tournamentId
-		);
-		//(allPlayerStats);
-		teamRoster.forEach((player) => {
-			const playerStats = allPlayerStats.find(
-				(p: { player_id: any }) => p.player_id == player.player_id
-			);
-			player.stats = playerStats ? playerStats.stats : {};
-		});
-		playerStats = teamRoster;
-		console.log(playerStats);
-	});
+	export let teamData: any;
+	export let index: number;
+	export let color: string = 'text-primary-content';
+	console.log(teamData);
+	onMount(async () => {});
 </script>
 
 <table
 	out:fly={{ x: index == 0 ? -1000 : 1000, duration: 1500, easing: expoOut }}
-	class="table table-auto text-base opacity-90 {color} w-full"
+	class="table table-auto text-base bg-base-100 bg-opacity-80 {color} w-full"
 >
-	<thead in:fly={{ x: index == 0 ? -550 : 1050, duration: 700, easing: expoIn }}>
+	<thead
+		class="text-base text-gray-400"
+		in:fly={{ x: index == 0 ? -550 : 1050, duration: 700, easing: expoIn }}
+	>
 		<tr in:fly={{ x: index == 0 ? -550 : 1050, duration: 700, easing: expoIn }}>
 			{#if index == 0}
-				<th>Peluri</th>
-				{#if playerStats && playerStats[0].stats}
+				<th class="pl-16">Peluri</th>
+				{#if teamData}
 					<th>K/D</th>
 					<th>Voittoprosentti</th>
 				{/if}
 			{:else}
-				{#if playerStats && playerStats[0].stats}
+				{#if teamData}
 					<th class="text-right">Voittoprosentti</th>
 					<th class="text-right">K/D</th>
-				{/if}<th class="text-right">Peluri</th>
+				{/if}
+				<th class="text-right pr-16">Peluri</th>
 			{/if}
 		</tr>
 	</thead>
 	<tbody in:fly={{ x: index == 0 ? -550 : 1050, duration: 700, easing: expoIn }}>
-		{#if playerStats}
-			{#each playerStats as player}
+		{#if teamData}
+			{#each teamData as player}
 				{#if index == 0}
 					<tr in:fly={{ x: index == 0 ? -550 : 1050, duration: 700, easing: expoIn }}>
 						<td>
@@ -116,19 +100,23 @@
 							<td class="text-right">-</td>
 						{/if}
 						<td>
-							<div class="flex items-center justify-end space-x-3 mx-5">
-								<div class="avatar">
-									<div class="mask mask-squircle w-12 h-12">
-										{#if player.avatar != ''}
-											<img src={player.avatar} alt="Avatar Tailwind CSS Component" />
-										{:else}
-											<div class="bg-neutral-focus text-neutral-content rounded-full w-24" />
-										{/if}
+							<div
+								class="flex items-center justify-end items-start justify-items-stretch space-x-3 mx-5"
+							>
+								<div class="flex content-start flex-row-reverse mx-5">
+									<div class="avatar justify-start">
+										<div class="mask mask-squircle w-12 h-12">
+											{#if player.avatar != ''}
+												<img src={player.avatar} alt="Avatar Tailwind CSS Component" />
+											{:else}
+												<div class="bg-neutral-focus text-neutral-content rounded-full w-24" />
+											{/if}
+										</div>
 									</div>
-								</div>
-								<div>
-									<div class="font-bold">{player.nickname}</div>
-									<div class="text-sm bg-opacity-50">Faceit level: {player.game_skill_level}</div>
+									<div class="mx-5 text-right content-start">
+										<div class="font-bold">{player.nickname}</div>
+										<div class="text-sm bg-opacity-50">Faceit level: {player.game_skill_level}</div>
+									</div>
 								</div>
 							</div>
 						</td>
