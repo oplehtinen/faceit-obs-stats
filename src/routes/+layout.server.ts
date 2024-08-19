@@ -19,14 +19,23 @@ const tournamentMaps = [
 ]
 const teamArr = [teamsData.faction1, teamsData.faction2];
 const mapStatsTeam = await getTeamStatsForMap(teamArr, tournamentMaps);
-console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-console.log(mapStatsTeam.Dust2);
-console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
 const pickedMaps = matchDetailsData.voting.map.pick; // array of mapNames
-const pickedStats = pickedMaps.map((map) => mapStatsTeam[map]);
+const pickedStats = {}
+// loop through keys in mapstatsteam
+for (const key in mapStatsTeam) {
+    // compare key to values in pickedMaps array. 
+    // pickedmaps will have de_ suffix, mapStatsTeam will not
+    const mapName = key.replace('de_', '');
+    if (pickedMaps.includes(mapName)) {
+        console.log('picked map: ' + mapName);
+        pickedStats[key] = mapStatsTeam[key];
+    }
+}
+console.log(pickedStats);
 export async function load() {
     return {
         mapStatsTeam,
+        pickedMaps,
         pickedStats,
         matchDetailsData,
         organizerData,
