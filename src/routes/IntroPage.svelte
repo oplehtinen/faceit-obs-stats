@@ -1,8 +1,7 @@
 <script lang="ts">
 	export let organizerData: any;
 	export let status: string;
-	organizerData.division =
-		organizerData.division.split(' ')[0] + '. ' + organizerData.division.split(' ')[1];
+	/* console.log(status); */
 </script>
 
 <div class="flex w-full">
@@ -10,7 +9,7 @@
 		<div class="card-body items-center flex flex-row justify-between text-center text-primary">
 			<div class="w-2/5 text-center">
 				<span class="font-light text-4xl">{organizerData.name + ' '}</span>
-				<span class="text-4xl">{organizerData.division}</span>
+				<!-- 	<span class="text-4xl">{organizerData.division}</span> -->
 			</div>
 			<div class=" shrink">
 				<button class="btn gap-2 text-lg"

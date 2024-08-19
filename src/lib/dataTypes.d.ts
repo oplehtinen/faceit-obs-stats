@@ -13,21 +13,21 @@ export type mapName = string;
 export type mapPicks = Array<mapName>;
 export type matchStatus = string;
 export type nextMapIndex = number;
-interface player {
+export type player = {
 	mapstats: any;
 	stats?: any;
 	player_id: playerId;
 	nickname: nickname;
 	avatar: playerAvatar;
 }
-export type mapData = {
+/* export type mapData = {
 	stats?: any;
 	img_regular: string;
 	image_lg: string;
 	label: mapName;
 	guid: mapName;
 	game_map_id: mapName;
-};
+}; */
 export type mapStat = {
 	Matches: number;
 	Wins: number;
@@ -35,23 +35,18 @@ export type mapStat = {
 }
 
 export type playerStat = {
-	player_id: playerId;
-	nickname: nickname;
-	mapstats?: { [key: mapName]: mapStat };
-	stats: {
-		'Quadro Kills': number;
-		MVPs: number;
-		Result: number;
-		'Penta Kills': number;
-		'K/D Ratio': number;
-		Kills: number;
-		'Triple Kills': number;
-		'K/R Ratio': number;
-		Headshots: number;
-		Deaths: number;
-		'Headshots %': number;
-		Assists: number;
-	};
+	'Quadro Kills': number;
+	MVPs: number;
+	Result: number;
+	'Penta Kills': number;
+	'K/D Ratio': number;
+	Kills: number;
+	'Triple Kills': number;
+	'K/R Ratio': number;
+	Headshots: number;
+	Deaths: number;
+	'Headshots %': number;
+	Assists: number;
 };
 
 export type matchStats = {
@@ -66,41 +61,38 @@ export type matchStats = {
 	}
 	teams: [teamStats, teamStats];
 };
-}
-type team = {
+export type team = {
 	avatar: teamLogo;
 	roster: players;
 	faction_id: teamId;
 	name: teamName;
 	score: teamScore;
+	stats?: playerStat;
+	color?: string;
 };
-type mapStatsForTeams = {
-	[key: mapName]: {
-		mapData: mapData;
-		stats: [mapStat, mapStat];
-	};
+export type teams = {
+	faction1: team;
+	faction2: team;
 };
-interface teamStats {
+export type mapStatsForTeams = {
+	[key: mapName]: mapData;
+};
+export type mapData = {
+	label: mapName;
+	img_regular: string;
+	stats: [mapStat, mapStat];
+};
+export type teamStats = {
 	team1: mapStat;
 	team2: mapStat;
 }
-interface matchResults {
+export type matchResults = {
 	winner: string;
 	score: {
 		faction1: teamScore;
 		faction2: teamScore;
 	};
 }
-export type {
-	mapData,
-	mapStat,
-	matchDetails,
-	matchResults,
-	player,
-	team,
-	teamStats,
-	mapStatsForTeams
-};
 export type matchDetails = {
 	match_id: matchId;
 	competition_id: tournamentId;
@@ -113,10 +105,10 @@ export type matchDetails = {
 	voting: {
 		map: { pick: mapPicks };
 	};
-	/*     "scheduled_at": 1694710800,
-	"configured_at": 1694713799,
-	"started_at": 1694714403,
-	"finished_at": 1694718192, */
+	"scheduled_at": number,
+	"configured_at": number,
+	"started_at": number,
+	"finished_at": number,
 	results: matchResults;
 	status: matchStatus;
 }

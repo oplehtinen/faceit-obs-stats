@@ -1,39 +1,12 @@
 <script lang="ts">
+	import type { player } from '$lib/dataTypes';
 	export const ssr = false;
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
-	import { circOut, expoIn, expoOut } from 'svelte/easing';
-	import { getTournamentStatsForPlayer } from '../lib/faceit';
-	import type { player, playerStat } from '$lib/dataTypes';
 	export let teamRoster: player[];
 	export let tournamentId: any;
 	export let index = 0;
 	export let color: string = 'text-primary-content';
-	//export let : string = 'neutral-content';
-	let playerStats: playerStat[];
-
-	teamRoster;
-
-	onMount(async () => {
-		const allPlayerStats = await getTournamentStatsForPlayer(
-			//'9a5a7b34-29dd-4708-95aa-e37b4128b9c2'
-			tournamentId
-		);
-		//(allPlayerStats);
-		teamRoster.forEach((player) => {
-			const playerStats = allPlayerStats.find(
-				(p: { player_id: any }) => p.player_id == player.player_id
-			);
-			player.stats = playerStats ? playerStats.stats : {};
-		});
-		playerStats = teamRoster;
-		playerStats;
-		// sort by highest kills
-		playerStats.sort((a, b) => {
-			return b.mapstats.Kills - a.mapstats.Kills;
-		});
-		console.log(playerStats);
-	});
 </script>
 
 <table

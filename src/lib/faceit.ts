@@ -1,8 +1,6 @@
 import { PUBLIC_FACEIT_API_KEY } from '$env/static/public';
 import type {
 	mapData,
-	mapData,
-	mapData,
 	mapName,
 	mapStat,
 	mapStatsForTeams,
@@ -12,7 +10,9 @@ import type {
 	playerStat,
 	team,
 	teamId,
+	teams,
 	teamStats,
+	tournamentDetails,
 	tournamentId
 } from './dataTypes';
 // cache the data for 1 minute
@@ -45,7 +45,7 @@ const getMatchDetails = async (id: matchId): Promise<matchDetails> => {
 	return data;
 };
 
-const getTournamentDetails = async (tournamentId: string): Promise<unknown> => {
+const getTournamentDetails = async (tournamentId: string): Promise<tournamentDetails> => {
 	const endpoint = `championships/${tournamentId}`;
 	const data = await faceitAPI(endpoint);
 	//(data);
@@ -62,24 +62,29 @@ const getOrganizerDetails = async (organizerId: string) => {
 const getMatchStats = async (matchId: string): Promise<matchStats[]> => {
 	const endpoint = `matches/${matchId}/stats`;
 	const data = await faceitAPI(endpoint);
-
-	// if error, return empty object
-	if (data.errors) {
-		return {};
-	}
 	console.log(data);
-	return data;
+	return data.rounds;
 };
 
-const getTournamentStatsForPlayer = async (tournamentId: tournamentId): Promise<playerStat[]> => {
+const getTournamentStatsForPlayer = async (tournamentId: tournamentId, teams: teams): Promise<teams> => {
 	const endpoint = `hubs/${tournamentId}/stats?offset=0&limit=100`;
 	const data = await faceitAPI(endpoint);
 	console.log('tournid' + tournamentId);
-	//(data);
-	return data.players;
+	// for each team, get the player stats
+	for (let i = 0; i < teams.faction1.roster.length; i++) {
+		const player = teams.faction1.roster[i];
+		const playerStats = data.players.find((p) => p.player_id === player.player_id).stats;
+		teams.faction1.roster[i].stats = playerStats;
+	}
+	for (let i = 0; i < teams.faction2.roster.length; i++) {
+		const player = teams.faction2.roster[i];
+		const playerStats = data.players.find((p) => p.player_id === player.player_id).stats;
+		teams.faction2.roster[i].stats = playerStats;
+	}
+	return teams;
 };
 const mapData = async (teamId: teamId): Promise<mapData[]> => {
-	const endpoint = `teams/${teamId}/stats/csgo`;
+	const endpoint = `teams/${teamId}/stats/cs2`;
 	const data = await faceitAPI(endpoint);
 	console.log(data);
 	const maps = data?.segments || [];
@@ -92,6 +97,21 @@ const getTeamStatsForMaps = async (
 	// for each team, get the map stats
 	const createMapStats = async (): Promise<mapStatsForTeams> => {
 		const mapStats: mapStatsForTeams = {};
+		const emptyMapStat: mapStat = {
+			Matches: -1,
+			Wins: -1,
+			'Win Rate %': -1
+		};
+		// for each mapName, add an empty object to mapStats
+		for (let i = 0; i < tournamentMaps.length; i++) {
+			const mapName = tournamentMaps[i];
+
+			mapStats[mapName] = {
+				label: mapName,
+				img_regular: '',
+				stats: [emptyMapStat, emptyMapStat]
+			};
+		}
 		for (let i = 0; i < teams.length; i++) {
 			const team = teams[i];
 			const maps = await mapData(team.faction_id);
@@ -111,20 +131,28 @@ const getTeamStatsForMaps = async (
 					'Win Rate %': map.stats['Win Rate %']
 				};
 
+				//qqconsole.log(mapStat);
+
 				// if the map is not in the tournament maps, skip it
 				console.log(tournamentMaps);
+
 				if (!tournamentMaps.includes(mapName)) {
+					console.log('skipping map: ' + mapName);
 					continue;
 				}
-				mapStats[mapName] = mapStats[mapName] || [];
-				mapStats[mapName].stats = mapStats[mapName].stats || [];
-				mapStats[mapName].mapData = mapData;
+
 				mapStats[mapName].stats[i] = mapStat;
+				console.log('mapName: ' + mapName);
+				console.log(mapStats[mapName].stats[i]);
+				console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+				mapStats[mapName].label = mapData.label;
+				mapStats[mapName].img_regular = mapData.img_regular;
 
 				//maps[map.label] = mapStat;
 			}
 		}
 		return new Promise((resolve) => {
+			//console.log(mapStats);
 			resolve(mapStats);
 		});
 	};
@@ -134,14 +162,11 @@ const getTeamStatsForMaps = async (
 	// loop through the maps, if there is only 1 team, add the other team's stats as 0
 	for (const map in mapStats) {
 		const mapStat = mapStats[map];
-		if (mapStat.stats[0] && !mapStat.stats[1]) {
-			mapStat.stats[1] = {
-				Matches: 0,
-				Wins: 0,
-				'Win Rate %': 0
-			};
+		if (mapStat.stats[0].Matches == -1 && mapStat.stats[1].Matches == -1) {
+			delete mapStats[map];
 		}
 	}
+	console.log(mapStats);
 	return mapStats;
 };
 
