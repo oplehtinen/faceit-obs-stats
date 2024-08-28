@@ -84,7 +84,7 @@
 							<td class="text-right">
 								{Math.round((player.stats.Kills / player.stats.Deaths + Number.EPSILON) * 100) /
 									100}
-								<br />
+
 								{#if parseFloat(player.stats['Penta Kills']) == 1}
 									<span class="badge {color} badge-ghost badge-sm"
 										>{player.stats['Penta Kills']} ässä</span
