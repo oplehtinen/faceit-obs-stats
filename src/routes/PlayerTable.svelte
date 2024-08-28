@@ -79,7 +79,7 @@
 					</tr>
 				{:else}
 					<tr in:fly={{ x: 1050, duration: 700, easing: expoIn }}>
-						{#if player.stats.Kills}
+						{#if player.stats?.Kills}
 							<td class="text-right">{player.stats['Win Rate %']}%</td>
 							<td class="text-right">
 								{Math.round((player.stats.Kills / player.stats.Deaths + Number.EPSILON) * 100) /

@@ -73,12 +73,12 @@ const getTournamentStatsForPlayer = async (tournamentId: tournamentId, teams: te
 	// for each team, get the player stats
 	for (let i = 0; i < teams.faction1.roster.length; i++) {
 		const player = teams.faction1.roster[i];
-		const playerStats = data.players.find((p) => p.player_id === player.player_id).stats;
+		const playerStats = data.players.find((p) => p.player_id === player.player_id)?.stats;
 		teams.faction1.roster[i].stats = playerStats;
 	}
 	for (let i = 0; i < teams.faction2.roster.length; i++) {
 		const player = teams.faction2.roster[i];
-		const playerStats = data.players.find((p) => p.player_id === player.player_id).stats;
+		const playerStats = data.players.find((p) => p.player_id === player.player_id)?.stats;
 		teams.faction2.roster[i].stats = playerStats;
 	}
 	return teams;
