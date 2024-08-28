@@ -9,6 +9,7 @@ export const status = writable("Initialized");
 // create a writable store for the matchId
 // also store the matchId in localStorage, keep it in sync
 export const matchIdStore = writable('' as matchId);
+export const matchId = writable('' as matchId);
 if (browser) {
     /*   matchIdStore.set(localStorage.getItem('matchId') || '');
       matchId.subscribe(value => localStorage.setItem('matchId', value)); */
