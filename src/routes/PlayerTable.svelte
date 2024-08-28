@@ -22,8 +22,8 @@
 			{#if index == 0}
 				<th class="pl-16">Peluri</th>
 				{#if teamData}
-					<th>K/D</th>
-					<th>Voittoprosentti</th>
+					<th class="text-left">K/D</th>
+					<th class="text-left">Voittoprosentti</th>
 				{/if}
 			{:else}
 				{#if teamData}
@@ -57,10 +57,10 @@
 							</div>
 						</td>
 						{#if player.stats.Kills}
-							<td>
+							<td class="text-left">
 								{Math.round((player.stats.Kills / player.stats.Deaths + Number.EPSILON) * 100) /
 									100}
-								<br />
+
 								{#if parseFloat(player.stats['Penta Kills']) == 1}
 									<span class="badge {color} badge-ghost badge-sm"
 										>{player.stats['Penta Kills']} ässä</span
