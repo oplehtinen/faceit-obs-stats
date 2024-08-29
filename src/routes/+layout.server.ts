@@ -25,10 +25,12 @@ const pickedStats = {}
 for (const key in mapStatsTeam) {
     // compare key to values in pickedMaps array. 
     // pickedmaps will have de_ suffix, mapStatsTeam will not
-    const mapName = key.replace('de_', '');
+    console.log('key: ' + key);
+    const mapName = 'de_'.concat(key.toLowerCase());
     if (pickedMaps.includes(mapName)) {
         console.log('picked map: ' + mapName);
         pickedStats[key] = mapStatsTeam[key];
+        console.log('pickedStats: ' + pickedStats[key]);
     }
 }
 console.log(pickedStats);

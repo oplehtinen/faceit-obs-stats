@@ -22,7 +22,7 @@
 </script>
 
 <div
-	class="card aspect-21/9 shadow-xl before:!bg-opacity-90 grid shrink image-full flex-1 {getBetterStats(
+	class="card shadow-xl before:!bg-opacity-90 grid shrink image-full flex-1 {getBetterStats(
 		data.stats[0]['Win Rate %'],
 		data.stats[1]['Win Rate %']
 	)} {nextMap ? 'border-dotted border-2 border-slate-100/[.25]' : ''}"
@@ -31,7 +31,7 @@
 >
 	<figure><img src={data.img_regular} class="w-full" alt="map" /></figure>
 	<div class="card-body justify-end">
-		<h1 class="text-3xl text-primary capitalize">
+		<h1 class="text-4xl text-primary capitalize">
 			{data.label}
 			{#if nextMap}
 				<div class="badge badge-lg">Seuraava kartta</div>
@@ -57,11 +57,11 @@
 							{/if}
 						</div> -->
 					{:else}
-						<div class="stat-value {i > 0 ? 'text-info' : ''}">
+						<div class="stat-value text-5xl {i > 0 ? 'text-info' : ''}">
 							{stat && stat.Matches > 0 ? stat['Win Rate %'] + '%' : '-'}
 						</div>
-						<div class="stat-title {i > 0 ? 'text-info' : ''}">Voittoprosentti</div>
-						<div class="stat-desc {i > 0 ? 'text-info' : ''}">
+						<!-- 	<div class="stat-title text-sm {i > 0 ? 'text-info' : ''}">Voittoprosentti</div> -->
+						<div class="stat-desc text-lg {i > 0 ? 'text-info' : ''}">
 							{(stat && stat.Wins) ?? '-'}/{(stat && stat.Matches) ?? '-'} kartasta
 						</div>
 					{/if}
