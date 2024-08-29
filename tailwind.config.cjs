@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   theme: {
+    darkMode: ['selector', '[data-mode="dark"]'],
     extend: {
       aspectRatio: {
         '21/9': '21 / 9',

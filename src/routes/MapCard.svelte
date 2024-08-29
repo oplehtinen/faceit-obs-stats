@@ -8,12 +8,24 @@
 	export let order: number;
 	export let playedMap = false;
 	import { onMount } from 'svelte';
+	const getBetterStats = (winPercent1: string, winPercent2: string) => {
+		const winPercent1Num = parseFloat(winPercent1);
+		const winPercent2Num = parseFloat(winPercent2);
+		if (winPercent1Num > winPercent2Num) {
+			return 'before:!bg-warning-content';
+		} else if (winPercent1Num < winPercent2Num) {
+			return 'before:!bg-info-content';
+		} else {
+			return 'before:!bg-bg-base-200';
+		}
+	};
 </script>
 
 <div
-	class="card aspect-21/9 shadow-xl grid shrink image-full max-h-md flex-1 {nextMap
-		? 'border-dotted border-2 border-slate-100/[.25]'
-		: ''}"
+	class="card aspect-21/9 shadow-xl before:!bg-opacity-90 grid shrink image-full flex-1 {getBetterStats(
+		data.stats[0]['Win Rate %'],
+		data.stats[1]['Win Rate %']
+	)} {nextMap ? 'border-dotted border-2 border-slate-100/[.25]' : ''}"
 	in:fly={{ y: -150, duration: order, easing: expoIn }}
 	out:fly={{ y: 150, duration: 500, easing: expoOut }}
 >
@@ -45,11 +57,11 @@
 							{/if}
 						</div> -->
 					{:else}
-						<div class="stat-value {teams[i].color}">
+						<div class="stat-value {i > 0 ? 'text-info' : ''}">
 							{stat && stat.Matches > 0 ? stat['Win Rate %'] + '%' : '-'}
 						</div>
-						<div class="stat-title {teams[i].color}">Voittoprosentti</div>
-						<div class="stat-desc {teams[i].color}">
+						<div class="stat-title {i > 0 ? 'text-info' : ''}">Voittoprosentti</div>
+						<div class="stat-desc {i > 0 ? 'text-info' : ''}">
 							{(stat && stat.Wins) ?? '-'}/{(stat && stat.Matches) ?? '-'} kartasta
 						</div>
 					{/if}
