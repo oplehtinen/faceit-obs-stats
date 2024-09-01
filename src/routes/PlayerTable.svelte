@@ -56,7 +56,7 @@
 								</div>
 							</div>
 						</td>
-						{#if player.stats.Kills}
+						{#if player.stats?.Kills}
 							<td class="text-left">
 								{Math.round((player.stats.Kills / player.stats.Deaths + Number.EPSILON) * 100) /
 									100}
