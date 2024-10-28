@@ -3,13 +3,6 @@
 	import { onDestroy } from 'svelte';
 	import { PUBLIC_MATCHID } from '$env/static/public';
 	import ScoreBoard from './ScoreBoard.svelte';
-	import {
-		organizerStore,
-		matchDetailsStore,
-		matchIdStore,
-		teamsStore,
-		playerStatsStore
-	} from '$lib/stores';
 	import { getMatchDetails, getOrganizerDetails, getTournamentStatsForPlayer } from '$lib/faceit';
 	import { onMount } from 'svelte';
 	import { tick } from 'svelte';

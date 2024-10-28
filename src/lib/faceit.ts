@@ -73,12 +73,12 @@ const getTournamentStatsForPlayer = async (tournamentId: tournamentId, teams: te
 	// for each team, get the player stats
 	for (let i = 0; i < teams.faction1.roster.length; i++) {
 		const player = teams.faction1.roster[i];
-		const playerStats = data.players.find((p) => p.player_id === player.player_id)?.stats;
+		const playerStats = data.players.find((p: { [key: string]: any }) => p.player_id === player.player_id)?.stats;
 		teams.faction1.roster[i].stats = playerStats;
 	}
 	for (let i = 0; i < teams.faction2.roster.length; i++) {
 		const player = teams.faction2.roster[i];
-		const playerStats = data.players.find((p) => p.player_id === player.player_id)?.stats;
+		const playerStats = data.players.find((p: { [key: string]: any }) => p.player_id === player.player_id)?.stats;
 		teams.faction2.roster[i].stats = playerStats;
 	}
 	return teams;
@@ -88,6 +88,7 @@ const mapData = async (teamId: teamId): Promise<mapData[]> => {
 	const data = await faceitAPI(endpoint);
 	console.log(data);
 	const maps = data?.segments || [];
+	console.log(maps);
 	return maps;
 };
 const getTeamStatsForMaps = async (
@@ -109,7 +110,7 @@ const getTeamStatsForMaps = async (
 			mapStats[mapName] = {
 				label: mapName,
 				img_regular: '',
-				stats: [emptyMapStat, emptyMapStat]
+				map_stats: [emptyMapStat, emptyMapStat]
 			};
 		}
 		for (let i = 0; i < teams.length; i++) {
@@ -119,18 +120,21 @@ const getTeamStatsForMaps = async (
 			// for each map, get the stats
 			for (let j = 0; j < maps.length; j++) {
 				const map = maps[j];
+				console.log("----------------------------------")
+				console.log(map)
 				const mapName = map.label;
 				const teamName = 'team' + (i + 1);
 				const mapData: mapData = {
 					img_regular: map.img_regular,
 					label: map.label
 				};
+				if (!(map && map.stats && map.stats.Matches)) continue;
 				const mapStat: mapStat = {
-					Matches: map.stats.Matches,
-					Wins: map.stats.Wins,
+					Matches: parseFloat(map.stats.Matches as unknown as string),
+					Wins: parseFloat(map.stats.Wins as unknown as string),
 					'Win Rate %': map.stats['Win Rate %']
 				};
-
+				console.log("TYPE OF:" + typeof mapStat.Matches);
 				//qqconsole.log(mapStat);
 
 				// if the map is not in the tournament maps, skip it
@@ -140,10 +144,10 @@ const getTeamStatsForMaps = async (
 					console.log('skipping map: ' + mapName);
 					continue;
 				}
-
-				mapStats[mapName].stats[i] = mapStat;
+				if (!mapStats[mapName].map_stats) continue;
+				mapStats[mapName].map_stats[i] = mapStat;
 				console.log('mapName: ' + mapName);
-				console.log(mapStats[mapName].stats[i]);
+				console.log(mapStats[mapName].map_stats[i]);
 				console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
 				mapStats[mapName].label = mapData.label;
 				mapStats[mapName].img_regular = mapData.img_regular;
@@ -162,7 +166,8 @@ const getTeamStatsForMaps = async (
 	// loop through the maps, if there is only 1 team, add the other team's stats as 0
 	for (const map in mapStats) {
 		const mapStat = mapStats[map];
-		if (mapStat.stats[0].Matches == -1 && mapStat.stats[1].Matches == -1) {
+		if (!mapStat.map_stats) continue;
+		if (mapStat.map_stats[0].Matches == -1 && mapStat.map_stats[1].Matches == -1) {
 			delete mapStats[map];
 		}
 	}

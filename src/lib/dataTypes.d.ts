@@ -15,6 +15,7 @@ export type matchStatus = string;
 export type nextMapIndex = number;
 export type player = {
 	player_stats?: playerStat;
+	mapstats?: playerStat;
 	stats?: any;
 	player_id: playerId;
 	nickname: nickname;
@@ -89,7 +90,8 @@ export type mapStatsForTeams = {
 export type mapData = {
 	label: mapName;
 	img_regular: string;
-	stats: [mapStat, mapStat];
+	stats?: mapStat;
+	map_stats?: [mapStat, mapStat]
 	round_stats?: [playedMapStat, playedMapStat];
 	played?: boolean;
 };

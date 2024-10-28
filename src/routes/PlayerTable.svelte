@@ -100,9 +100,7 @@
 							<td class="text-right">-</td>
 						{/if}
 						<td>
-							<div
-								class="flex items-center justify-end items-start justify-items-stretch space-x-3 mx-5"
-							>
+							<div class="flex items-center justify-end justify-items-stretch space-x-3 mx-5">
 								<div class="flex content-start flex-row-reverse mx-5">
 									<div class="avatar justify-start">
 										<div class="mask mask-squircle w-12 h-12">

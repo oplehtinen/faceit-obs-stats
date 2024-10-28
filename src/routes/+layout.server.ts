@@ -20,7 +20,7 @@ const tournamentMaps = [
 const teamArr = [teamsData.faction1, teamsData.faction2];
 const mapStatsTeam = await getTeamStatsForMap(teamArr, tournamentMaps);
 const pickedMaps = matchDetailsData.voting?.map?.pick || []; // array of mapNames
-const pickedStats = {}
+const pickedStats: { [n: number]: unknown } = {}
 const matchStats = await getMatchStats(PUBLIC_MATCHID as matchId);
 // loop through keys in mapstatsteam
 for (const key in mapStatsTeam) {
