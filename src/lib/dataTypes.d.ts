@@ -14,7 +14,8 @@ export type mapPicks = Array<mapName>;
 export type matchStatus = string;
 export type nextMapIndex = number;
 export type player = {
-	mapstats: any;
+	player_stats?: playerStat;
+	mapstats?: playerStat;
 	stats?: any;
 	player_id: playerId;
 	nickname: nickname;
@@ -32,6 +33,15 @@ export type mapStat = {
 	Matches: number;
 	Wins: number;
 	'Win Rate %': number;
+}
+export type roundStats = {
+	'Final Score': string;
+	'Team Win': string;
+}
+export type playedMapStat = {
+	players: players,
+	team_id: teamId,
+	team_stats: roundStats,
 }
 
 export type playerStat = {
@@ -80,7 +90,10 @@ export type mapStatsForTeams = {
 export type mapData = {
 	label: mapName;
 	img_regular: string;
-	stats: [mapStat, mapStat];
+	stats?: mapStat;
+	map_stats?: [mapStat, mapStat]
+	round_stats?: [playedMapStat, playedMapStat];
+	played?: boolean;
 };
 export type teamStats = {
 	team1: mapStat;
@@ -105,6 +118,7 @@ export type matchDetails = {
 	voting: {
 		map: { pick: mapPicks };
 	};
+	round?: number;
 	"scheduled_at": number,
 	"configured_at": number,
 	"started_at": number,

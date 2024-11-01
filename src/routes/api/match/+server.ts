@@ -2,7 +2,7 @@ import { json } from '@sveltejs/kit';
 import { env } from '$env/dynamic/public';
 import { getMatchDetails } from '../../../lib/faceit';
 import { getMatchStats } from '../../../lib/faceit';
-
+import type { matchId } from '$lib/dataTypes';
 let matchId = '';
 
 export async function POST({ request }) {
@@ -15,13 +15,13 @@ export async function POST({ request }) {
 
 export async function GET() {
 
-	const data = await getMatchDetails(env.PUBLIC_MATCHID);
+	const data = await getMatchDetails(env.PUBLIC_MATCHID as matchId);
 	const stats = await getMatchStats(env.PUBLIC_MATCHID);
 
 
 	let series = []
 
-	for (let i = 0; i < stats.rounds.length; i++) {
+	/* for (let i = 0; i < stats.rounds.length; i++) {
 		if (i == 2) {
 			series.push({
 				map: stats.rounds[i].round_stats.Map,
@@ -37,7 +37,7 @@ export async function GET() {
 				scoreRight: stats.rounds[i].teams[1].team_stats,
 			})
 		}
-	}
+	} */
 
 	const response = {
 		primaryTeam: null,

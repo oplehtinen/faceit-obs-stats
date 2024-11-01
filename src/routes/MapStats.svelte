@@ -12,7 +12,7 @@
 	const teamArr = [$page.data.teamsData.faction1, $page.data.teamsData.faction2];
 </script>
 
-<div class="flex flex-wrap justify-center flex-row my-auto gap-8 mx-auto w-screen h-4/6">
+<div class="flex flex-wrap justify-around flex-row my-auto gap-4 mx-auto w-5/6 h-4/6">
 	{#if mapStatsTeam}
 		{#each Object.entries(mapStatsTeam) as [key, map], i}
 			<div class="m-2">

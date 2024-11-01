@@ -1,5 +1,5 @@
 <script lang="ts">
-	//import { updateMatchId } from '$lib/dispatch';
+	/* 	//import { updateMatchId } from '$lib/dispatch';
 	import { enhance } from '$app/forms';
 	import { onDestroy } from 'svelte';
 	import { matchId } from '$lib/stores';
@@ -32,10 +32,10 @@
 	};
 
 	//onDestroy(unsubscribe);
-	$: async () => {};
+	$: async () => {}; */
 </script>
 
-<div class="flex items-center justify-center h-screen bg-secondary">
+<!-- <div class="flex items-center justify-center h-screen bg-secondary">
 	<div class="card w-96 bg-base-100 shadow-xl p-10">
 		<a href="/" aria-current={$page.url.pathname === '/'}> home </a>
 		<div class="alert">
@@ -62,3 +62,4 @@
 		</form>
 	</div>
 </div>
+ -->

@@ -1,6 +1,6 @@
 import { PUBLIC_MATCHID } from "$env/static/public";
 import type { matchId } from "$lib/dataTypes";
-import { getMatchDetails, getOrganizerDetails, getTeamStatsForMap, getTournamentStatsForPlayer } from "$lib/faceit";
+import { getMatchDetails, getMatchStats, getOrganizerDetails, getTeamStatsForMap, getTournamentStatsForPlayer } from "$lib/faceit";
 const matchDetailsData = await getMatchDetails(PUBLIC_MATCHID as matchId);
 
 const organizerData = await getOrganizerDetails(matchDetailsData.organizer_id);
@@ -19,19 +19,21 @@ const tournamentMaps = [
 ]
 const teamArr = [teamsData.faction1, teamsData.faction2];
 const mapStatsTeam = await getTeamStatsForMap(teamArr, tournamentMaps);
-const pickedMaps = matchDetailsData.voting.map.pick; // array of mapNames
-const pickedStats = {}
+const pickedMaps = matchDetailsData.voting?.map?.pick || []; // array of mapNames
+const pickedStats: { [n: number]: unknown } = {}
+const matchStats = await getMatchStats(PUBLIC_MATCHID as matchId);
 // loop through keys in mapstatsteam
 for (const key in mapStatsTeam) {
     // compare key to values in pickedMaps array. 
     // pickedmaps will have de_ suffix, mapStatsTeam will not
-    const mapName = key.replace('de_', '');
-    if (pickedMaps.includes(mapName)) {
-        console.log('picked map: ' + mapName);
-        pickedStats[key] = mapStatsTeam[key];
+    console.log('key: ' + key);
+    const mapName = 'de_'.concat(key.toLowerCase());
+    for (let i = 0; i < pickedMaps.length; i++) {
+        if (pickedMaps[i] === mapName) {
+            pickedStats[i] = mapStatsTeam[key];
+        }
     }
 }
-console.log(pickedStats);
 export async function load() {
     return {
         mapStatsTeam,
@@ -40,6 +42,7 @@ export async function load() {
         matchDetailsData,
         organizerData,
         teamsData,
-        playerStats
+        playerStats,
+        matchStats
     }
 }
