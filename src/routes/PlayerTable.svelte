@@ -12,7 +12,7 @@
 
 <table
 	out:fly={{ x: index == 0 ? -1000 : 1000, duration: 1500, easing: expoOut }}
-	class="table table-auto text-base bg-base-100 bg-opacity-80 {color} w-full"
+	class="table table-auto table-lg text-base bg-base-100 bg-opacity-80 {color} w-full"
 >
 	<thead
 		class="text-base text-gray-400"
@@ -23,12 +23,14 @@
 				<th class="pl-16">Peluri</th>
 				{#if teamData}
 					<th class="text-left">K/D</th>
+					<th class="text-left">HS %</th>
 					<th class="text-left">Voittoprosentti</th>
 				{/if}
 			{:else}
 				{#if teamData}
-					<th class="text-right">Voittoprosentti</th>
-					<th class="text-right">K/D</th>
+					<th class="text-center">Voittoprosentti</th>
+					<th class="text-center">HS %</th>
+					<th class="text-center">K/D</th>
 				{/if}
 				<th class="text-right pr-16">Peluri</th>
 			{/if}
@@ -71,7 +73,8 @@
 									>
 								{/if}
 							</td>
-							<td>{player.stats['Win Rate %']}%</td>
+							<td class="text-left">{player.stats['Average Headshots %']} %</td>
+							<td class="text-left">{player.stats['Win Rate %']} %</td>
 						{:else}
 							<td>-</td>
 							<td>-</td>
@@ -80,7 +83,8 @@
 				{:else}
 					<tr in:fly={{ x: 1050, duration: 700, easing: expoIn }}>
 						{#if player.stats?.Kills}
-							<td class="text-right">{player.stats['Win Rate %']}%</td>
+							<td class="text-right">{player.stats['Win Rate %']} %</td>
+							<td class="text-right">{player.stats['Average Headshots %']} %</td>
 							<td class="text-right">
 								{Math.round((player.stats.Kills / player.stats.Deaths + Number.EPSILON) * 100) /
 									100}
