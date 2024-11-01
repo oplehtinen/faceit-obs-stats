@@ -3,7 +3,6 @@
 	import { onDestroy } from 'svelte';
 	import { PUBLIC_MATCHID } from '$env/static/public';
 	import ScoreBoard from './ScoreBoard.svelte';
-	import { getMatchDetails, getOrganizerDetails, getTournamentStatsForPlayer } from '$lib/faceit';
 	import { onMount } from 'svelte';
 	import { tick } from 'svelte';
 	import { writable } from 'svelte/store';
@@ -40,6 +39,7 @@
 	class="flex py-2 items-center justify-center h-screen animate-text bg-gradient-to-b from-secondary from-10% via-accent via-30% to-base-content to-90%"
 >
 	<div class="container-fluid mx-auto my-4 px-8 gap-4 flex flex-col h-full w-full justify-evenly">
+		<ScoreBoard />
 		<slot />
 	</div>
 </div>
