@@ -5,9 +5,7 @@
 	import MapPicks from './MapPicks.svelte';
 </script>
 
-<ScoreBoard />
-
- <MapStats  />
+<!-- <MapStats /> -->
 
 <!-- <MapPicks /> -->
 <!-- <PlayerGeneralStats  /> -->
