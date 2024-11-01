@@ -7,7 +7,7 @@
 
 <ScoreBoard />
 
-<MapStats />
+ <MapStats  />
 
-<MapPicks />
-<PlayerGeneralStats />
+<!-- <MapPicks /> -->
+<!-- <PlayerGeneralStats  /> -->
