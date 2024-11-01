@@ -1,4 +1,4 @@
-import { PUBLIC_FACEIT_API_KEY } from '$env/static/public';
+import { FACEIT_API_KEY } from '$env/static/private';
 import type {
 	mapData,
 	mapName,
@@ -24,7 +24,7 @@ const faceitAPI = async (endpoint: string, log?: boolean) => {
 	const response = await fetch(`https://open.faceit.com/data/v4/${endpoint}`, {
 		method: 'GET',
 		headers: {
-			Authorization: `Bearer ${PUBLIC_FACEIT_API_KEY}`,
+			Authorization: `Bearer ${FACEIT_API_KEY}`,
 			Accept: 'application/json'
 		}
 	});
