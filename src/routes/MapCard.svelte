@@ -1,4 +1,6 @@
 <script lang="ts">
+	import WinIcon from './WinIcon.svelte';
+
 	import { fade, fly } from 'svelte/transition';
 	import { expoIn, expoOut } from 'svelte/easing';
 	import type { mapData, mapStat, mapStatsForTeams, team } from '$lib/dataTypes';
@@ -40,9 +42,10 @@
 			<div class="stats bg-base-200 bg-opacity-80">
 				{#each data.map_stats as stat, i}
 					<div
-						class="stat flex flex-row justify-between items-center {i == 1
-							? '!flex-row-reverse'
-							: 'flex-row'}"
+						class=" {data.round_stats && data.round_stats[i].team_stats['Team Win'] == '1'
+							? 'bg-success-content bg-opacity-60'
+							: ''}
+						stat flex flex-row justify-between items-center {i == 1 ? '!flex-row-reverse' : 'flex-row'}"
 					>
 						<div class="stat-figure">
 							<div class="w-16 rounded-full">
@@ -50,14 +53,10 @@
 							</div>
 						</div>
 						{#if playedMap && data.round_stats}
-							<div
-								class="stat-value text-5xl {data.round_stats[i].team_stats['Team Win'] == '0'
-									? 'text-info'
-									: ''}"
-							>
+							<div class="stat-value text-6xl {i > 0 ? 'text-info' : ''} ">
 								{data.round_stats[i].team_stats['Final Score']}
 								{#if data.round_stats[i].team_stats['Team Win'] == '1'}
-									👑
+									<WinIcon></WinIcon>
 								{/if}
 							</div>
 						{:else}
