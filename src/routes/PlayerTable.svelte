@@ -102,6 +102,7 @@
 						{:else}
 							<td class="text-right">-</td>
 							<td class="text-right">-</td>
+							<td class="text-right">-</td>
 						{/if}
 						<td>
 							<div class="flex items-center justify-end justify-items-stretch space-x-3 mx-5">
