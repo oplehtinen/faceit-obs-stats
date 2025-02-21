@@ -35,7 +35,7 @@
 		<div class="card-body justify-end">
 			<h1 class="text-4xl text-primary capitalize {picks}">
 				{data.label}
-				{#if nextMap}
+				{#if nextMap && !playedMap}
 					<div class="badge badge-lg">Seuraava kartta</div>
 				{/if}
 			</h1>
