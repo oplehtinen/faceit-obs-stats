@@ -10,7 +10,7 @@ const teamsData = matchDetailsData.teams;
 const playerStats = await getTournamentStatsForPlayer(matchDetailsData.competition_id, teamsData);
 const tournamentMaps = [
     'Inferno',
-    'Vertigo',
+    'Train',
     'Ancient',
     'Mirage',
     'Nuke',
@@ -22,10 +22,9 @@ const mapStatsTeam = await getTeamStatsForMap(teamArr, tournamentMaps);
 const pickedMaps = matchDetailsData.voting?.map?.pick || []; // array of mapNames
 const pickedStats: { [n: number]: unknown } = {}
 const matchStats = await getMatchStats(PUBLIC_MATCHID as matchId);
-// loop through keys in mapstatsteam
 for (const key in mapStatsTeam) {
     // compare key to values in pickedMaps array. 
-    // pickedmaps will have de_ suffix, mapStatsTeam will not
+    // pickedmaps will have de_ prefix, mapStatsTeam will not
     console.log('key: ' + key);
     const mapName = 'de_'.concat(key.toLowerCase());
     for (let i = 0; i < pickedMaps.length; i++) {
