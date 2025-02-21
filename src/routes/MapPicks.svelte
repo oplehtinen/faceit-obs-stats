@@ -33,7 +33,7 @@
 					playedMap={map.played}
 					order={i * 300}
 					teams={teamArr}
-					nextMap={roundsPlayed - 1 == i && match.status !== 'FINISHED' ? true : false}
+					nextMap={roundsPlayed == i}
 					picks={true}
 				/>
 				{#if i == 0 && Object.entries(mapStatsTeam).length > 1}

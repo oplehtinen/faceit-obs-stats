@@ -15,10 +15,8 @@ import type {
 	tournamentDetails,
 	tournamentId
 } from './dataTypes';
-// cache the data for 1 minute
-const cache = new Map();
-const cacheTTL = 1 * 60 * 1000;
-import { endpointData } from '../stores';
+
+import { maps as staticMapData } from './maps';
 
 const faceitAPI = async (endpoint: string, log?: boolean) => {
 	const response = await fetch(`https://open.faceit.com/data/v4/${endpoint}`, {
@@ -64,7 +62,6 @@ const getOrganizerDetails = async (organizerId: string) => {
 const getMatchStats = async (matchId: string): Promise<matchStats[]> => {
 	const endpoint = `matches/${matchId}/stats`;
 	const data = await faceitAPI(endpoint);
-
 	return data.rounds;
 };
 
@@ -109,13 +106,12 @@ const getTeamStatsForMaps = async (
 			Wins: 0,
 			'Win Rate %': 0
 		}
-		// for each mapName, add an empty object to mapStats
 		for (let i = 0; i < tournamentMaps.length; i++) {
 			const mapName = tournamentMaps[i];
 
 			mapStats[mapName] = {
 				label: mapName,
-				img_regular: '',
+				img_regular: staticMapData[mapName].image_lg,
 				map_stats: [emptyMapStat, emptyMapStat]
 			};
 		}
@@ -132,9 +128,10 @@ const getTeamStatsForMaps = async (
 				const mapName = map.label;
 				const teamName = 'team' + (i + 1);
 				const mapData: mapData = {
-					img_regular: map.img_regular,
+					img_regular: staticMapData[mapName].image_lg,
 					label: map.label
 				};
+
 				if (!(map && map.stats && map.stats.Matches)) continue;
 				const mapStat: mapStat = {
 					Matches: parseFloat(map.stats.Matches as unknown as string),
@@ -142,22 +139,18 @@ const getTeamStatsForMaps = async (
 					'Win Rate %': map.stats['Win Rate %']
 				};
 
-
-
 				// if the map is not in the tournament maps, skip it
 
-
 				if (!tournamentMaps.includes(mapName)) {
-
 					continue;
 				}
+				mapStats[mapName].label = mapData.label;
+				mapStats[mapName].img_regular = mapData.img_regular;
 				if (!mapStats[mapName].map_stats) continue;
 				mapStats[mapName].map_stats[i] = mapStat;
 
 
 
-				mapStats[mapName].label = mapData.label;
-				mapStats[mapName].img_regular = mapData.img_regular;
 
 				//maps[map.label] = mapStat;
 			}
