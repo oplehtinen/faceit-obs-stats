@@ -73,6 +73,7 @@ const getTournamentStatsForPlayer = async (tournamentId: tournamentId, teams: te
 	if (teams && teams.faction1) {
 		for (let i = 0; i < teams.faction1.roster.length; i++) {
 			const player = teams.faction1.roster[i];
+			if (!data.players) continue;
 			const playerStats = data.players.find((p: { [key: string]: any }) => p.player_id === player.player_id)?.stats;
 			teams.faction1.roster[i].stats = playerStats;
 		}
@@ -80,6 +81,7 @@ const getTournamentStatsForPlayer = async (tournamentId: tournamentId, teams: te
 	if (teams && teams.faction2) {
 		for (let i = 0; i < teams.faction2.roster.length; i++) {
 			const player = teams.faction2.roster[i];
+			if (!data.players) continue;
 			const playerStats = data.players.find((p: { [key: string]: any }) => p.player_id === player.player_id)?.stats;
 			teams.faction2.roster[i].stats = playerStats;
 		}
