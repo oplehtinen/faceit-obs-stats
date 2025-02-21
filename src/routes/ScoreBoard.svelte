@@ -4,7 +4,7 @@
 	import { page } from '$app/stores';
 
 	const match = $page.data.matchDetailsData as matchDetails;
-	const teams = $page.data.teamsData as teams;
+	const teamData = $page.data.teamsData as teams;
 	const organizerData = $page.data.organizerData;
 	onMount(() => {
 		console.log($page.data);
@@ -14,11 +14,11 @@
 <div class="stats shadow w-auto flex bg-opacity-80 justify-between flex-row mt-4">
 	<div class="avatar w-64 stat place-items-center">
 		<div class="w-24 h-24 rounded mix-blend-screen">
-			<img src={teams?.faction1.avatar} />
+			<img src={teamData?.faction1.avatar} />
 		</div>
 	</div>
 	<div class="stat place-items-center">
-		<div class="text-3xl">{teams?.faction1.name}</div>
+		<div class="text-3xl">{teamData?.faction1.name}</div>
 		<div class="stat-value">{match.results?.score?.faction1 || 0}</div>
 	</div>
 	<div class="stat w-64 place-items-center text-primary">
@@ -32,12 +32,12 @@
 	</div>
 
 	<div class="stat place-items-center">
-		<div class="text-3xl text-info">{teams?.faction2.name}</div>
+		<div class="text-3xl text-info">{teamData?.faction2.name}</div>
 		<div class="stat-value text-info">{match.results?.score?.faction2 || 0}</div>
 	</div>
 	<div class="avatar w-64 stat place-items-center">
 		<div class="w-24 h-24 rounded mix-blend-screen">
-			<img src={teams?.faction2.avatar} />
+			<img src={teamData?.faction2.avatar} />
 		</div>
 	</div>
 </div>
