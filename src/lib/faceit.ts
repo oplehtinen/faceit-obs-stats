@@ -130,7 +130,7 @@ const getTeamStatsForMaps = async (
 				const mapName = map.label;
 				const teamName = 'team' + (i + 1);
 				const mapData: mapData = {
-					img_regular: staticMapData[mapName].image_lg,
+					img_regular: staticMapData[mapName]?.image_lg || map.img_regular,
 					label: map.label
 				};
 
