@@ -1,6 +1,9 @@
 <script>
 	import PlayerGeneralStats from '../PlayerGeneralStats.svelte';
 	import MatchIdInput from '$lib/components/MatchIdInput.svelte';
+	
+	let playerStatsComponent: PlayerGeneralStats;
+	$: dataLoaded = playerStatsComponent?.teamsData != null;
 </script>
 
 <svelte:head>
@@ -8,6 +11,6 @@
 </svelte:head>
 
 <div class="container mx-auto p-4">
-	<MatchIdInput />
-	<PlayerGeneralStats />
+	<MatchIdInput dataLoaded={dataLoaded} />
+	<PlayerGeneralStats bind:this={playerStatsComponent} />
 </div>

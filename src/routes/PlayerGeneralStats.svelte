@@ -11,6 +11,9 @@
 	let loading = false;
 	let error = '';
 	
+	// Export the teamsData so parent can access it
+	export { teamsData };
+	
 	async function loadMatchData(matchId: string) {
 		if (!matchId) return;
 		

@@ -9,6 +9,9 @@
 	let loading = false;
 	let error = '';
 	
+	// Export the mapStatsTeam so parent can access it
+	export { mapStatsTeam };
+	
 	async function loadMatchData(matchId: string) {
 		if (!matchId) return;
 		
