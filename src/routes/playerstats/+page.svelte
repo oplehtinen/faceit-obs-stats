@@ -10,7 +10,13 @@
 	<title>PlayerStats</title>
 </svelte:head>
 
-<div class="container mx-auto p-4">
-	<MatchIdInput dataLoaded={dataLoaded} />
+{#if dataLoaded}
+	<!-- When data is loaded, show only the stats component -->
 	<PlayerGeneralStats bind:this={playerStatsComponent} />
-</div>
+{:else}
+	<!-- When no data, show the input form in a container -->
+	<div class="container mx-auto p-4">
+		<MatchIdInput dataLoaded={dataLoaded} />
+		<PlayerGeneralStats bind:this={playerStatsComponent} />
+	</div>
+{/if}
