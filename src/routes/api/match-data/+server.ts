@@ -12,9 +12,20 @@ export async function GET({ url }) {
 	try {
 		// Get all the match data similar to what +layout.server.ts does
 		const matchDetailsData = await getMatchDetails(matchId as matchId);
-		const organizerData = await getOrganizerDetails(matchDetailsData.organizer_id);
+		
+		// Validate that match details and teams data exist
+		if (!matchDetailsData || !matchDetailsData.teams) {
+			return json({ error: 'Invalid match data received' }, { status: 404 });
+		}
+		
 		const teamsData = matchDetailsData.teams;
 		
+		// Validate that both factions exist
+		if (!teamsData.faction1 || !teamsData.faction2) {
+			return json({ error: 'Incomplete team data' }, { status: 404 });
+		}
+		
+		const organizerData = await getOrganizerDetails(matchDetailsData.organizer_id);
 		const playerStats = await getTournamentStatsForPlayer(matchDetailsData.competition_id, teamsData);
 		const tournamentMaps = [
 			'Inferno',
@@ -54,6 +65,17 @@ export async function GET({ url }) {
 		});
 	} catch (error) {
 		console.error('Error fetching match data:', error);
+		
+		// Provide more specific error messages based on the error type
+		if (error instanceof Error) {
+			if (error.message.includes('404') || error.message.includes('Not Found')) {
+				return json({ error: 'Match not found' }, { status: 404 });
+			}
+			if (error.message.includes('401') || error.message.includes('Unauthorized')) {
+				return json({ error: 'API authentication failed' }, { status: 401 });
+			}
+		}
+		
 		return json({ error: 'Failed to fetch match data' }, { status: 500 });
 	}
 }
