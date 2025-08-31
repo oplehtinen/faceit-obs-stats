@@ -22,7 +22,7 @@ const config = {
 		plugin: {
 			svelte: {
 				compilerWarnings: {
-					["a11y-missing-atttribute"]: "ignore"
+					['a11y-missing-atttribute']: 'ignore'
 				}
 			}
 		}

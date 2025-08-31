@@ -1,32 +1,68 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import MapCard from './MapCard.svelte';
 	import type { mapStatsForTeams, team } from '$lib/dataTypes';
-	let mapStatsTeam: mapStatsForTeams;
-	onMount(() => {
-		mapStatsTeam = $page.data.mapStatsTeam as mapStatsForTeams;
-		console.log($page.data);
-		console.log(mapStatsTeam);
-	});
-	const teamArr = [$page.data.teamsData.faction1, $page.data.teamsData.faction2];
+	import { currentMatchId } from '../stores';
+
+	let mapStatsTeam: mapStatsForTeams | null = null;
+	let teamArr: team[] = [];
+	let loading = false;
+	let error = '';
+
+	// Export the mapStatsTeam so parent can access it
+	export { mapStatsTeam };
+
+	async function loadMatchData(matchId: string) {
+		if (!matchId) return;
+
+		loading = true;
+		error = '';
+
+		try {
+			const response = await fetch(`/api/match-data?matchId=${encodeURIComponent(matchId)}`);
+			const data = await response.json();
+
+			if (!response.ok) {
+				throw new Error(data.error || 'Failed to fetch match data');
+			}
+
+			mapStatsTeam = data.mapStatsTeam;
+			teamArr = [data.teamsData.faction1, data.teamsData.faction2];
+		} catch (err) {
+			console.error('Error loading match data:', err);
+			error = err instanceof Error ? err.message : 'Failed to load match data';
+			mapStatsTeam = null;
+			teamArr = [];
+		} finally {
+			loading = false;
+		}
+	}
+
+	// React to match ID changes
+	$: if ($currentMatchId) {
+		loadMatchData($currentMatchId);
+	}
 </script>
 
-<div class="flex flex-wrap justify-around flex-row my-auto gap-2 mx-auto w-6/6 h-5/6">
-	{#if mapStatsTeam}
+{#if loading}
+	<div class="flex justify-center items-center p-8">
+		<div class="loading loading-spinner loading-lg"></div>
+		<span class="ml-4">Loading match data...</span>
+	</div>
+{:else if error}
+	<div class="alert alert-error">
+		<span>Error: {error}</span>
+	</div>
+{:else if !$currentMatchId}
+	<div class="alert alert-info">
+		<span>Please enter a match ID above to load map stats.</span>
+	</div>
+{:else if mapStatsTeam}
+	<div class="flex flex-wrap justify-around flex-row my-auto gap-2 mx-auto w-6/6 h-5/6">
 		{#each Object.entries(mapStatsTeam) as [key, map], i}
 			<div class="m-2">
 				<MapCard data={map} nextMap={false} order={i * 300} teams={teamArr} />
 			</div>
 		{/each}
-	{/if}
-	<!-- 	{#if mapPicksData.length == mapData.length}
-		{#each mapPicksData as map, i}
-			{#if map != null && map[0].Matches}
-				<div class="m-4">
-					<MapCard {map} nextMap={false} teamData={mapPicksData[i]} {teams} />
-				</div>
-			{/if}
-		{/each}
-	{/if} -->
-</div>
+	</div>
+{/if}
