@@ -2,7 +2,7 @@
 	import MapStats from '../MapStats.svelte';
 	import MatchIdInput from '$lib/components/MatchIdInput.svelte';
 	
-	let mapStatsComponent: MapStats;
+	let mapStatsComponent;
 	$: dataLoaded = mapStatsComponent?.mapStatsTeam != null;
 </script>
 

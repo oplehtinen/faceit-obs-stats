@@ -2,7 +2,7 @@
 	import PlayerGeneralStats from '../PlayerGeneralStats.svelte';
 	import MatchIdInput from '$lib/components/MatchIdInput.svelte';
 	
-	let playerStatsComponent: PlayerGeneralStats;
+	let playerStatsComponent;
 	$: dataLoaded = playerStatsComponent?.teamsData != null;
 </script>
 
