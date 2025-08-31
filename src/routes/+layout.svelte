@@ -1,7 +1,6 @@
 <script lang="ts">
 	import '../app.css';
 	import { onDestroy } from 'svelte';
-	import { PUBLIC_MATCHID } from '$env/static/public';
 	import ScoreBoard from './ScoreBoard.svelte';
 	import { onMount } from 'svelte';
 	import { tick } from 'svelte';

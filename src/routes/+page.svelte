@@ -3,6 +3,12 @@
 	import MapStats from './MapStats.svelte';
 	import PlayerGeneralStats from './PlayerGeneralStats.svelte';
 	import MapPicks from './MapPicks.svelte';
+	import { browser } from '$app/environment';
+	import { base } from '$app/paths';
+	import { page } from '$app/state';
+	const origin = browser ? window.location.origin : '';
+	const mapStatsUrl = `${origin}${base}/mapstats`;
+	const playerStatsUrl = `${origin}${base}/playerstats`;
 </script>
 
 <svelte:head>
@@ -124,6 +130,52 @@
 								comprehensive match analytics.
 							</p>
 						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- OBS Integration -->
+			<div class="card bg-base-100 backdrop-blur-sm border border-white/20 mt-8">
+				<div class="card-body">
+					<h2 class="card-title text-white text-2xl mb-4">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-6 w-6"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M4 5h16M4 13h16M4 21h16"
+							/>
+						</svg>
+						OBS Integration
+					</h2>
+					<div class="text-left space-y-3">
+						<p class="text-white/80">
+							Use this app directly in OBS as a Browser Source and input your match ID via Interact.
+						</p>
+						<ol class="list-decimal list-inside space-y-2 text-white/90">
+							<li>
+								In OBS: Sources → + → Browser Source. Set the URL to the page you need:
+								<code class="bg-black/30 px-2 py-1 rounded">/mapstats</code> or
+								<code class="bg-black/30 px-2 py-1 rounded">/playerstats</code>
+								(Use your full site URL in production, e.g.,
+								<code class="bg-black/30 px-2 py-1 rounded">{mapStatsUrl}</code>).
+							</li>
+							<li>Set size to match your canvas (e.g., 1920×1080). Click OK to add the source.</li>
+							<li>
+								Right‑click the Browser Source → Interact…, then paste your FACEIT match ID or full
+								match URL and submit.
+							</li>
+						</ol>
+						<p class="text-white/60 text-sm">
+							Tip: Use “Refresh cache of current page” to reload, or enable “Shutdown source when
+							not visible” to reset between scenes.
+						</p>
 					</div>
 				</div>
 			</div>

@@ -93,6 +93,19 @@ You can also directly access statistics by constructing URLs:
 - Map Stats: `https://your-domain.com/mapstats/view?id=MATCH_ID`
 - Player Stats: `https://your-domain.com/playerstats/view?id=MATCH_ID`
 
+## OBS Integration
+
+Use the app as a Browser Source in OBS and input the match ID via Interact.
+
+1) In OBS: Sources > + > Browser Source
+2) Set the URL to the page you want to show:
+   - Map stats: http://localhost:5173/mapstats
+   - Player stats: http://localhost:5173/playerstats
+   (Use your deployed URL in production.)
+3) Set the size to match your canvas (e.g., 1920×1080) and click OK.
+4) In the Sources list, right‑click the Browser Source > Interact…, paste the FACEIT match ID or full match URL, and submit.
+5) Optional: use “Refresh cache of current page” to reload, or enable “Shutdown source when not visible” to reset between scenes.
+
 ## API Endpoints
 
 ### `/api/match-data`
