@@ -3,15 +3,15 @@
 // but stats pages will use client-side loading
 
 export async function load() {
-    // Return empty data - stats pages will load their own data client-side
-    return {
-        mapStatsTeam: {},
-        pickedMaps: [],
-        pickedStats: {},
-        matchDetailsData: null,
-        organizerData: null,
-        teamsData: null,
-        playerStats: null,
-        matchStats: []
-    }
+	// Return empty data - stats pages will load their own data client-side
+	return {
+		mapStatsTeam: {},
+		pickedMaps: [],
+		pickedStats: {},
+		matchDetailsData: null,
+		organizerData: null,
+		teamsData: null,
+		playerStats: null,
+		matchStats: []
+	};
 }

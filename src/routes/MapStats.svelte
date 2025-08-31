@@ -3,29 +3,29 @@
 	import MapCard from './MapCard.svelte';
 	import type { mapStatsForTeams, team } from '$lib/dataTypes';
 	import { currentMatchId } from '../stores';
-	
+
 	let mapStatsTeam: mapStatsForTeams | null = null;
 	let teamArr: team[] = [];
 	let loading = false;
 	let error = '';
-	
+
 	// Export the mapStatsTeam so parent can access it
 	export { mapStatsTeam };
-	
+
 	async function loadMatchData(matchId: string) {
 		if (!matchId) return;
-		
+
 		loading = true;
 		error = '';
-		
+
 		try {
 			const response = await fetch(`/api/match-data?matchId=${encodeURIComponent(matchId)}`);
 			const data = await response.json();
-			
+
 			if (!response.ok) {
 				throw new Error(data.error || 'Failed to fetch match data');
 			}
-			
+
 			mapStatsTeam = data.mapStatsTeam;
 			teamArr = [data.teamsData.faction1, data.teamsData.faction2];
 		} catch (err) {
@@ -37,7 +37,7 @@
 			loading = false;
 		}
 	}
-	
+
 	// React to match ID changes
 	$: if ($currentMatchId) {
 		loadMatchData($currentMatchId);

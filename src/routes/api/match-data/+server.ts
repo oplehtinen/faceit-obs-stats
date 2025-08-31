@@ -1,10 +1,16 @@
 import { json } from '@sveltejs/kit';
-import { getMatchDetails, getMatchStats, getOrganizerDetails, getTeamStatsForMap, getTournamentStatsForPlayer } from '$lib/faceit';
+import {
+	getMatchDetails,
+	getMatchStats,
+	getOrganizerDetails,
+	getTeamStatsForMap,
+	getTournamentStatsForPlayer
+} from '$lib/faceit';
 import type { matchId } from '$lib/dataTypes';
 
 export async function GET({ url }) {
 	const matchId = url.searchParams.get('matchId');
-	
+
 	if (!matchId) {
 		return json({ error: 'Match ID is required' }, { status: 400 });
 	}
@@ -12,37 +18,32 @@ export async function GET({ url }) {
 	try {
 		// Get all the match data similar to what +layout.server.ts does
 		const matchDetailsData = await getMatchDetails(matchId as matchId);
-		
+
 		// Validate that match details and teams data exist
 		if (!matchDetailsData || !matchDetailsData.teams) {
 			return json({ error: 'Invalid match data received' }, { status: 404 });
 		}
-		
+
 		const teamsData = matchDetailsData.teams;
-		
+
 		// Validate that both factions exist
 		if (!teamsData.faction1 || !teamsData.faction2) {
 			return json({ error: 'Incomplete team data' }, { status: 404 });
 		}
-		
+
 		const organizerData = await getOrganizerDetails(matchDetailsData.organizer_id);
-		const playerStats = await getTournamentStatsForPlayer(matchDetailsData.competition_id, teamsData);
-		const tournamentMaps = [
-			'Inferno',
-			'Train',
-			'Ancient',
-			'Mirage',
-			'Nuke',
-			'Dust2',
-			'Anubis'
-		];
-		
+		const playerStats = await getTournamentStatsForPlayer(
+			matchDetailsData.competition_id,
+			teamsData
+		);
+		const tournamentMaps = ['Inferno', 'Train', 'Ancient', 'Mirage', 'Nuke', 'Dust2', 'Anubis'];
+
 		const teamArr = [teamsData.faction1, teamsData.faction2];
 		const mapStatsTeam = await getTeamStatsForMap(teamArr, tournamentMaps);
 		const pickedMaps = matchDetailsData.voting?.map?.pick || [];
 		const pickedStats: { [n: number]: unknown } = {};
 		const matchStats = await getMatchStats(matchId as matchId);
-		
+
 		// Process picked stats similar to +layout.server.ts
 		for (const key in mapStatsTeam) {
 			const mapName = 'de_'.concat(key.toLowerCase());
@@ -52,7 +53,7 @@ export async function GET({ url }) {
 				}
 			}
 		}
-		
+
 		return json({
 			mapStatsTeam,
 			pickedMaps,
@@ -65,7 +66,7 @@ export async function GET({ url }) {
 		});
 	} catch (error) {
 		console.error('Error fetching match data:', error);
-		
+
 		// Provide more specific error messages based on the error type
 		if (error instanceof Error) {
 			if (error.message.includes('404') || error.message.includes('Not Found')) {
@@ -75,7 +76,7 @@ export async function GET({ url }) {
 				return json({ error: 'API authentication failed' }, { status: 401 });
 			}
 		}
-		
+
 		return json({ error: 'Failed to fetch match data' }, { status: 500 });
 	}
 }

@@ -20,7 +20,7 @@ export type player = {
 	player_id: playerId;
 	nickname: nickname;
 	avatar: playerAvatar;
-}
+};
 /* export type mapData = {
 	stats?: any;
 	img_regular: string;
@@ -33,16 +33,16 @@ export type mapStat = {
 	Matches: number;
 	Wins: number;
 	'Win Rate %': number;
-}
+};
 export type roundStats = {
 	'Final Score': string;
 	'Team Win': string;
-}
+};
 export type playedMapStat = {
-	players: players,
-	team_id: teamId,
-	team_stats: roundStats,
-}
+	players: players;
+	team_id: teamId;
+	team_stats: roundStats;
+};
 
 export type playerStat = {
 	'Quadro Kills': number;
@@ -64,11 +64,10 @@ export type matchStats = {
 	played: boolean;
 	round_stats: {
 		Winner: teamId;
-		Rounds: number,
-		Score: string,
-		Map: mapName,
-
-	}
+		Rounds: number;
+		Score: string;
+		Map: mapName;
+	};
 	teams: [teamStats, teamStats];
 };
 export type team = {
@@ -91,21 +90,21 @@ export type mapData = {
 	label: mapName;
 	img_regular: string;
 	stats?: mapStat;
-	map_stats?: [mapStat, mapStat]
+	map_stats?: [mapStat, mapStat];
 	round_stats?: [playedMapStat, playedMapStat];
 	played?: boolean;
 };
 export type teamStats = {
 	team1: mapStat;
 	team2: mapStat;
-}
+};
 export type matchResults = {
 	winner: string;
 	score: {
 		faction1: teamScore;
 		faction2: teamScore;
 	};
-}
+};
 export type matchDetails = {
 	match_id: matchId;
 	competition_id: tournamentId;
@@ -119,11 +118,11 @@ export type matchDetails = {
 		map: { pick: mapPicks };
 	};
 	round?: number;
-	"scheduled_at": number,
-	"configured_at": number,
-	"started_at": number,
-	"finished_at": number,
+	scheduled_at: number;
+	configured_at: number;
+	started_at: number;
+	finished_at: number;
 	results: matchResults;
 	status: matchStatus;
-}
-interface tournamentDetails { }
+};
+interface tournamentDetails {}

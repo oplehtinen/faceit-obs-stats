@@ -6,20 +6,18 @@ import type { matchId } from '$lib/dataTypes';
 let matchId = '';
 
 export async function POST({ request }) {
-	("api:" + matchId);
+	'api:' + matchId;
 	const { newMatchId } = await request.json();
-	matchId = newMatchId
+	matchId = newMatchId;
 
 	return json({ matchId });
 }
 
 export async function GET() {
-
 	const data = await getMatchDetails(env.PUBLIC_MATCHID as matchId);
 	const stats = await getMatchStats(env.PUBLIC_MATCHID);
 
-
-	let series = []
+	let series = [];
 
 	/* for (let i = 0; i < stats.rounds.length; i++) {
 		if (i == 2) {
@@ -43,26 +41,26 @@ export async function GET() {
 		primaryTeam: null,
 		series: [
 			{
-				"map": "Inferno",
-				"picked": "0",
-				"scoreLeft": 16,
-				"scoreRight": 14
+				map: 'Inferno',
+				picked: '0',
+				scoreLeft: 16,
+				scoreRight: 14
 			},
 			{
-				"map": "Overpass",
-				"picked": "1",
-				"scoreRight": 0,
-				"scoreLeft": 0,
-				"currentlyPlaying": true
+				map: 'Overpass',
+				picked: '1',
+				scoreRight: 0,
+				scoreLeft: 0,
+				currentlyPlaying: true
 			},
 			{
-				"map": "Nuke",
-				"scoreLeft": 0,
-				"scoreRight": 0
+				map: 'Nuke',
+				scoreLeft: 0,
+				scoreRight: 0
 			}
 		],
 		seriesName: [],
-		seriesNumber: null,
+		seriesNumber: null
 	};
 
 	return json(data);

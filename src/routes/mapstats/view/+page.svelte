@@ -15,9 +15,5 @@
 	});
 </script>
 
-<svelte:head>
-	<title>MapStats</title>
-</svelte:head>
-
 <!-- Only show the stats component, no input field -->
 <MapStats bind:this={mapStatsComponent} />

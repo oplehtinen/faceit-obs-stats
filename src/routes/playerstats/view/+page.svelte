@@ -15,9 +15,5 @@
 	});
 </script>
 
-<svelte:head>
-	<title>PlayerStats</title>
-</svelte:head>
-
 <!-- Only show the stats component, no input field -->
 <PlayerGeneralStats bind:this={playerStatsComponent} />

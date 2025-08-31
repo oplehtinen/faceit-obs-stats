@@ -1,137 +1,137 @@
 {
-    "match_id": "1-d16db490-df78-4fac-8cad-cf0adf24e432",
-    "version": 2,
-    "game": "csgo",
-    "region": "EU",
-    "competition_id": "725da4d8-d2eb-4672-b759-5a668222f111",
-    "competition_type": "hub",
-    "competition_name": "Turkish Stars League - Division 2",
-    "organizer_id": "932f54e0-c57d-4ee3-8864-c5a6c1d4869a",
-    "teams": {
-        "faction1": {
-            "faction_id": "357b2ccd-8869-4aa7-a13b-5b41256d5faf",
-            "leader": "357b2ccd-8869-4aa7-a13b-5b41256d5faf",
-            "avatar": "https://assets.faceit-cdn.net/avatars/357b2ccd-8869-4aa7-a13b-5b41256d5faf_1571344698246.jpg",
-            "roster": [
-                {
-                    "player_id": "357b2ccd-8869-4aa7-a13b-5b41256d5faf",
-                    "nickname": "zLeeR",
-                    "avatar": "https://assets.faceit-cdn.net/avatars/357b2ccd-8869-4aa7-a13b-5b41256d5faf_1571344698246.jpg",
-                    "membership": "free",
-                    "game_player_id": "76561198867380340",
-                    "game_player_name": "",
-                    "game_skill_level": 5,
-                    "anticheat_required": true
-                },
-                {
-                    "player_id": "01bc0770-bf5a-479b-9ced-c3f784f9a42d",
-                    "nickname": "SSSOOFFFii",
-                    "avatar": "https://distribution.faceit-cdn.net/images/a7b26d73-6325-42e0-8473-eaed8f7710ff.jpeg",
-                    "membership": "free",
-                    "game_player_id": "76561198987851949",
-                    "game_player_name": "SSSOOFFFii",
-                    "game_skill_level": 3,
-                    "anticheat_required": true
-                },
-                {
-                    "player_id": "04a7622e-41f4-4182-a060-cfa121b8ff20",
-                    "nickname": "Mad_J",
-                    "avatar": "https://distribution.faceit-cdn.net/images/6e6202b3-3dc2-4040-8b93-ccae53fa2019.jpeg",
-                    "membership": "free",
-                    "game_player_id": "76561198377411472",
-                    "game_player_name": "Mad'J-MKA-",
-                    "game_skill_level": 1,
-                    "anticheat_required": true
-                },
-                {
-                    "player_id": "35c5266e-e57e-4da2-876e-2b876dcaec1a",
-                    "nickname": "-Aktt",
-                    "avatar": "https://distribution.faceit-cdn.net/images/0388b717-1eff-4e5a-b033-8676e892e311.jpeg",
-                    "membership": "premium",
-                    "game_player_id": "76561198367410208",
-                    "game_player_name": "4kTT",
-                    "game_skill_level": 1,
-                    "anticheat_required": true
-                },
-                {
-                    "player_id": "f0a52199-d202-4a9a-903d-b2355ea03019",
-                    "nickname": "X6vrim",
-                    "avatar": "https://distribution.faceit-cdn.net/images/e78d68ff-6d80-4157-b098-57bf0aea5bba.jpeg",
-                    "membership": "premium",
-                    "game_player_id": "76561199102800459",
-                    "game_player_name": "X6vrim",
-                    "game_skill_level": 5,
-                    "anticheat_required": true
-                }
-            ],
-            "substituted": false,
-            "name": "team_zLeeR",
-            "type": ""
-        },
-        "faction2": {
-            "faction_id": "22c13a11-3e59-4556-9543-bf2479dbd7e9",
-            "leader": "22c13a11-3e59-4556-9543-bf2479dbd7e9",
-            "avatar": "https://distribution.faceit-cdn.net/images/6767bfdd-7c7c-478b-a1a6-040255975de8.jpeg",
-            "roster": [
-                {
-                    "player_id": "22c13a11-3e59-4556-9543-bf2479dbd7e9",
-                    "nickname": "babayaga28",
-                    "avatar": "https://distribution.faceit-cdn.net/images/6767bfdd-7c7c-478b-a1a6-040255975de8.jpeg",
-                    "membership": "free",
-                    "game_player_id": "76561198806836772",
-                    "game_player_name": "WhoisKing",
-                    "game_skill_level": 5,
-                    "anticheat_required": true
-                },
-                {
-                    "player_id": "32ea3a24-37e7-43e3-967e-b53981cd491d",
-                    "nickname": "neax3",
-                    "avatar": "https://assets.faceit-cdn.net/avatars/32ea3a24-37e7-43e3-967e-b53981cd491d_1603822809922.jpg",
-                    "membership": "premium",
-                    "game_player_id": "76561198844205169",
-                    "game_player_name": "NEAX",
-                    "game_skill_level": 4,
-                    "anticheat_required": true
-                },
-                {
-                    "player_id": "618bd42d-9742-42b6-a6a6-88761586501a",
-                    "nickname": "Z0rbey",
-                    "avatar": "https://distribution.faceit-cdn.net/images/f2d17f69-b2ff-4648-a19d-c52fe01e3cbd.jpeg",
-                    "membership": "free",
-                    "game_player_id": "76561198839750816",
-                    "game_player_name": "ZorBey",
-                    "game_skill_level": 4,
-                    "anticheat_required": true
-                },
-                {
-                    "player_id": "8b872b62-a0c5-4740-9ddb-19efe0f210c9",
-                    "nickname": "-obG",
-                    "avatar": "https://distribution.faceit-cdn.net/images/141d953f-7e00-46b5-9fb5-fc6696c43cb9.jpeg",
-                    "membership": "premium",
-                    "game_player_id": "76561199239151801",
-                    "game_player_name": "-obG",
-                    "game_skill_level": 3,
-                    "anticheat_required": true
-                },
-                {
-                    "player_id": "fb304d19-a329-42f0-ba9e-1d5ff77d4602",
-                    "nickname": "NER0KUNG",
-                    "avatar": "https://assets.faceit-cdn.net/avatars/fb304d19-a329-42f0-ba9e-1d5ff77d4602_1551149165657.jpg",
-                    "membership": "free",
-                    "game_player_id": "76561198164215267",
-                    "game_player_name": "NEROKUNG",
-                    "game_skill_level": 3,
-                    "anticheat_required": true
-                }
-            ],
-            "substituted": false,
-            "name": "team_babayaga28",
-            "type": ""
-        }
-    },
-    "calculate_elo": true,
-    "chat_room_id": "match-1-d16db490-df78-4fac-8cad-cf0adf24e432",
-    "best_of": 1,
-    "status": "VOTING",
-    "faceit_url": "https://www.faceit.com/{lang}/csgo/room/1-d16db490-df78-4fac-8cad-cf0adf24e432"
+	"match_id": "1-d16db490-df78-4fac-8cad-cf0adf24e432",
+	"version": 2,
+	"game": "csgo",
+	"region": "EU",
+	"competition_id": "725da4d8-d2eb-4672-b759-5a668222f111",
+	"competition_type": "hub",
+	"competition_name": "Turkish Stars League - Division 2",
+	"organizer_id": "932f54e0-c57d-4ee3-8864-c5a6c1d4869a",
+	"teams": {
+		"faction1": {
+			"faction_id": "357b2ccd-8869-4aa7-a13b-5b41256d5faf",
+			"leader": "357b2ccd-8869-4aa7-a13b-5b41256d5faf",
+			"avatar": "https://assets.faceit-cdn.net/avatars/357b2ccd-8869-4aa7-a13b-5b41256d5faf_1571344698246.jpg",
+			"roster": [
+				{
+					"player_id": "357b2ccd-8869-4aa7-a13b-5b41256d5faf",
+					"nickname": "zLeeR",
+					"avatar": "https://assets.faceit-cdn.net/avatars/357b2ccd-8869-4aa7-a13b-5b41256d5faf_1571344698246.jpg",
+					"membership": "free",
+					"game_player_id": "76561198867380340",
+					"game_player_name": "",
+					"game_skill_level": 5,
+					"anticheat_required": true
+				},
+				{
+					"player_id": "01bc0770-bf5a-479b-9ced-c3f784f9a42d",
+					"nickname": "SSSOOFFFii",
+					"avatar": "https://distribution.faceit-cdn.net/images/a7b26d73-6325-42e0-8473-eaed8f7710ff.jpeg",
+					"membership": "free",
+					"game_player_id": "76561198987851949",
+					"game_player_name": "SSSOOFFFii",
+					"game_skill_level": 3,
+					"anticheat_required": true
+				},
+				{
+					"player_id": "04a7622e-41f4-4182-a060-cfa121b8ff20",
+					"nickname": "Mad_J",
+					"avatar": "https://distribution.faceit-cdn.net/images/6e6202b3-3dc2-4040-8b93-ccae53fa2019.jpeg",
+					"membership": "free",
+					"game_player_id": "76561198377411472",
+					"game_player_name": "Mad'J-MKA-",
+					"game_skill_level": 1,
+					"anticheat_required": true
+				},
+				{
+					"player_id": "35c5266e-e57e-4da2-876e-2b876dcaec1a",
+					"nickname": "-Aktt",
+					"avatar": "https://distribution.faceit-cdn.net/images/0388b717-1eff-4e5a-b033-8676e892e311.jpeg",
+					"membership": "premium",
+					"game_player_id": "76561198367410208",
+					"game_player_name": "4kTT",
+					"game_skill_level": 1,
+					"anticheat_required": true
+				},
+				{
+					"player_id": "f0a52199-d202-4a9a-903d-b2355ea03019",
+					"nickname": "X6vrim",
+					"avatar": "https://distribution.faceit-cdn.net/images/e78d68ff-6d80-4157-b098-57bf0aea5bba.jpeg",
+					"membership": "premium",
+					"game_player_id": "76561199102800459",
+					"game_player_name": "X6vrim",
+					"game_skill_level": 5,
+					"anticheat_required": true
+				}
+			],
+			"substituted": false,
+			"name": "team_zLeeR",
+			"type": ""
+		},
+		"faction2": {
+			"faction_id": "22c13a11-3e59-4556-9543-bf2479dbd7e9",
+			"leader": "22c13a11-3e59-4556-9543-bf2479dbd7e9",
+			"avatar": "https://distribution.faceit-cdn.net/images/6767bfdd-7c7c-478b-a1a6-040255975de8.jpeg",
+			"roster": [
+				{
+					"player_id": "22c13a11-3e59-4556-9543-bf2479dbd7e9",
+					"nickname": "babayaga28",
+					"avatar": "https://distribution.faceit-cdn.net/images/6767bfdd-7c7c-478b-a1a6-040255975de8.jpeg",
+					"membership": "free",
+					"game_player_id": "76561198806836772",
+					"game_player_name": "WhoisKing",
+					"game_skill_level": 5,
+					"anticheat_required": true
+				},
+				{
+					"player_id": "32ea3a24-37e7-43e3-967e-b53981cd491d",
+					"nickname": "neax3",
+					"avatar": "https://assets.faceit-cdn.net/avatars/32ea3a24-37e7-43e3-967e-b53981cd491d_1603822809922.jpg",
+					"membership": "premium",
+					"game_player_id": "76561198844205169",
+					"game_player_name": "NEAX",
+					"game_skill_level": 4,
+					"anticheat_required": true
+				},
+				{
+					"player_id": "618bd42d-9742-42b6-a6a6-88761586501a",
+					"nickname": "Z0rbey",
+					"avatar": "https://distribution.faceit-cdn.net/images/f2d17f69-b2ff-4648-a19d-c52fe01e3cbd.jpeg",
+					"membership": "free",
+					"game_player_id": "76561198839750816",
+					"game_player_name": "ZorBey",
+					"game_skill_level": 4,
+					"anticheat_required": true
+				},
+				{
+					"player_id": "8b872b62-a0c5-4740-9ddb-19efe0f210c9",
+					"nickname": "-obG",
+					"avatar": "https://distribution.faceit-cdn.net/images/141d953f-7e00-46b5-9fb5-fc6696c43cb9.jpeg",
+					"membership": "premium",
+					"game_player_id": "76561199239151801",
+					"game_player_name": "-obG",
+					"game_skill_level": 3,
+					"anticheat_required": true
+				},
+				{
+					"player_id": "fb304d19-a329-42f0-ba9e-1d5ff77d4602",
+					"nickname": "NER0KUNG",
+					"avatar": "https://assets.faceit-cdn.net/avatars/fb304d19-a329-42f0-ba9e-1d5ff77d4602_1551149165657.jpg",
+					"membership": "free",
+					"game_player_id": "76561198164215267",
+					"game_player_name": "NEROKUNG",
+					"game_skill_level": 3,
+					"anticheat_required": true
+				}
+			],
+			"substituted": false,
+			"name": "team_babayaga28",
+			"type": ""
+		}
+	},
+	"calculate_elo": true,
+	"chat_room_id": "match-1-d16db490-df78-4fac-8cad-cf0adf24e432",
+	"best_of": 1,
+	"status": "VOTING",
+	"faceit_url": "https://www.faceit.com/{lang}/csgo/room/1-d16db490-df78-4fac-8cad-cf0adf24e432"
 }

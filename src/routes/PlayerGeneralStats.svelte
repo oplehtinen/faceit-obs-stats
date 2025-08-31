@@ -5,29 +5,29 @@
 	import PlayerTable from './PlayerTable.svelte';
 	import type { teams } from '$lib/dataTypes';
 	import { currentMatchId } from '../stores';
-	
+
 	let teamsData: teams | null = null;
 	let tournamentId: string | null = null;
 	let loading = false;
 	let error = '';
-	
+
 	// Export the teamsData so parent can access it
 	export { teamsData };
-	
+
 	async function loadMatchData(matchId: string) {
 		if (!matchId) return;
-		
+
 		loading = true;
 		error = '';
-		
+
 		try {
 			const response = await fetch(`/api/match-data?matchId=${encodeURIComponent(matchId)}`);
 			const data = await response.json();
-			
+
 			if (!response.ok) {
 				throw new Error(data.error || 'Failed to fetch match data');
 			}
-			
+
 			teamsData = data.teamsData;
 			tournamentId = data.matchDetailsData.competition_id;
 		} catch (err) {
@@ -39,7 +39,7 @@
 			loading = false;
 		}
 	}
-	
+
 	// React to match ID changes
 	$: if ($currentMatchId) {
 		loadMatchData($currentMatchId);
