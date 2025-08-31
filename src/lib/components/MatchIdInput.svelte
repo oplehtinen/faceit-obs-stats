@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { currentMatchId } from '../../stores';
+	import { goto } from '$app/navigation';
 	
-	export let dataLoaded = false;
+	export let pageType: 'mapstats' | 'playerstats' = 'mapstats';
 	
 	let inputValue = '';
 	
@@ -23,7 +23,9 @@
 	function handleSubmit() {
 		if (inputValue.trim()) {
 			const matchId = extractMatchId(inputValue);
-			currentMatchId.set(matchId);
+			// Redirect to the appropriate view page with the match ID as query parameter
+			const redirectUrl = `/${pageType}/view?id=${encodeURIComponent(matchId)}`;
+			goto(redirectUrl);
 		}
 	}
 	
@@ -34,7 +36,7 @@
 	}
 </script>
 
-<div class="card bg-base-100 shadow-md p-4 mb-4" class:hidden={dataLoaded && $currentMatchId}>
+<div class="card bg-base-100 shadow-md p-4 mb-4">
 	<div class="form-control">
 		<label class="label" for="match-id-input">
 			<span class="label-text">Match ID or FACEIT URL</span>
@@ -52,10 +54,5 @@
 				Load Match
 			</button>
 		</div>
-		{#if $currentMatchId}
-			<div class="label">
-				<span class="label-text-alt text-success">Current Match: {$currentMatchId}</span>
-			</div>
-		{/if}
 	</div>
 </div>
