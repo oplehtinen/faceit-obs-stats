@@ -12,7 +12,7 @@
 <div class="hero min-h-screen from-primary to-secondary">
 	<div class="hero-content text-center">
 		<div class="max-w-4xl">
-			<h1 class="text-5xl font-bold text-white mb-8">FaceIT OBS stats</h1>
+			<h1 class="text-5xl font-bold text-white mb-8">FaceIT OBS stats OBS stats</h1>
 			<p class="text-xl text-white/80 mb-12">
 				FACEIT match statistics overlay system for esports broadcasting and streaming. View detailed
 				match statistics, player performance data, and team comparisons.

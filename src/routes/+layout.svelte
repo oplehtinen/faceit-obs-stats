@@ -41,12 +41,7 @@
 	<div class="container-fluid mx-auto my-4 px-8 gap-4 flex flex-col h-full w-full justify-evenly">
 		{#if data.matchDetailsData}
 			<ScoreBoard />
-		{:else}
-			<!-- Show a minimal header when no match data is loaded -->
-			<div class="text-center">
-				<h1 class="text-2xl font-bold">Pappaliiga OBS</h1>
-			</div>
-		{/if}
+		{:else}{/if}
 		<slot />
 	</div>
 </div>

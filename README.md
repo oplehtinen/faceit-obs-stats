@@ -1,6 +1,6 @@
-# Pappaliiga OBS
+# FACEIT OBS stats
 
-A professional FACEIT match statistics overlay system designed for esports broadcasting and streaming. This application provides comprehensive match analytics, player performance data, and team comparisons for CS:GO and CS2 matches.
+FACEIT match statistics overlay system designed for esports broadcasting and streaming. This application provides match analytics, player performance data, and team comparisons for CS2 matches.
 
 ## Features
 
@@ -12,7 +12,6 @@ A professional FACEIT match statistics overlay system designed for esports broad
 ### 🔗 **FACEIT Integration**
 
 - Direct FACEIT API integration for real-time match data
-- Support for both CS:GO and CS2 matches
 - Automatic match ID extraction from FACEIT URLs
 
 ### 🎥 **OBS Ready**
@@ -26,7 +25,6 @@ A professional FACEIT match statistics overlay system designed for esports broad
 Supports multiple input formats:
 
 - Direct match IDs: `1-58d8dbd0-dc69-4077-9970-7893f3fc07dc`
-- CS:GO URLs: `https://www.faceit.com/en/csgo/room/1-abc123.../scoreboard`
 - CS2 URLs: `https://www.faceit.com/en/cs2/room/1-abc123.../scoreboard`
 
 ## Quick Start
@@ -58,7 +56,6 @@ Supports multiple input formats:
    ```bash
    # FACEIT API Configuration
    FACEIT_API_KEY=your_faceit_api_key_here
-   PUBLIC_MATCHID=default_match_id_for_testing
    ```
 
 4. **Start the development server**
@@ -199,7 +196,6 @@ The application can be deployed to any platform that supports Node.js applicatio
 | Variable         | Description                                  | Required |
 | ---------------- | -------------------------------------------- | -------- |
 | `FACEIT_API_KEY` | Your FACEIT API key for accessing match data | Yes      |
-| `PUBLIC_MATCHID` | Default match ID for testing/development     | No       |
 
 ## Tech Stack
 
