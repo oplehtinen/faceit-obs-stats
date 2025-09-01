@@ -9,3 +9,6 @@ export const tournamentStats = writable({});
 
 // Store for current match ID - will be used by stats pages
 export const currentMatchId = writable('');
+
+// Store for mock mode flag
+export const useMockData = writable(false);

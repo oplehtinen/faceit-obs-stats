@@ -290,7 +290,7 @@ describe('Match Data API - Different Game States', () => {
 		});
 
 		it('should return 500 error when API calls fail', async () => {
-			const matchId = MOCK_MATCH_IDS.SCHEDULED;
+			const matchId = 'real-match-id-for-error-test';
 
 			vi.mocked(getMatchDetails).mockRejectedValue(new Error('API Error'));
 
@@ -316,7 +316,7 @@ describe('Match Data API - Different Game States', () => {
 		});
 
 		it('should return 401 error for authentication failures', async () => {
-			const matchId = MOCK_MATCH_IDS.SCHEDULED;
+			const matchId = 'real-match-id-for-auth-test';
 
 			vi.mocked(getMatchDetails).mockRejectedValue(new Error('401 Unauthorized'));
 

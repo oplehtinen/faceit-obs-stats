@@ -7,12 +7,70 @@ import {
 	getTournamentStatsForPlayer
 } from '$lib/faceit';
 import type { matchId } from '$lib/dataTypes';
+import {
+	MOCK_MATCH_IDS,
+	MOCK_MATCH_DETAILS,
+	MOCK_MATCH_STATS,
+	MOCK_ORGANIZER_DATA,
+	MOCK_TEAM_STATS_FOR_MAPS,
+	MOCK_PLAYER_STATS
+} from '$lib/mockMatchData';
 
 export async function GET({ url }) {
 	const matchId = url.searchParams.get('matchId');
+	const useMockData = url.searchParams.get('mock') === 'true';
 
 	if (!matchId) {
 		return json({ error: 'Match ID is required' }, { status: 400 });
+	}
+
+	// Handle mock data requests
+	if (useMockData || Object.keys(MOCK_MATCH_DETAILS).includes(matchId)) {
+		try {
+			const mockMatchDetails = MOCK_MATCH_DETAILS[matchId];
+			const mockMatchStats = MOCK_MATCH_STATS[matchId] || [];
+
+			if (!mockMatchDetails) {
+				// If explicitly requesting mock data but match doesn't exist, treat as regular API call
+				if (useMockData) {
+					// Fall through to regular API behavior
+				} else {
+					return json({ error: 'Mock match not found' }, { status: 404 });
+				}
+			} else {
+				const teamsData = mockMatchDetails.teams;
+				const organizerData = MOCK_ORGANIZER_DATA;
+				const playerStats = MOCK_PLAYER_STATS;
+				const mapStatsTeam = MOCK_TEAM_STATS_FOR_MAPS;
+				const pickedMaps = mockMatchDetails.voting?.map?.pick || [];
+				const pickedStats: { [n: number]: unknown } = {};
+
+				// Process picked stats for mock data
+				for (const key in mapStatsTeam) {
+					const mapName = 'de_'.concat(key.toLowerCase());
+					for (let i = 0; i < pickedMaps.length; i++) {
+						if (pickedMaps[i] === mapName) {
+							pickedStats[i] = mapStatsTeam[key];
+						}
+					}
+				}
+
+				return json({
+					mapStatsTeam,
+					pickedMaps,
+					pickedStats,
+					matchDetailsData: mockMatchDetails,
+					organizerData,
+					teamsData,
+					playerStats,
+					matchStats: mockMatchStats,
+					_mockData: true // Flag to indicate this is mock data
+				});
+			}
+		} catch (error) {
+			console.error('Error serving mock data:', error);
+			// Fall through to regular API behavior
+		}
 	}
 
 	try {
