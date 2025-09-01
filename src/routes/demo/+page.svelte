@@ -30,7 +30,8 @@
 		{
 			id: MOCK_MATCH_IDS.LIVE_UPDATING,
 			name: 'Live Updating Match',
-			description: 'Real-time match simulation that updates every 5 seconds. Watch the scores and stats change live!',
+			description:
+				'Real-time match simulation that checks for updates every 2 seconds. Watch the scores and stats change live!',
 			status: 'LIVE',
 			badge: 'badge-error'
 		},
@@ -81,13 +82,18 @@
 	<!-- Mock Scenarios Grid -->
 	<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 		{#each mockScenarios as scenario}
-			<div class="card bg-base-100 shadow-xl {scenario.status === 'LIVE' ? 'border-2 border-red-400 shadow-red-400/20' : ''}">
+			<div
+				class="card bg-base-100 shadow-xl {scenario.status === 'LIVE'
+					? 'border-2 border-red-400 shadow-red-400/20'
+					: ''}"
+			>
 				<div class="card-body">
 					<div class="flex items-center justify-between mb-4">
 						<h2 class="card-title text-lg flex items-center">
 							{scenario.name}
 							{#if scenario.status === 'LIVE'}
-								<span class="animate-pulse inline-block w-2 h-2 bg-red-500 rounded-full ml-2"></span>
+								<span class="animate-pulse inline-block w-2 h-2 bg-red-500 rounded-full ml-2"
+								></span>
 							{/if}
 						</h2>
 						<div class="badge {scenario.badge}">{scenario.status}</div>
@@ -169,7 +175,8 @@
 						<strong>Ongoing:</strong> Live matches with realistic scores and player statistics
 					</li>
 					<li>
-						<strong>Live Updating:</strong> Real-time simulation that updates every 5 seconds with changing scores and stats
+						<strong>Live Updating:</strong> Real-time simulation that checks for updates every 2 seconds
+						with changing scores and stats
 					</li>
 					<li>
 						<strong>Finished:</strong> Complete match results with full statistical breakdowns
@@ -191,7 +198,8 @@
 					</svg>
 					<span
 						>Mock data is based on the official FACEIT API structure and provides realistic match
-						scenarios for testing and demonstration. The Live Updating scenario shows real-time data changes!</span
+						scenarios for testing and demonstration. The Live Updating scenario shows real-time data
+						changes!</span
 					>
 				</div>
 			</div>
