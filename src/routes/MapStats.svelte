@@ -1,47 +1,32 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import MapCard from './MapCard.svelte';
 	import type { mapStatsForTeams, team } from '$lib/dataTypes';
-	import { currentMatchId } from '../stores';
+	import {
+		currentMatchId,
+		mapStatsTeamStore,
+		teamsDataStore,
+		loadingStore,
+		errorStore,
+		useMockData
+	} from '../stores';
 
 	let mapStatsTeam: mapStatsForTeams | null = null;
 	let teamArr: team[] = [];
 	let loading = false;
 	let error = '';
-
-	// Export the mapStatsTeam so parent can access it
+	let isMockData = false;
 	export { mapStatsTeam };
+	let mapEntries: [string, any][] = [];
 
-	async function loadMatchData(matchId: string) {
-		if (!matchId) return;
-
-		loading = true;
-		error = '';
-
-		try {
-			const response = await fetch(`/api/match-data?matchId=${encodeURIComponent(matchId)}`);
-			const data = await response.json();
-
-			if (!response.ok) {
-				throw new Error(data.error || 'Failed to fetch match data');
-			}
-
-			mapStatsTeam = data.mapStatsTeam;
-			teamArr = [data.teamsData.faction1, data.teamsData.faction2];
-		} catch (err) {
-			console.error('Error loading match data:', err);
-			error = err instanceof Error ? err.message : 'Failed to load match data';
-			mapStatsTeam = null;
-			teamArr = [];
-		} finally {
-			loading = false;
-		}
-	}
-
-	// React to match ID changes
-	$: if ($currentMatchId) {
-		loadMatchData($currentMatchId);
-	}
+	// Subscribe to centralized stores (populated by lib/poller)
+	$: mapStatsTeam = $mapStatsTeamStore as mapStatsForTeams | null;
+	$: mapEntries = mapStatsTeam ? Object.entries(mapStatsTeam) : [];
+	$: teamArr = $teamsDataStore
+		? ([$teamsDataStore.faction1, $teamsDataStore.faction2] as team[])
+		: [];
+	$: loading = $loadingStore;
+	$: error = $errorStore;
+	$: isMockData = $useMockData;
 </script>
 
 {#if loading}
@@ -58,8 +43,28 @@
 		<span>Please enter a match ID above to load map stats.</span>
 	</div>
 {:else if mapStatsTeam}
+	<!-- Mock data indicator -->
+	{#if isMockData}
+		<div class="alert alert-info mb-4">
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				class="stroke-current shrink-0 h-6 w-6"
+				fill="none"
+				viewBox="0 0 24 24"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+				/>
+			</svg>
+			<span>Demo Mode: This data is simulated for demonstration purposes.</span>
+		</div>
+	{/if}
+
 	<div class="flex flex-wrap justify-around flex-row my-auto gap-2 mx-auto w-6/6 h-5/6">
-		{#each Object.entries(mapStatsTeam) as [key, map], i}
+		{#each mapEntries as [key, map], i (key)}
 			<div class="m-2">
 				<MapCard data={map} nextMap={false} order={i * 300} teams={teamArr} />
 			</div>

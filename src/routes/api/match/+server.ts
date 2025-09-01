@@ -14,8 +14,12 @@ export async function POST({ request }) {
 }
 
 export async function GET() {
-	const data = await getMatchDetails(env.PUBLIC_MATCHID as matchId);
-	const stats = await getMatchStats(env.PUBLIC_MATCHID);
+	const id = env.PUBLIC_MATCHID as matchId | undefined;
+	if (!id) {
+		return json({ error: 'Match ID not configured' }, { status: 400 });
+	}
+	const data = await getMatchDetails(id);
+	const stats = await getMatchStats(id);
 
 	let series = [];
 

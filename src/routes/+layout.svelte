@@ -7,6 +7,8 @@
 	import { writable } from 'svelte/store';
 	import type { matchId } from '$lib/dataTypes';
 	import { page } from '$app/stores';
+	// Ensure the poller module is loaded so store subscriptions are live
+	import '$lib/poller';
 	export let data;
 	onMount(async () => {
 		await tick();

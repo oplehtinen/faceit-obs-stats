@@ -1,17 +1,12 @@
 import type { PageServerLoad } from './$types';
 import { createClient } from '@vercel/kv';
-import {
-	KV_REST_API_READ_ONLY_TOKEN,
-	KV_REST_API_TOKEN,
-	KV_REST_API_URL,
-	KV_URL
-} from '$env/static/private';
+import { env } from '$env/dynamic/private';
 // we need to store the selected view in a store for all clients
 import { writable } from 'svelte/store';
 const selectedView = 'matches';
 const kv = createClient({
-	token: KV_REST_API_TOKEN,
-	url: KV_REST_API_URL
+	token: env.KV_REST_API_TOKEN ?? '',
+	url: env.KV_REST_API_URL ?? ''
 });
 
 export const load: PageServerLoad = async ({ params }) => {

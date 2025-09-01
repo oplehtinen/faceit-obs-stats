@@ -63,12 +63,12 @@ export type matchStats = {
 	match_round: number;
 	played: boolean;
 	round_stats: {
-		Winner: teamId;
+		Winner: teamId | '';
 		Rounds: number;
 		Score: string;
 		Map: mapName;
 	};
-	teams: [teamStats, teamStats];
+	teams: [playedMapStat, playedMapStat];
 };
 export type team = {
 	avatar: teamLogo;
@@ -110,10 +110,10 @@ export type matchDetails = {
 	competition_id: tournamentId;
 	competition_name: string;
 	organizer_id: organizerId;
-	teams: {
+	teams?: {
 		faction1: team;
 		faction2: team;
-	};
+	} | null;
 	voting: {
 		map: { pick: mapPicks };
 	};
@@ -125,4 +125,4 @@ export type matchDetails = {
 	results: matchResults;
 	status: matchStatus;
 };
-interface tournamentDetails {}
+interface tournamentDetails { }

@@ -1,49 +1,32 @@
 <script lang="ts">
 	import { expoIn } from 'svelte/easing';
 	import { fly } from 'svelte/transition';
-	import { onMount } from 'svelte';
 	import PlayerTable from './PlayerTable.svelte';
 	import type { teams } from '$lib/dataTypes';
-	import { currentMatchId } from '../stores';
+	import {
+		currentMatchId,
+		matchDetailsDataStore,
+		teamsDataStore,
+		loadingStore,
+		errorStore,
+		useMockData
+	} from '../stores';
 
 	let teamsData: teams | null = null;
 	let tournamentId: string | null = null;
 	let loading = false;
 	let error = '';
+	let isMockData = false;
 
 	// Export the teamsData so parent can access it
 	export { teamsData };
 
-	async function loadMatchData(matchId: string) {
-		if (!matchId) return;
-
-		loading = true;
-		error = '';
-
-		try {
-			const response = await fetch(`/api/match-data?matchId=${encodeURIComponent(matchId)}`);
-			const data = await response.json();
-
-			if (!response.ok) {
-				throw new Error(data.error || 'Failed to fetch match data');
-			}
-
-			teamsData = data.teamsData;
-			tournamentId = data.matchDetailsData.competition_id;
-		} catch (err) {
-			console.error('Error loading match data:', err);
-			error = err instanceof Error ? err.message : 'Failed to load match data';
-			teamsData = null;
-			tournamentId = null;
-		} finally {
-			loading = false;
-		}
-	}
-
-	// React to match ID changes
-	$: if ($currentMatchId) {
-		loadMatchData($currentMatchId);
-	}
+	// Subscribe to centralized stores (populated by lib/poller)
+	$: teamsData = $teamsDataStore as teams | null;
+	$: tournamentId = $matchDetailsDataStore ? $matchDetailsDataStore.competition_id : null;
+	$: loading = $loadingStore;
+	$: error = $errorStore;
+	$: isMockData = $useMockData;
 </script>
 
 {#if loading}
@@ -60,6 +43,26 @@
 		<span>Please enter a match ID above to load player stats.</span>
 	</div>
 {:else if teamsData && tournamentId}
+	<!-- Mock data indicator -->
+	{#if isMockData}
+		<div class="alert alert-info mb-4">
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				class="stroke-current shrink-0 h-6 w-6"
+				fill="none"
+				viewBox="0 0 24 24"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+				/>
+			</svg>
+			<span>Demo Mode: This data is simulated for demonstration purposes.</span>
+		</div>
+	{/if}
+
 	<div class="flex justify-center flex-row flex-grow my-4 w-auto">
 		<div class="grid w-full">
 			<PlayerTable teamData={teamsData.faction1.roster} index={0} color="primary-content" />

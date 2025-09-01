@@ -1,4 +1,4 @@
-import { json } from '@sveltejs/kit';
+import { json, type RequestHandler } from '@sveltejs/kit';
 import {
 	getMatchDetails,
 	getMatchStats,
@@ -7,12 +7,58 @@ import {
 	getTournamentStatsForPlayer
 } from '$lib/faceit';
 import type { matchId } from '$lib/dataTypes';
+import { MOCK_ORGANIZER_DATA } from '$lib/mockMatchData';
+import {
+	generatePlayerTournamentStats,
+	generateMapStatsForTeams,
+	generateAlwaysNewMockData
+} from '$lib/mockMatchData';
 
-export async function GET({ url }) {
+export const GET: RequestHandler = async ({ url }) => {
 	const matchId = url.searchParams.get('matchId');
+	const useMockData = url.searchParams.get('mock') === 'true';
 
 	if (!matchId) {
 		return json({ error: 'Match ID is required' }, { status: 400 });
+	}
+
+	// Handle mock data requests (always dynamic values)
+	if (useMockData) {
+		try {
+			const { details: mockMatchDetails, stats: mockMatchStats } = generateAlwaysNewMockData();
+			const teamsData = mockMatchDetails.teams;
+			const organizerData = MOCK_ORGANIZER_DATA;
+			const playerStats = generatePlayerTournamentStats();
+			const mapStatsTeam = generateMapStatsForTeams();
+			const pickedMaps = mockMatchDetails.voting?.map?.pick || [];
+			const pickedStats: { [n: number]: unknown } = {};
+
+			// Process picked stats for mock data
+			for (const key in mapStatsTeam) {
+				const mapName = 'de_'.concat(key.toLowerCase());
+				for (let i = 0; i < pickedMaps.length; i++) {
+					if (pickedMaps[i] === mapName) {
+						pickedStats[i] = mapStatsTeam[key as keyof typeof mapStatsTeam];
+					}
+				}
+			}
+
+			return json({
+				mapStatsTeam,
+				pickedMaps,
+				pickedStats,
+				matchDetailsData: mockMatchDetails,
+				organizerData,
+				teamsData,
+				playerStats,
+				matchStats: mockMatchStats,
+				_mockData: true,
+				_nonce: Date.now()
+			});
+		} catch (error) {
+			console.error('Error serving mock data:', error);
+			return json({ error: 'Failed to generate mock data' }, { status: 500 });
+		}
 	}
 
 	try {
@@ -49,7 +95,7 @@ export async function GET({ url }) {
 			const mapName = 'de_'.concat(key.toLowerCase());
 			for (let i = 0; i < pickedMaps.length; i++) {
 				if (pickedMaps[i] === mapName) {
-					pickedStats[i] = mapStatsTeam[key];
+					pickedStats[i] = mapStatsTeam[key as keyof typeof mapStatsTeam];
 				}
 			}
 		}
@@ -79,4 +125,4 @@ export async function GET({ url }) {
 
 		return json({ error: 'Failed to fetch match data' }, { status: 500 });
 	}
-}
+};
