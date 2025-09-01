@@ -826,42 +826,49 @@ export const MOCK_TEAM_STATS_FOR_MAPS: mapStatsForTeams = {
 };
 
 // Mock player tournament stats
-export const MOCK_PLAYER_STATS = {
-	faction1: {
+// Helper to generate tournament stats per fetch so values vary between requests
+export function generatePlayerTournamentStats() {
+	const faction1 = {
 		...mockTeam1,
 		roster: mockTeam1.roster.map(player => ({
 			...player,
 			stats: {
-				'K/D Ratio': Math.random() * 0.5 + 0.8, // 0.8 - 1.3
-				'Avg K/R': Math.random() * 0.3 + 0.5, // 0.5 - 0.8
-				'Win Rate %': Math.random() * 20 + 60, // 60 - 80%
+				'K/D Ratio': Number((Math.random() * 0.5 + 0.8).toFixed(2)), // 0.8 - 1.3
+				'Avg K/R': Number((Math.random() * 0.3 + 0.5).toFixed(2)), // 0.5 - 0.8
+				'Win Rate %': Number((Math.random() * 20 + 60).toFixed(1)), // 60 - 80%
 				Matches: Math.floor(Math.random() * 50) + 20, // 20 - 70 matches
-				Wins: 0 // Will be calculated based on win rate
+				Wins: 0 // Calculated below
 			}
 		}))
-	},
-	faction2: {
+	};
+
+	const faction2 = {
 		...mockTeam2,
 		roster: mockTeam2.roster.map(player => ({
 			...player,
 			stats: {
-				'K/D Ratio': Math.random() * 0.5 + 0.8, // 0.8 - 1.3
-				'Avg K/R': Math.random() * 0.3 + 0.5, // 0.5 - 0.8
-				'Win Rate %': Math.random() * 20 + 60, // 60 - 80%
-				Matches: Math.floor(Math.random() * 50) + 20, // 20 - 70 matches
-				Wins: 0 // Will be calculated based on win rate
+				'K/D Ratio': Number((Math.random() * 0.5 + 0.8).toFixed(2)),
+				'Avg K/R': Number((Math.random() * 0.3 + 0.5).toFixed(2)),
+				'Win Rate %': Number((Math.random() * 20 + 60).toFixed(1)),
+				Matches: Math.floor(Math.random() * 50) + 20,
+				Wins: 0
 			}
 		}))
-	}
-};
+	};
 
-// Calculate wins based on win rate
-MOCK_PLAYER_STATS.faction1.roster.forEach(player => {
-	player.stats.Wins = Math.floor(player.stats.Matches * (player.stats['Win Rate %'] / 100));
-});
-MOCK_PLAYER_STATS.faction2.roster.forEach(player => {
-	player.stats.Wins = Math.floor(player.stats.Matches * (player.stats['Win Rate %'] / 100));
-});
+	// Calculate wins based on win rate for each faction
+	faction1.roster.forEach(player => {
+		player.stats.Wins = Math.floor(player.stats.Matches * (player.stats['Win Rate %'] / 100));
+	});
+	faction2.roster.forEach(player => {
+		player.stats.Wins = Math.floor(player.stats.Matches * (player.stats['Win Rate %'] / 100));
+	});
+
+	return { faction1, faction2 } as const;
+}
+
+// Backward-compatible constant; generated at module load once
+export const MOCK_PLAYER_STATS = generatePlayerTournamentStats();
 
 // Live updating data generator
 export function generateLiveUpdatingData(): { details: matchDetails; stats: matchStats[] } {
@@ -1006,6 +1013,99 @@ export function generateLiveUpdatingData(): { details: matchDetails; stats: matc
 			}
 		]
 	}];
+
+	return { details, stats };
+}
+
+// Generate randomized map stats per team for common maps
+export function generateMapStatsForTeams(): mapStatsForTeams {
+	const makeMap = (label: string) => {
+		const mk = () => {
+			const matches = Math.floor(Math.random() * 15) + 5; // 5-19
+			const wins = Math.floor(Math.random() * (matches + 1));
+			const winRate = Number(((wins / Math.max(matches, 1)) * 100).toFixed(1));
+			return { Matches: matches, Wins: wins, 'Win Rate %': winRate } as mapStat;
+		};
+		return { label, img_regular: `https://example.com/${label.toLowerCase()}.jpg`, map_stats: [mk(), mk()] as [mapStat, mapStat] };
+	};
+	return {
+		Inferno: makeMap('Inferno'),
+		Mirage: makeMap('Mirage'),
+		Dust2: makeMap('Dust2')
+	};
+}
+
+// Always-new mock data generator that returns varying values on each call
+export function generateAlwaysNewMockData(): { details: matchDetails; stats: matchStats[] } {
+	const now = Date.now();
+	const rounds = Math.floor(Math.random() * 30) + 1; // 1-30
+	const scoreA = Math.floor(Math.random() * (rounds + 1));
+	const scoreB = rounds - scoreA;
+	const winner = scoreA === scoreB ? '' : (scoreA > scoreB ? 'team1-id' : 'team2-id');
+	const maps = ['de_inferno', 'de_mirage', 'de_dust2'];
+	const picked = maps.slice();
+
+	const details: matchDetails = {
+		match_id: MOCK_MATCH_IDS.LIVE_UPDATING,
+		competition_id: 'tournament-live' as tournamentId,
+		competition_name: 'Live Demo Tournament',
+		organizer_id: 'organizer-live' as organizerId,
+		teams: {
+			faction1: { ...mockTeam1, score: 0 },
+			faction2: { ...mockTeam2, score: 0 }
+		},
+		voting: { map: { pick: picked } },
+		round: 1,
+		scheduled_at: now - 2 * 60 * 60 * 1000,
+		configured_at: now - 90 * 60 * 1000,
+		started_at: now - 60 * 60 * 1000,
+		finished_at: 0,
+		results: {
+			winner,
+			score: { faction1: scoreA > scoreB ? 1 : 0, faction2: scoreB > scoreA ? 1 : 0 }
+		},
+		status: 'ONGOING'
+	};
+
+	const mkPlayerStats = (bias = 0) => {
+		const kills = Math.floor(5 + Math.random() * 20 + bias); // 5-25+
+		const deaths = Math.floor(5 + Math.random() * 20 - bias / 2);
+		const hs = Math.floor(kills * (0.3 + Math.random() * 0.3));
+		return {
+			'Quadro Kills': Math.floor(Math.random() * 3),
+			MVPs: Math.floor(Math.random() * 6),
+			Result: 0,
+			'Penta Kills': Math.random() > 0.9 ? 1 : 0,
+			'K/D Ratio': Number((kills / Math.max(deaths, 1)).toFixed(2)),
+			Kills: kills,
+			'Triple Kills': Math.floor(Math.random() * 4),
+			'K/R Ratio': Number((kills / Math.max(rounds, 1)).toFixed(2)),
+			Headshots: hs,
+			Deaths: deaths,
+			'Headshots %': Math.floor((hs / Math.max(kills, 1)) * 100),
+			Assists: Math.floor(Math.random() * 10)
+		};
+	};
+
+	const stats: matchStats[] = [
+		{
+			match_round: 1,
+			played: false,
+			round_stats: { Winner: winner as any, Rounds: rounds, Score: `${scoreA}-${scoreB}`, Map: maps[0] },
+			teams: [
+				{
+					team_id: 'team1-id' as teamId,
+					team_stats: { 'Final Score': String(scoreA), 'Team Win': winner === 'team1-id' ? '1' : '' },
+					players: mockTeam1.roster.map(p => ({ player_id: p.player_id, nickname: p.nickname, avatar: p.avatar, player_stats: mkPlayerStats(1) }))
+				},
+				{
+					team_id: 'team2-id' as teamId,
+					team_stats: { 'Final Score': String(scoreB), 'Team Win': winner === 'team2-id' ? '1' : '' },
+					players: mockTeam2.roster.map(p => ({ player_id: p.player_id, nickname: p.nickname, avatar: p.avatar, player_stats: mkPlayerStats(0) }))
+				}
+			]
+		}
+	];
 
 	return { details, stats };
 }

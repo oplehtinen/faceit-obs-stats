@@ -7,13 +7,11 @@ import {
 	getTournamentStatsForPlayer
 } from '$lib/faceit';
 import type { matchId } from '$lib/dataTypes';
+import { MOCK_ORGANIZER_DATA } from '$lib/mockMatchData';
 import {
-	MOCK_MATCH_IDS,
-	MOCK_MATCH_DETAILS,
-	MOCK_MATCH_STATS,
-	MOCK_ORGANIZER_DATA,
-	MOCK_TEAM_STATS_FOR_MAPS,
-	MOCK_PLAYER_STATS
+	generatePlayerTournamentStats,
+	generateMapStatsForTeams,
+	generateAlwaysNewMockData
 } from '$lib/mockMatchData';
 
 export const GET: RequestHandler = async ({ url }) => {
@@ -24,52 +22,42 @@ export const GET: RequestHandler = async ({ url }) => {
 		return json({ error: 'Match ID is required' }, { status: 400 });
 	}
 
-	// Handle mock data requests
-	if (useMockData || Object.keys(MOCK_MATCH_DETAILS).includes(matchId)) {
+	// Handle mock data requests (always dynamic values)
+	if (useMockData) {
 		try {
-			let mockMatchDetails = MOCK_MATCH_DETAILS[matchId];
-			let mockMatchStats = MOCK_MATCH_STATS[matchId] || [];
+			const { details: mockMatchDetails, stats: mockMatchStats } = generateAlwaysNewMockData();
+			const teamsData = mockMatchDetails.teams;
+			const organizerData = MOCK_ORGANIZER_DATA;
+			const playerStats = generatePlayerTournamentStats();
+			const mapStatsTeam = generateMapStatsForTeams();
+			const pickedMaps = mockMatchDetails.voting?.map?.pick || [];
+			const pickedStats: { [n: number]: unknown } = {};
 
-			if (!mockMatchDetails) {
-				// If explicitly requesting mock data but match doesn't exist, treat as regular API call
-				if (useMockData) {
-					// Fall through to regular API behavior
-				} else {
-					return json({ error: 'Mock match not found' }, { status: 404 });
-				}
-			} else {
-				const teamsData = mockMatchDetails.teams;
-				const organizerData = MOCK_ORGANIZER_DATA;
-				const playerStats = MOCK_PLAYER_STATS;
-				const mapStatsTeam = MOCK_TEAM_STATS_FOR_MAPS;
-				const pickedMaps = mockMatchDetails.voting?.map?.pick || [];
-				const pickedStats: { [n: number]: unknown } = {};
-
-				// Process picked stats for mock data
-				for (const key in mapStatsTeam) {
-					const mapName = 'de_'.concat(key.toLowerCase());
-					for (let i = 0; i < pickedMaps.length; i++) {
-						if (pickedMaps[i] === mapName) {
-							pickedStats[i] = mapStatsTeam[key as keyof typeof mapStatsTeam];
-						}
+			// Process picked stats for mock data
+			for (const key in mapStatsTeam) {
+				const mapName = 'de_'.concat(key.toLowerCase());
+				for (let i = 0; i < pickedMaps.length; i++) {
+					if (pickedMaps[i] === mapName) {
+						pickedStats[i] = mapStatsTeam[key as keyof typeof mapStatsTeam];
 					}
 				}
-
-				return json({
-					mapStatsTeam,
-					pickedMaps,
-					pickedStats,
-					matchDetailsData: mockMatchDetails,
-					organizerData,
-					teamsData,
-					playerStats,
-					matchStats: mockMatchStats,
-					_mockData: true
-				});
 			}
+
+			return json({
+				mapStatsTeam,
+				pickedMaps,
+				pickedStats,
+				matchDetailsData: mockMatchDetails,
+				organizerData,
+				teamsData,
+				playerStats,
+				matchStats: mockMatchStats,
+				_mockData: true,
+				_nonce: Date.now()
+			});
 		} catch (error) {
 			console.error('Error serving mock data:', error);
-			// Fall through to regular API behavior
+			return json({ error: 'Failed to generate mock data' }, { status: 500 });
 		}
 	}
 

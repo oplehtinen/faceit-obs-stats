@@ -5,43 +5,12 @@
 	// Mock scenarios with descriptions
 	const mockScenarios = [
 		{
-			id: MOCK_MATCH_IDS.SCHEDULED,
-			name: 'Scheduled Match',
-			description:
-				'Match is ready to start, no gameplay yet. Shows map picks and team information.',
-			status: 'READY',
-			badge: 'badge-info'
-		},
-		{
-			id: MOCK_MATCH_IDS.ONGOING_MAP1,
-			name: 'Ongoing Match - First Map',
-			description:
-				'First map in progress with live score 8-4. Demonstrates ongoing match statistics.',
-			status: 'ONGOING',
-			badge: 'badge-warning'
-		},
-		{
-			id: MOCK_MATCH_IDS.ONGOING_MAP2,
-			name: 'Ongoing Match - Deciding Map',
-			description: 'Series 1-1, third map live with 8-4 score. Shows complex match progression.',
-			status: 'ONGOING',
-			badge: 'badge-warning'
-		},
-		{
 			id: MOCK_MATCH_IDS.LIVE_UPDATING,
 			name: 'Live Updating Match',
 			description:
-				'Real-time match simulation that checks for updates every 2 seconds. Watch the scores and stats change live!',
+				'Real-time match simulation. Every fetch returns new values—watch stats and scores change!',
 			status: 'LIVE',
 			badge: 'badge-error'
-		},
-		{
-			id: MOCK_MATCH_IDS.FINISHED,
-			name: 'Finished Match',
-			description:
-				'Complete best-of-3 series with final results 2-1. Shows comprehensive statistics.',
-			status: 'FINISHED',
-			badge: 'badge-success'
 		}
 	];
 
@@ -165,22 +134,10 @@
 				About Demo Mode
 			</h2>
 			<div class="space-y-4">
-				<p>
-					This demo mode uses comprehensive mock data that simulates different FACEIT CS2 match
-					states:
-				</p>
+				<p>This demo uses a single live-updating mock: every request returns fresh values.</p>
 				<ul class="list-disc list-inside space-y-2 ml-4">
-					<li><strong>Scheduled:</strong> Match ready to start with team rosters and map picks</li>
-					<li>
-						<strong>Ongoing:</strong> Live matches with realistic scores and player statistics
-					</li>
-					<li>
-						<strong>Live Updating:</strong> Real-time simulation that checks for updates every 2 seconds
-						with changing scores and stats
-					</li>
-					<li>
-						<strong>Finished:</strong> Complete match results with full statistical breakdowns
-					</li>
+					<li>Randomized map, team, and player stats vary on every fetch.</li>
+					<li>Great for debugging component updates and polling behavior.</li>
 				</ul>
 				<div class="alert alert-info">
 					<svg
@@ -196,11 +153,7 @@
 							d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 						/>
 					</svg>
-					<span
-						>Mock data is based on the official FACEIT API structure and provides realistic match
-						scenarios for testing and demonstration. The Live Updating scenario shows real-time data
-						changes!</span
-					>
+					<span>Mock data follows the FACEIT API structure and updates live via polling.</span>
 				</div>
 			</div>
 		</div>
