@@ -20,6 +20,7 @@ export const MOCK_MATCH_IDS = {
 	ONGOING_MAP1: 'match-ongoing-map1-456' as matchId,
 	ONGOING_MAP2: 'match-ongoing-map2-789' as matchId,
 	FINISHED: 'match-finished-abc' as matchId,
+	LIVE_UPDATING: 'match-live-updating-xyz' as matchId,
 	NOT_FOUND: 'match-not-found-xyz' as matchId,
 	INVALID_DATA: 'match-invalid-data-def' as matchId
 } as const;
@@ -766,3 +767,150 @@ MOCK_PLAYER_STATS.faction1.roster.forEach(player => {
 MOCK_PLAYER_STATS.faction2.roster.forEach(player => {
 	player.stats.Wins = Math.floor(player.stats.Matches * (player.stats['Win Rate %'] / 100));
 });
+
+// Live updating data generator
+export function generateLiveUpdatingData(): { details: matchDetails; stats: matchStats[] } {
+	const now = Date.now();
+	// Each "round" lasts 30 seconds in real time
+	const roundDuration = 30000; // 30 seconds
+	const startTime = now - (now % (roundDuration * 30)); // Start from a round number
+	const elapsedTime = now - startTime;
+	const currentRound = Math.floor(elapsedTime / roundDuration) + 1;
+	
+	// Simulate score progression (max 30 rounds for a full match)
+	const maxRounds = 30;
+	const effectiveRound = Math.min(currentRound, maxRounds);
+	
+	// Score progression: starts at 5-3, progresses over time
+	const baseScore1 = 5;
+	const baseScore2 = 3;
+	const additionalRounds = Math.floor(effectiveRound / 2); // Slower progression
+	
+	let team1Score = baseScore1 + Math.floor(additionalRounds * 0.6);
+	let team2Score = baseScore2 + Math.floor(additionalRounds * 0.4);
+	
+	// Ensure realistic CS:GO score progression (first to 16 wins)
+	if (team1Score >= 16) {
+		team1Score = 16;
+		team2Score = Math.min(team2Score, 14);
+	}
+	
+	const totalRounds = team1Score + team2Score;
+	
+	const details: matchDetails = {
+		match_id: MOCK_MATCH_IDS.LIVE_UPDATING,
+		competition_id: 'tournament-live' as tournamentId,
+		competition_name: 'Live Demo Tournament',
+		organizer_id: 'organizer-live' as organizerId,
+		teams: {
+			faction1: { ...mockTeam1, score: team1Score >= 16 ? 1 : 0 },
+			faction2: { ...mockTeam2, score: team2Score >= 16 ? 1 : 0 }
+		},
+		voting: {
+			map: { pick: ['de_inferno', 'de_mirage', 'de_dust2'] }
+		},
+		round: 1,
+		scheduled_at: startTime - 3600000, // 1 hour before start
+		configured_at: startTime - 1800000, // 30 minutes before start
+		started_at: startTime,
+		finished_at: team1Score >= 16 || team2Score >= 16 ? now : 0,
+		results: {
+			winner: team1Score >= 16 ? 'team1-id' : team2Score >= 16 ? 'team2-id' : '',
+			score: {
+				faction1: team1Score >= 16 ? 1 : 0,
+				faction2: team2Score >= 16 ? 1 : 0
+			}
+		},
+		status: (team1Score >= 16 || team2Score >= 16) ? 'FINISHED' : 'ONGOING'
+	};
+	
+	// Generate dynamic player stats based on current progress
+	const progressRatio = totalRounds / 30; // How far through the match we are
+	
+	const stats: matchStats[] = [{
+		match_round: 1,
+		played: team1Score >= 16 || team2Score >= 16,
+		round_stats: {
+			Winner: team1Score >= 16 ? 'team1-id' as teamId : team2Score >= 16 ? 'team2-id' as teamId : '',
+			Rounds: totalRounds,
+			Score: `${team1Score}-${team2Score}`,
+			Map: 'de_inferno'
+		},
+		teams: [
+			{
+				team_id: 'team1-id' as teamId,
+				team_stats: {
+					'Final Score': team1Score.toString(),
+					'Team Win': team1Score >= 16 ? '1' : ''
+				},
+				players: mockTeam1.roster.map(player => {
+					// Dynamic stats that increase over time
+					const baseKills = 8;
+					const baseDeaths = 6;
+					const kills = Math.floor(baseKills + (progressRatio * 12)); // 8-20 kills
+					const deaths = Math.floor(baseDeaths + (progressRatio * 10)); // 6-16 deaths
+					const headshots = Math.floor(kills * (0.35 + Math.random() * 0.15)); // 35-50% HS rate
+					const mvps = Math.floor(progressRatio * 5); // 0-5 MVPs
+					
+					return {
+						player_id: player.player_id,
+						nickname: player.nickname,
+						avatar: player.avatar,
+						player_stats: {
+							'Quadro Kills': Math.floor(Math.random() * progressRatio * 2), // 0-2
+							MVPs: mvps,
+							Result: team1Score >= 16 ? 1 : 0,
+							'Penta Kills': progressRatio > 0.8 ? Math.floor(Math.random() * 2) : 0,
+							'K/D Ratio': Number((kills / Math.max(deaths, 1)).toFixed(2)),
+							Kills: kills,
+							'Triple Kills': Math.floor(progressRatio * 3), // 0-3
+							'K/R Ratio': Number((kills / Math.max(totalRounds, 1)).toFixed(2)),
+							Headshots: headshots,
+							Deaths: deaths,
+							'Headshots %': Math.floor((headshots / Math.max(kills, 1)) * 100),
+							Assists: Math.floor(progressRatio * 8) // 0-8 assists
+						}
+					};
+				})
+			},
+			{
+				team_id: 'team2-id' as teamId,
+				team_stats: {
+					'Final Score': team2Score.toString(),
+					'Team Win': team2Score >= 16 ? '1' : ''
+				},
+				players: mockTeam2.roster.map(player => {
+					// Slightly worse stats for team2 (they're losing)
+					const baseKills = 6;
+					const baseDeaths = 8;
+					const kills = Math.floor(baseKills + (progressRatio * 10)); // 6-16 kills
+					const deaths = Math.floor(baseDeaths + (progressRatio * 12)); // 8-20 deaths
+					const headshots = Math.floor(kills * (0.30 + Math.random() * 0.15)); // 30-45% HS rate
+					const mvps = Math.floor(progressRatio * 3); // 0-3 MVPs
+					
+					return {
+						player_id: player.player_id,
+						nickname: player.nickname,
+						avatar: player.avatar,
+						player_stats: {
+							'Quadro Kills': Math.floor(Math.random() * progressRatio * 1.5), // 0-1
+							MVPs: mvps,
+							Result: team2Score >= 16 ? 1 : 0,
+							'Penta Kills': 0,
+							'K/D Ratio': Number((kills / Math.max(deaths, 1)).toFixed(2)),
+							Kills: kills,
+							'Triple Kills': Math.floor(progressRatio * 2), // 0-2
+							'K/R Ratio': Number((kills / Math.max(totalRounds, 1)).toFixed(2)),
+							Headshots: headshots,
+							Deaths: deaths,
+							'Headshots %': Math.floor((headshots / Math.max(kills, 1)) * 100),
+							Assists: Math.floor(progressRatio * 6) // 0-6 assists
+						}
+					};
+				})
+			}
+		]
+	}];
+	
+	return { details, stats };
+}

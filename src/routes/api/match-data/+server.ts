@@ -13,7 +13,8 @@ import {
 	MOCK_MATCH_STATS,
 	MOCK_ORGANIZER_DATA,
 	MOCK_TEAM_STATS_FOR_MAPS,
-	MOCK_PLAYER_STATS
+	MOCK_PLAYER_STATS,
+	generateLiveUpdatingData
 } from '$lib/mockMatchData';
 
 export const GET: RequestHandler = async ({ url }) => {
@@ -27,8 +28,18 @@ export const GET: RequestHandler = async ({ url }) => {
 	// Handle mock data requests
 	if (useMockData || Object.keys(MOCK_MATCH_DETAILS).includes(matchId)) {
 		try {
-			const mockMatchDetails = MOCK_MATCH_DETAILS[matchId];
-			const mockMatchStats = MOCK_MATCH_STATS[matchId] || [];
+			let mockMatchDetails;
+			let mockMatchStats;
+
+			// Handle live updating data specially
+			if (matchId === MOCK_MATCH_IDS.LIVE_UPDATING) {
+				const liveData = generateLiveUpdatingData();
+				mockMatchDetails = liveData.details;
+				mockMatchStats = liveData.stats;
+			} else {
+				mockMatchDetails = MOCK_MATCH_DETAILS[matchId];
+				mockMatchStats = MOCK_MATCH_STATS[matchId] || [];
+			}
 
 			if (!mockMatchDetails) {
 				// If explicitly requesting mock data but match doesn't exist, treat as regular API call
@@ -64,7 +75,8 @@ export const GET: RequestHandler = async ({ url }) => {
 					teamsData,
 					playerStats,
 					matchStats: mockMatchStats,
-					_mockData: true // Flag to indicate this is mock data
+					_mockData: true, // Flag to indicate this is mock data
+					_liveUpdating: matchId === MOCK_MATCH_IDS.LIVE_UPDATING // Flag for live updating data
 				});
 			}
 		} catch (error) {
