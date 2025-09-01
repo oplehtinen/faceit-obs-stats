@@ -1,6 +1,6 @@
 <script>
-	import MapPicks from '../MapPicks.svelte';
-	import PlayerGeneralStats from '../PlayerGeneralStats.svelte';
+	import MapPicks from '$lib/components/MapPicks.svelte';
+	import PlayerGeneralStats from '$lib/components/PlayerGeneralStats.svelte';
 </script>
 
 <svelte:head>

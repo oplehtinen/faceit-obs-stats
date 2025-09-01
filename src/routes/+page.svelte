@@ -1,8 +1,8 @@
 <script lang="ts">
-	import ScoreBoard from './ScoreBoard.svelte';
-	import MapStats from './MapStats.svelte';
-	import PlayerGeneralStats from './PlayerGeneralStats.svelte';
-	import MapPicks from './MapPicks.svelte';
+	import ScoreBoard from '$lib/components/ScoreBoard.svelte';
+	import MapStats from '$lib/components/MapStats.svelte';
+	import PlayerGeneralStats from '$lib/components/PlayerGeneralStats.svelte';
+	import MapPicks from '$lib/components/MapPicks.svelte';
 	import { browser } from '$app/environment';
 	import { base } from '$app/paths';
 	import { page } from '$app/state';

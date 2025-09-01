@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import { onDestroy } from 'svelte';
-	import ScoreBoard from './ScoreBoard.svelte';
+	import ScoreBoard from '$lib/components/ScoreBoard.svelte';
 	import { onMount } from 'svelte';
 	import { tick } from 'svelte';
 	import { writable } from 'svelte/store';

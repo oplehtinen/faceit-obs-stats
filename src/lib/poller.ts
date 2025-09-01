@@ -9,7 +9,8 @@ import {
     playerStatsStore,
     pickedMapsStore,
     pickedStatsStore,
-    matchStatsStore
+    matchStatsStore,
+    organizerData
 } from '../stores';
 
 let interval: NodeJS.Timeout | null = null;
@@ -55,6 +56,7 @@ export async function fetchAndUpdate(matchId: string, mockMode: boolean, opts: {
         setIfChanged(pickedMapsStore, data.pickedMaps ?? []);
         setIfChanged(pickedStatsStore, data.pickedStats ?? {});
         setIfChanged(matchStatsStore, data.matchStats ?? null);
+        setIfChanged(organizerData, data.organizerData ?? null);
     } catch (e: any) {
         errorStore.set(e?.message || 'Failed to fetch match data');
     } finally {

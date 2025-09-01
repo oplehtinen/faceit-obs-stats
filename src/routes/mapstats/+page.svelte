@@ -1,5 +1,5 @@
 <script>
-	import MapStats from '../MapStats.svelte';
+	import MapStats from '$lib/components/MapStats.svelte';
 	import MatchIdInput from '$lib/components/MatchIdInput.svelte';
 </script>
 

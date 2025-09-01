@@ -1,25 +1,31 @@
 <script lang="ts">
 	import type { matchDetails, team, teams } from '$lib/dataTypes';
 	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
+	import { 
+		matchDetailsDataStore, 
+		teamsDataStore,
+		organizerData
+	} from '../../stores';
 
-	const match = $page.data.matchDetailsData as matchDetails;
-	const teamData = $page.data.teamsData as teams;
-	const organizerData = $page.data.organizerData;
+	// Use reactive statements to get data from stores
+	$: match = $matchDetailsDataStore as matchDetails | null;
+	$: teamData = $teamsDataStore as teams | null;
+	$: organizerDataValue = $organizerData;
+
 	onMount(() => {
-		console.log($page.data);
+		console.log('ScoreBoard mounted with data:', { match, teamData, organizerDataValue });
 	});
 </script>
 
 <div class="stats shadow w-auto flex bg-opacity-80 justify-between flex-row mt-4">
 	<div class="avatar w-64 stat place-items-center">
 		<div class="w-24 h-24 rounded mix-blend-screen">
-			<img src={teamData?.faction1.avatar} />
+			<img src={teamData?.faction1.avatar} alt="Team 1 logo" />
 		</div>
 	</div>
 	<div class="stat place-items-center">
 		<div class="text-3xl">{teamData?.faction1.name}</div>
-		<div class="stat-value">{match.results?.score?.faction1 || 0}</div>
+		<div class="stat-value">{match?.results?.score?.faction1 || 0}</div>
 	</div>
 	<div class="stat w-64 place-items-center text-primary">
 		<!-- 	<span class="countdown font-mono text-2xl">
@@ -27,17 +33,17 @@
 				<span style="--value:{startTime.seconds};" />
 			</span> -->
 		<div class="w-24 h-24 rounded mix-blend-screen">
-			<img src={organizerData.avatar} />
+			<img src={organizerDataValue?.avatar} alt="Organizer logo" />
 		</div>
 	</div>
 
 	<div class="stat place-items-center">
 		<div class="text-3xl text-info">{teamData?.faction2.name}</div>
-		<div class="stat-value text-info">{match.results?.score?.faction2 || 0}</div>
+		<div class="stat-value text-info">{match?.results?.score?.faction2 || 0}</div>
 	</div>
 	<div class="avatar w-64 stat place-items-center">
 		<div class="w-24 h-24 rounded mix-blend-screen">
-			<img src={teamData?.faction2.avatar} />
+			<img src={teamData?.faction2.avatar} alt="Team 2 logo" />
 		</div>
 	</div>
 </div>

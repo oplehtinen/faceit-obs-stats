@@ -48,7 +48,7 @@
 										{#if player.avatar != ''}
 											<img src={player.avatar} alt="Avatar Tailwind CSS Component" />
 										{:else}
-											<div class="bg-neutral-focus text-neutral-content rounded-full w-24" />
+											<div class="bg-neutral-focus text-neutral-content rounded-full w-24"></div>
 										{/if}
 									</div>
 								</div>
@@ -112,7 +112,7 @@
 											{#if player.avatar != ''}
 												<img src={player.avatar} alt="Avatar Tailwind CSS Component" />
 											{:else}
-												<div class="bg-neutral-focus text-neutral-content rounded-full w-24" />
+												<div class="bg-neutral-focus text-neutral-content rounded-full w-24"></div>
 											{/if}
 										</div>
 									</div>
