@@ -1,5 +1,18 @@
 // Mock data for different match game states based on FACEIT API structure
-import type { matchDetails, matchStats, matchId } from './dataTypes';
+import type {
+	matchDetails,
+	matchStats,
+	matchId,
+	team,
+	player,
+	playerId,
+	teamId,
+	organizerId,
+	tournamentId,
+	mapStatsForTeams,
+	mapData,
+	mapStat
+} from './dataTypes';
 
 // Mock Match IDs for different states
 export const MOCK_MATCH_IDS = {
@@ -12,33 +25,33 @@ export const MOCK_MATCH_IDS = {
 } as const;
 
 // Common team data
-const mockTeam1 = {
-	faction_id: 'team1-id',
+const mockTeam1: team = {
+	faction_id: 'team1-id' as teamId,
 	name: 'Team Alpha',
 	avatar: 'https://example.com/team1-avatar.jpg',
 	roster: [
 		{
-			player_id: 'player1-id',
+			player_id: 'player1-id' as playerId,
 			nickname: 'Alpha1',
 			avatar: 'https://example.com/player1-avatar.jpg',
 		},
 		{
-			player_id: 'player2-id',
+			player_id: 'player2-id' as playerId,
 			nickname: 'Alpha2',
 			avatar: 'https://example.com/player2-avatar.jpg',
 		},
 		{
-			player_id: 'player3-id',
+			player_id: 'player3-id' as playerId,
 			nickname: 'Alpha3',
 			avatar: 'https://example.com/player3-avatar.jpg',
 		},
 		{
-			player_id: 'player4-id',
+			player_id: 'player4-id' as playerId,
 			nickname: 'Alpha4',
 			avatar: 'https://example.com/player4-avatar.jpg',
 		},
 		{
-			player_id: 'player5-id',
+			player_id: 'player5-id' as playerId,
 			nickname: 'Alpha5',
 			avatar: 'https://example.com/player5-avatar.jpg',
 		}
@@ -46,33 +59,33 @@ const mockTeam1 = {
 	score: 0
 };
 
-const mockTeam2 = {
-	faction_id: 'team2-id',
+const mockTeam2: team = {
+	faction_id: 'team2-id' as teamId,
 	name: 'Team Beta',
 	avatar: 'https://example.com/team2-avatar.jpg',
 	roster: [
 		{
-			player_id: 'player6-id',
+			player_id: 'player6-id' as playerId,
 			nickname: 'Beta1',
 			avatar: 'https://example.com/player6-avatar.jpg',
 		},
 		{
-			player_id: 'player7-id',
+			player_id: 'player7-id' as playerId,
 			nickname: 'Beta2',
 			avatar: 'https://example.com/player7-avatar.jpg',
 		},
 		{
-			player_id: 'player8-id',
+			player_id: 'player8-id' as playerId,
 			nickname: 'Beta3',
 			avatar: 'https://example.com/player8-avatar.jpg',
 		},
 		{
-			player_id: 'player9-id',
+			player_id: 'player9-id' as playerId,
 			nickname: 'Beta4',
 			avatar: 'https://example.com/player9-avatar.jpg',
 		},
 		{
-			player_id: 'player10-id',
+			player_id: 'player10-id' as playerId,
 			nickname: 'Beta5',
 			avatar: 'https://example.com/player10-avatar.jpg',
 		}
@@ -84,9 +97,9 @@ const mockTeam2 = {
 export const MOCK_MATCH_DETAILS: Record<string, matchDetails> = {
 	[MOCK_MATCH_IDS.SCHEDULED]: {
 		match_id: MOCK_MATCH_IDS.SCHEDULED,
-		competition_id: 'tournament-123',
+		competition_id: 'tournament-123' as tournamentId,
 		competition_name: 'Test Tournament',
-		organizer_id: 'organizer-123',
+		organizer_id: 'organizer-123' as organizerId,
 		teams: {
 			faction1: { ...mockTeam1 },
 			faction2: { ...mockTeam2 }
@@ -108,12 +121,12 @@ export const MOCK_MATCH_DETAILS: Record<string, matchDetails> = {
 		},
 		status: 'READY' // Match is scheduled but not started
 	},
-	
+
 	[MOCK_MATCH_IDS.ONGOING_MAP1]: {
 		match_id: MOCK_MATCH_IDS.ONGOING_MAP1,
-		competition_id: 'tournament-123',
+		competition_id: 'tournament-123' as tournamentId,
 		competition_name: 'Test Tournament',
-		organizer_id: 'organizer-123',
+		organizer_id: 'organizer-123' as organizerId,
 		teams: {
 			faction1: { ...mockTeam1, score: 8 },
 			faction2: { ...mockTeam2, score: 4 }
@@ -138,9 +151,9 @@ export const MOCK_MATCH_DETAILS: Record<string, matchDetails> = {
 
 	[MOCK_MATCH_IDS.ONGOING_MAP2]: {
 		match_id: MOCK_MATCH_IDS.ONGOING_MAP2,
-		competition_id: 'tournament-123',
+		competition_id: 'tournament-123' as tournamentId,
 		competition_name: 'Test Tournament',
-		organizer_id: 'organizer-123',
+		organizer_id: 'organizer-123' as organizerId,
 		teams: {
 			faction1: { ...mockTeam1, score: 1 },
 			faction2: { ...mockTeam2, score: 1 }
@@ -165,9 +178,9 @@ export const MOCK_MATCH_DETAILS: Record<string, matchDetails> = {
 
 	[MOCK_MATCH_IDS.FINISHED]: {
 		match_id: MOCK_MATCH_IDS.FINISHED,
-		competition_id: 'tournament-123',
+		competition_id: 'tournament-123' as tournamentId,
 		competition_name: 'Test Tournament',
-		organizer_id: 'organizer-123',
+		organizer_id: 'organizer-123' as organizerId,
 		teams: {
 			faction1: { ...mockTeam1, score: 2 },
 			faction2: { ...mockTeam2, score: 1 }
@@ -194,20 +207,20 @@ export const MOCK_MATCH_DETAILS: Record<string, matchDetails> = {
 // Mock match stats (round by round statistics)
 export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 	[MOCK_MATCH_IDS.SCHEDULED]: [], // No stats for scheduled match
-	
+
 	[MOCK_MATCH_IDS.ONGOING_MAP1]: [
 		{
 			match_round: 1,
 			played: true,
 			round_stats: {
-				Winner: 'team1-id',
+				Winner: 'team1-id' as teamId,
 				Rounds: 30,
 				Score: '16-14',
 				Map: 'de_inferno'
 			},
 			teams: [
 				{
-					team_id: 'team1-id',
+					team_id: 'team1-id' as teamId,
 					team_stats: {
 						'Final Score': '16',
 						'Team Win': '1'
@@ -233,7 +246,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 					}))
 				},
 				{
-					team_id: 'team2-id',
+					team_id: 'team2-id' as teamId,
 					team_stats: {
 						'Final Score': '14',
 						'Team Win': '0'
@@ -268,14 +281,14 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 			match_round: 1,
 			played: true,
 			round_stats: {
-				Winner: 'team1-id',
+				Winner: 'team1-id' as teamId,
 				Rounds: 30,
 				Score: '16-14',
 				Map: 'de_inferno'
 			},
 			teams: [
 				{
-					team_id: 'team1-id',
+					team_id: 'team1-id' as teamId,
 					team_stats: {
 						'Final Score': '16',
 						'Team Win': '1'
@@ -301,7 +314,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 					}))
 				},
 				{
-					team_id: 'team2-id',
+					team_id: 'team2-id' as teamId,
 					team_stats: {
 						'Final Score': '14',
 						'Team Win': '0'
@@ -333,14 +346,14 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 			match_round: 2,
 			played: true,
 			round_stats: {
-				Winner: 'team2-id',
+				Winner: 'team2-id' as teamId,
 				Rounds: 28,
 				Score: '13-16',
 				Map: 'de_mirage'
 			},
 			teams: [
 				{
-					team_id: 'team1-id',
+					team_id: 'team1-id' as teamId,
 					team_stats: {
 						'Final Score': '13',
 						'Team Win': '0'
@@ -366,7 +379,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 					}))
 				},
 				{
-					team_id: 'team2-id',
+					team_id: 'team2-id' as teamId,
 					team_stats: {
 						'Final Score': '16',
 						'Team Win': '1'
@@ -405,7 +418,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 			},
 			teams: [
 				{
-					team_id: 'team1-id',
+					team_id: 'team1-id' as teamId,
 					team_stats: {
 						'Final Score': '8',
 						'Team Win': ''
@@ -431,7 +444,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 					}))
 				},
 				{
-					team_id: 'team2-id',
+					team_id: 'team2-id' as teamId,
 					team_stats: {
 						'Final Score': '4',
 						'Team Win': ''
@@ -466,14 +479,14 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 			match_round: 1,
 			played: true,
 			round_stats: {
-				Winner: 'team1-id',
+				Winner: 'team1-id' as teamId,
 				Rounds: 30,
 				Score: '16-14',
 				Map: 'de_inferno'
 			},
 			teams: [
 				{
-					team_id: 'team1-id',
+					team_id: 'team1-id' as teamId,
 					team_stats: {
 						'Final Score': '16',
 						'Team Win': '1'
@@ -499,7 +512,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 					}))
 				},
 				{
-					team_id: 'team2-id',
+					team_id: 'team2-id' as teamId,
 					team_stats: {
 						'Final Score': '14',
 						'Team Win': '0'
@@ -530,14 +543,14 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 			match_round: 2,
 			played: true,
 			round_stats: {
-				Winner: 'team2-id',
+				Winner: 'team2-id' as teamId,
 				Rounds: 28,
 				Score: '13-16',
 				Map: 'de_mirage'
 			},
 			teams: [
 				{
-					team_id: 'team1-id',
+					team_id: 'team1-id' as teamId,
 					team_stats: {
 						'Final Score': '13',
 						'Team Win': '0'
@@ -563,7 +576,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 					}))
 				},
 				{
-					team_id: 'team2-id',
+					team_id: 'team2-id' as teamId,
 					team_stats: {
 						'Final Score': '16',
 						'Team Win': '1'
@@ -594,14 +607,14 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 			match_round: 3,
 			played: true,
 			round_stats: {
-				Winner: 'team1-id',
+				Winner: 'team1-id' as teamId,
 				Rounds: 30,
 				Score: '16-14',
 				Map: 'de_dust2'
 			},
 			teams: [
 				{
-					team_id: 'team1-id',
+					team_id: 'team1-id' as teamId,
 					team_stats: {
 						'Final Score': '16',
 						'Team Win': '1'
@@ -627,7 +640,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 					}))
 				},
 				{
-					team_id: 'team2-id',
+					team_id: 'team2-id' as teamId,
 					team_stats: {
 						'Final Score': '14',
 						'Team Win': '0'
@@ -665,7 +678,7 @@ export const MOCK_ORGANIZER_DATA = {
 };
 
 // Mock team stats for maps
-export const MOCK_TEAM_STATS_FOR_MAPS = {
+export const MOCK_TEAM_STATS_FOR_MAPS: mapStatsForTeams = {
 	Inferno: {
 		label: 'Inferno',
 		img_regular: 'https://example.com/inferno.jpg',
@@ -680,7 +693,7 @@ export const MOCK_TEAM_STATS_FOR_MAPS = {
 				Wins: 3,
 				'Win Rate %': 37.5
 			}
-		]
+		] as [mapStat, mapStat]
 	},
 	Mirage: {
 		label: 'Mirage',
@@ -696,7 +709,7 @@ export const MOCK_TEAM_STATS_FOR_MAPS = {
 				Wins: 9,
 				'Win Rate %': 60
 			}
-		]
+		] as [mapStat, mapStat]
 	},
 	Dust2: {
 		label: 'Dust2',
@@ -712,7 +725,7 @@ export const MOCK_TEAM_STATS_FOR_MAPS = {
 				Wins: 2,
 				'Win Rate %': 33.3
 			}
-		]
+		] as [mapStat, mapStat]
 	}
 };
 

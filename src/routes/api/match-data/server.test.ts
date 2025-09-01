@@ -8,6 +8,7 @@ import {
 	MOCK_TEAM_STATS_FOR_MAPS,
 	MOCK_PLAYER_STATS
 } from '$lib/mockMatchData';
+import type { matchStats as MatchStats } from '$lib/dataTypes';
 
 // Mock the faceit module functions
 vi.mock('$lib/faceit', () => ({
@@ -48,7 +49,7 @@ describe('Match Data API - Different Game States', () => {
 			const mockRequest = { url: mockUrl };
 
 			// Call the API endpoint
-			const response = await GET(mockRequest);
+			const response = await (GET as any)(mockRequest);
 			const data = await response.json();
 
 			// Assertions for scheduled match
@@ -73,7 +74,7 @@ describe('Match Data API - Different Game States', () => {
 			vi.mocked(getTournamentStatsForPlayer).mockResolvedValue(MOCK_PLAYER_STATS);
 
 			const mockUrl = new URL(`http://localhost/api/match-data?matchId=${matchId}`);
-			const response = await GET({ url: mockUrl });
+			const response = await (GET as any)({ url: mockUrl });
 			const data = await response.json();
 
 			// Check team details
@@ -96,7 +97,7 @@ describe('Match Data API - Different Game States', () => {
 			vi.mocked(getTournamentStatsForPlayer).mockResolvedValue(MOCK_PLAYER_STATS);
 
 			const mockUrl = new URL(`http://localhost/api/match-data?matchId=${matchId}`);
-			const response = await GET({ url: mockUrl });
+			const response = await (GET as any)({ url: mockUrl });
 			const data = await response.json();
 
 			// Assertions for ongoing match - first map
@@ -122,7 +123,7 @@ describe('Match Data API - Different Game States', () => {
 			vi.mocked(getTournamentStatsForPlayer).mockResolvedValue(MOCK_PLAYER_STATS);
 
 			const mockUrl = new URL(`http://localhost/api/match-data?matchId=${matchId}`);
-			const response = await GET({ url: mockUrl });
+			const response = await (GET as any)({ url: mockUrl });
 			const data = await response.json();
 
 			// Assertions for ongoing match - second map (series 1-1, third map in progress)
@@ -134,7 +135,7 @@ describe('Match Data API - Different Game States', () => {
 			expect(data.matchDetailsData.teams.faction1.score).toBe(1);
 			expect(data.matchDetailsData.teams.faction2.score).toBe(1);
 			expect(data.matchStats).toHaveLength(3); // Two completed maps + one ongoing
-			
+
 			// Check map completion status
 			expect(data.matchStats[0].played).toBe(true); // First map finished
 			expect(data.matchStats[1].played).toBe(true); // Second map finished
@@ -153,7 +154,7 @@ describe('Match Data API - Different Game States', () => {
 			vi.mocked(getTournamentStatsForPlayer).mockResolvedValue(MOCK_PLAYER_STATS);
 
 			const mockUrl = new URL(`http://localhost/api/match-data?matchId=${matchId}`);
-			const response = await GET({ url: mockUrl });
+			const response = await (GET as any)({ url: mockUrl });
 			const data = await response.json();
 
 			// Check player statistics are present
@@ -185,7 +186,7 @@ describe('Match Data API - Different Game States', () => {
 			vi.mocked(getTournamentStatsForPlayer).mockResolvedValue(MOCK_PLAYER_STATS);
 
 			const mockUrl = new URL(`http://localhost/api/match-data?matchId=${matchId}`);
-			const response = await GET({ url: mockUrl });
+			const response = await (GET as any)({ url: mockUrl });
 			const data = await response.json();
 
 			// Assertions for finished match
@@ -197,9 +198,9 @@ describe('Match Data API - Different Game States', () => {
 			expect(data.matchDetailsData.results.score.faction1).toBe(2);
 			expect(data.matchDetailsData.results.score.faction2).toBe(1);
 			expect(data.matchStats).toHaveLength(3); // All three maps completed
-			
+
 			// All maps should be marked as played
-			data.matchStats.forEach((mapStats) => {
+			data.matchStats.forEach((mapStats: MatchStats) => {
 				expect(mapStats.played).toBe(true);
 			});
 		});
@@ -215,7 +216,7 @@ describe('Match Data API - Different Game States', () => {
 			vi.mocked(getTournamentStatsForPlayer).mockResolvedValue(MOCK_PLAYER_STATS);
 
 			const mockUrl = new URL(`http://localhost/api/match-data?matchId=${matchId}`);
-			const response = await GET({ url: mockUrl });
+			const response = await (GET as any)({ url: mockUrl });
 			const data = await response.json();
 
 			// Check individual map winners
@@ -232,7 +233,7 @@ describe('Match Data API - Different Game States', () => {
 	describe('Error States', () => {
 		it('should return 400 error when matchId is missing', async () => {
 			const mockUrl = new URL('http://localhost/api/match-data');
-			const response = await GET({ url: mockUrl });
+			const response = await (GET as any)({ url: mockUrl });
 			const data = await response.json();
 
 			expect(response.status).toBe(400);
@@ -245,7 +246,7 @@ describe('Match Data API - Different Game States', () => {
 			vi.mocked(getMatchDetails).mockResolvedValue(null);
 
 			const mockUrl = new URL(`http://localhost/api/match-data?matchId=${matchId}`);
-			const response = await GET({ url: mockUrl });
+			const response = await (GET as any)({ url: mockUrl });
 			const data = await response.json();
 
 			expect(response.status).toBe(404);
@@ -262,7 +263,7 @@ describe('Match Data API - Different Game States', () => {
 			});
 
 			const mockUrl = new URL(`http://localhost/api/match-data?matchId=${matchId}`);
-			const response = await GET({ url: mockUrl });
+			const response = await (GET as any)({ url: mockUrl });
 			const data = await response.json();
 
 			expect(response.status).toBe(404);
@@ -276,13 +277,13 @@ describe('Match Data API - Different Game States', () => {
 			vi.mocked(getMatchDetails).mockResolvedValue({
 				...MOCK_MATCH_DETAILS[MOCK_MATCH_IDS.SCHEDULED],
 				teams: {
-					faction1: MOCK_MATCH_DETAILS[MOCK_MATCH_IDS.SCHEDULED].teams.faction1,
+					faction1: (MOCK_MATCH_DETAILS[MOCK_MATCH_IDS.SCHEDULED].teams as any).faction1,
 					faction2: null
 				}
-			});
+			} as any);
 
 			const mockUrl = new URL(`http://localhost/api/match-data?matchId=${matchId}`);
-			const response = await GET({ url: mockUrl });
+			const response = await (GET as any)({ url: mockUrl });
 			const data = await response.json();
 
 			expect(response.status).toBe(404);
@@ -295,7 +296,7 @@ describe('Match Data API - Different Game States', () => {
 			vi.mocked(getMatchDetails).mockRejectedValue(new Error('API Error'));
 
 			const mockUrl = new URL(`http://localhost/api/match-data?matchId=${matchId}`);
-			const response = await GET({ url: mockUrl });
+			const response = await (GET as any)({ url: mockUrl });
 			const data = await response.json();
 
 			expect(response.status).toBe(500);
@@ -308,7 +309,7 @@ describe('Match Data API - Different Game States', () => {
 			vi.mocked(getMatchDetails).mockRejectedValue(new Error('404 Not Found'));
 
 			const mockUrl = new URL(`http://localhost/api/match-data?matchId=${matchId}`);
-			const response = await GET({ url: mockUrl });
+			const response = await (GET as any)({ url: mockUrl });
 			const data = await response.json();
 
 			expect(response.status).toBe(404);
@@ -321,7 +322,7 @@ describe('Match Data API - Different Game States', () => {
 			vi.mocked(getMatchDetails).mockRejectedValue(new Error('401 Unauthorized'));
 
 			const mockUrl = new URL(`http://localhost/api/match-data?matchId=${matchId}`);
-			const response = await GET({ url: mockUrl });
+			const response = await (GET as any)({ url: mockUrl });
 			const data = await response.json();
 
 			expect(response.status).toBe(401);
@@ -342,7 +343,7 @@ describe('Match Data API - Different Game States', () => {
 			vi.mocked(getTournamentStatsForPlayer).mockResolvedValue(MOCK_PLAYER_STATS);
 
 			const mockUrl = new URL(`http://localhost/api/match-data?matchId=${scheduledMatchId}`);
-			const scheduledResponse = await GET({ url: mockUrl });
+			const scheduledResponse = await (GET as any)({ url: mockUrl });
 			const scheduledResult = await scheduledResponse.json();
 
 			expect(scheduledResult.pickedMaps).toHaveLength(3);
@@ -357,7 +358,7 @@ describe('Match Data API - Different Game States', () => {
 			vi.mocked(getMatchStats).mockResolvedValue(MOCK_MATCH_STATS[ongoingMatchId]);
 
 			const ongoingUrl = new URL(`http://localhost/api/match-data?matchId=${ongoingMatchId}`);
-			const ongoingResponse = await GET({ url: ongoingUrl });
+			const ongoingResponse = await (GET as any)({ url: ongoingUrl });
 			const ongoingResult = await ongoingResponse.json();
 
 			expect(ongoingResult.matchDetailsData.started_at).toBeGreaterThan(0);
@@ -376,7 +377,7 @@ describe('Match Data API - Different Game States', () => {
 			vi.mocked(getTournamentStatsForPlayer).mockResolvedValue(MOCK_PLAYER_STATS);
 
 			const mockUrl = new URL(`http://localhost/api/match-data?matchId=${ongoingMap2Id}`);
-			const response = await GET({ url: mockUrl });
+			const response = await (GET as any)({ url: mockUrl });
 			const data = await response.json();
 
 			// Should have 3 map stats: 2 completed + 1 ongoing
@@ -403,7 +404,7 @@ describe('Match Data API - Different Game States', () => {
 			vi.mocked(getTournamentStatsForPlayer).mockResolvedValue(MOCK_PLAYER_STATS);
 
 			const mockUrl = new URL(`http://localhost/api/match-data?matchId=${matchId}`);
-			const response = await GET({ url: mockUrl });
+			const response = await (GET as any)({ url: mockUrl });
 			const data = await response.json();
 
 			// Verify team IDs are consistent across all data structures
@@ -438,12 +439,12 @@ describe('Match Data API - Different Game States', () => {
 			vi.mocked(getTournamentStatsForPlayer).mockResolvedValue(MOCK_PLAYER_STATS);
 
 			const mockUrl = new URL(`http://localhost/api/match-data?matchId=${matchId}`);
-			const response = await GET({ url: mockUrl });
+			const response = await (GET as any)({ url: mockUrl });
 			const data = await response.json();
 
 			// Check that picked maps are processed correctly
 			expect(data.pickedMaps).toEqual(['de_inferno', 'de_mirage', 'de_dust2']);
-			
+
 			// Check that map stats team data is present
 			expect(data.mapStatsTeam).toBeDefined();
 			expect(data.mapStatsTeam).toHaveProperty('Inferno');

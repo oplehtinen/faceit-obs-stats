@@ -1,4 +1,4 @@
-import { json } from '@sveltejs/kit';
+import { json, type RequestHandler } from '@sveltejs/kit';
 import {
 	getMatchDetails,
 	getMatchStats,
@@ -16,7 +16,7 @@ import {
 	MOCK_PLAYER_STATS
 } from '$lib/mockMatchData';
 
-export async function GET({ url }) {
+export const GET: RequestHandler = async ({ url }) => {
 	const matchId = url.searchParams.get('matchId');
 	const useMockData = url.searchParams.get('mock') === 'true';
 
@@ -50,7 +50,7 @@ export async function GET({ url }) {
 					const mapName = 'de_'.concat(key.toLowerCase());
 					for (let i = 0; i < pickedMaps.length; i++) {
 						if (pickedMaps[i] === mapName) {
-							pickedStats[i] = mapStatsTeam[key];
+							pickedStats[i] = mapStatsTeam[key as keyof typeof mapStatsTeam];
 						}
 					}
 				}
@@ -107,7 +107,7 @@ export async function GET({ url }) {
 			const mapName = 'de_'.concat(key.toLowerCase());
 			for (let i = 0; i < pickedMaps.length; i++) {
 				if (pickedMaps[i] === mapName) {
-					pickedStats[i] = mapStatsTeam[key];
+					pickedStats[i] = mapStatsTeam[key as keyof typeof mapStatsTeam];
 				}
 			}
 		}
@@ -137,4 +137,4 @@ export async function GET({ url }) {
 
 		return json({ error: 'Failed to fetch match data' }, { status: 500 });
 	}
-}
+};

@@ -41,7 +41,7 @@ const faceitAPI = async (endpoint: string, log?: boolean) => {
 	return json;
 };
 
-const getMatchDetails = async (id: matchId): Promise<matchDetails> => {
+const getMatchDetails = async (id: matchId): Promise<matchDetails | null> => {
 	const endpoint = `matches/${id}`;
 	const data = await faceitAPI(endpoint);
 	return data;
@@ -59,7 +59,7 @@ const getOrganizerDetails = async (organizerId: string) => {
 	return data;
 };
 
-const getMatchStats = async (matchId: string): Promise<matchStats[]> => {
+const getMatchStats = async (matchId: matchId): Promise<matchStats[]> => {
 	const endpoint = `matches/${matchId}/stats`;
 	const data = await faceitAPI(endpoint);
 	return data.rounds;
@@ -117,10 +117,11 @@ const getTeamStatsForMaps = async (
 		};
 		for (let i = 0; i < tournamentMaps.length; i++) {
 			const mapName = tournamentMaps[i];
+			const mapKey = mapName as keyof typeof staticMapData;
 
 			mapStats[mapName] = {
 				label: mapName,
-				img_regular: staticMapData[mapName].image_lg,
+				img_regular: staticMapData[mapKey].image_lg,
 				map_stats: [emptyMapStat, emptyMapStat]
 			};
 		}
@@ -133,11 +134,11 @@ const getTeamStatsForMaps = async (
 			for (let j = 0; j < maps.length; j++) {
 				const map = maps[j];
 
-				const mapName = map.label;
-				const teamName = 'team' + (i + 1);
-				const mapData: mapData = {
-					img_regular: staticMapData[mapName]?.image_lg || map.img_regular,
-					label: map.label
+				const mapName = map.label as mapName;
+				const mapKey = mapName as keyof typeof staticMapData;
+				const mapDataItem: mapData = {
+					img_regular: staticMapData[mapKey]?.image_lg || map.img_regular,
+					label: map.label as mapName
 				};
 
 				if (!(map && map.stats && map.stats.Matches)) continue;
@@ -152,8 +153,8 @@ const getTeamStatsForMaps = async (
 				if (!tournamentMaps.includes(mapName)) {
 					continue;
 				}
-				mapStats[mapName].label = mapData.label;
-				mapStats[mapName].img_regular = mapData.img_regular;
+				mapStats[mapName].label = mapDataItem.label;
+				mapStats[mapName].img_regular = mapDataItem.img_regular;
 				if (!mapStats[mapName].map_stats) continue;
 				mapStats[mapName].map_stats[i] = mapStat;
 
