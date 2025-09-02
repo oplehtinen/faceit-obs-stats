@@ -15,6 +15,7 @@
 				FACEIT match statistics overlay system for streaming. View detailed match statistics, player
 				performance data, and team comparisons.
 			</p>
+			<!-- Top-left GitHub button is provided by the layout on the home page -->
 			<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
 				<div class="card card-compact bg-base-100 shadow-md">
 					<div class="card-body">

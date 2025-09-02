@@ -12,8 +12,6 @@ Match statistics overlay system for CS2 broadcasting and OBS overlays. Provides 
 - **Player Statistics**: Individual analytics with K/D ratios, ADR, headshot percentages, and performance metrics
 - **FACEIT Integration**: Real-time match data from FACEIT API with automatic match ID extraction
 - **OBS Ready**: Clean overlay interface for broadcasting without input elements
-- **Smart URL Handling**: Supports direct match IDs and full FACEIT URLs
- - **Demo Mode**: Built-in mock scenarios for fast previews
 
 ## Installation
 
