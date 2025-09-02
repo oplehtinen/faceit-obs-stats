@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { expoOut, expoIn } from 'svelte/easing';
 	import { fly } from 'svelte/transition';
+	import Avatar from './Avatar.svelte';
 	export let teamData: any;
 	export let index: number;
 	export let color: string = 'text-primary-content';
@@ -45,11 +46,7 @@
 							<div class="flex items-center space-x-3 mx-5">
 								<div class="avatar">
 									<div class="mask mask-squircle w-12 h-12">
-										{#if player.avatar != ''}
-											<img src={player.avatar} alt="Avatar Tailwind CSS Component" />
-										{:else}
-											<div class="bg-neutral-focus text-neutral-content rounded-full w-24" />
-										{/if}
+										<Avatar src={player.avatar} alt={player.nickname} text={player.nickname} />
 									</div>
 								</div>
 								<div>
@@ -109,11 +106,7 @@
 								<div class="flex content-start flex-row-reverse mx-5">
 									<div class="avatar justify-start">
 										<div class="mask mask-squircle w-12 h-12">
-											{#if player.avatar != ''}
-												<img src={player.avatar} alt="Avatar Tailwind CSS Component" />
-											{:else}
-												<div class="bg-neutral-focus text-neutral-content rounded-full w-24" />
-											{/if}
+											<Avatar src={player.avatar} alt={player.nickname} text={player.nickname} />
 										</div>
 									</div>
 									<div class="mx-5 text-right content-start">

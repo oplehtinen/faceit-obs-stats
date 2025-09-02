@@ -1,29 +1,29 @@
 <script lang="ts">
-	import MapCard from './MapCard.svelte';
-	import type { mapStatsForTeams, team } from '$lib/dataTypes';
+	import { expoIn } from 'svelte/easing';
+	import { fly } from 'svelte/transition';
+	import PlayerTable from './PlayerTable.svelte';
+	import type { teams } from '$lib/dataTypes';
 	import {
 		currentMatchId,
-		mapStatsTeamStore,
+		matchDetailsDataStore,
 		teamsDataStore,
 		loadingStore,
 		errorStore,
 		useMockData
-	} from '../stores';
+	} from '../../stores';
 
-	let mapStatsTeam: mapStatsForTeams | null = null;
-	let teamArr: team[] = [];
+	let teamsData: teams | null = null;
+	let tournamentId: string | null = null;
 	let loading = false;
 	let error = '';
 	let isMockData = false;
-	export { mapStatsTeam };
-	let mapEntries: [string, any][] = [];
+
+	// Export the teamsData so parent can access it
+	export { teamsData };
 
 	// Subscribe to centralized stores (populated by lib/poller)
-	$: mapStatsTeam = $mapStatsTeamStore as mapStatsForTeams | null;
-	$: mapEntries = mapStatsTeam ? Object.entries(mapStatsTeam) : [];
-	$: teamArr = $teamsDataStore
-		? ([$teamsDataStore.faction1, $teamsDataStore.faction2] as team[])
-		: [];
+	$: teamsData = $teamsDataStore as teams | null;
+	$: tournamentId = $matchDetailsDataStore ? $matchDetailsDataStore.competition_id : null;
 	$: loading = $loadingStore;
 	$: error = $errorStore;
 	$: isMockData = $useMockData;
@@ -40,9 +40,9 @@
 	</div>
 {:else if !$currentMatchId}
 	<div class="alert alert-info">
-		<span>Please enter a match ID above to load map stats.</span>
+		<span>Please enter a match ID above to load player stats.</span>
 	</div>
-{:else if mapStatsTeam}
+{:else if teamsData && tournamentId}
 	<!-- Mock data indicator -->
 	{#if isMockData}
 		<div class="alert alert-info mb-4">
@@ -63,11 +63,15 @@
 		</div>
 	{/if}
 
-	<div class="flex flex-wrap justify-around flex-row my-auto gap-2 mx-auto w-6/6 h-5/6">
-		{#each mapEntries as [key, map], i (key)}
-			<div class="m-2">
-				<MapCard data={map} nextMap={false} order={i * 300} teams={teamArr} />
-			</div>
-		{/each}
+	<div class="flex justify-center flex-row flex-grow my-4 w-auto">
+		<div class="grid w-full">
+			<PlayerTable teamData={teamsData.faction1.roster} index={0} color="primary-content" />
+		</div>
+		<div out:fly={{ y: 2000, duration: 500, easing: expoIn }} class="divider divider-horizontal">
+			VS
+		</div>
+		<div class="grid w-full">
+			<PlayerTable teamData={teamsData.faction2.roster} index={1} color="text-info" />
+		</div>
 	</div>
 {/if}

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import WinIcon from './WinIcon.svelte';
+	import Avatar from './Avatar.svelte';
 
 	import { fade, fly } from 'svelte/transition';
 	import { expoIn, expoOut } from 'svelte/easing';
@@ -11,7 +12,7 @@
 	export let playedMap = false;
 	export let picks = false;
 	import { onMount } from 'svelte';
-	const getBetterStats = (winPercent1: number, winPercent2: number) => {
+	const getTeamClass = (winPercent1: number, winPercent2: number) => {
 		if (winPercent1 > winPercent2) {
 			return 'before:!bg-warning-content';
 		} else if (winPercent1 < winPercent2) {
@@ -24,7 +25,7 @@
 
 {#if data.map_stats}
 	<div
-		class="card shadow-xl before:!bg-opacity-90 grid h-16 shrink image-full flex-1 {getBetterStats(
+		class="card shadow-xl before:!bg-opacity-90 grid h-16 shrink image-full flex-1 {getTeamClass(
 			data.map_stats[0]['Win Rate %'],
 			data.map_stats[1]['Win Rate %']
 		)} {nextMap ? 'border-dotted border-2 border-slate-100/[.25]' : ''}"
@@ -48,12 +49,12 @@
 						stat flex flex-row justify-between items-center {i == 1 ? '!flex-row-reverse' : 'flex-row'}"
 					>
 						<div class="stat-figure">
-							<div class="w-16 rounded-full">
-								<img src={teams[i].avatar} alt="logo" />
+							<div class="w-16 rounded-full overflow-hidden">
+								<Avatar src={teams[i].avatar} alt={teams[i].name + ' logo'} text={teams[i].name} />
 							</div>
 						</div>
 						{#if playedMap && data.round_stats}
-							<div class="stat-value text-6xl {i > 0 ? 'text-info' : ''} ">
+							<div class="stat-value w-36 text-6xl {i > 0 ? 'text-info' : ''} ">
 								{data.round_stats[i].team_stats['Final Score']}
 								{#if data.round_stats[i].team_stats['Team Win'] == '1'}
 									<WinIcon></WinIcon>
@@ -61,7 +62,7 @@
 							</div>
 						{:else}
 							<div class="flex flex-col">
-								<div class="stat-value text-5xl {i > 0 ? 'text-info' : ''}">
+								<div class="stat-value w-36 text-5xl {i > 0 ? 'text-info' : ''}">
 									{stat && stat.Matches > 0 ? stat['Win Rate %'] + '%' : '-'}
 								</div>
 								<!-- 	<div class="stat-title text-sm {i > 0 ? 'text-info' : ''}">Voittoprosentti</div> -->

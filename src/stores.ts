@@ -3,7 +3,8 @@ import { writable } from 'svelte/store';
 export const endpointData = writable({});
 export const matchData = writable({});
 export const tournamentData = writable({});
-export const organizerData = writable({});
+// Organizer data can vary by source; keep it permissive
+export const organizerData = writable<any | null>(null);
 export const matchStats = writable({});
 export const tournamentStats = writable({});
 

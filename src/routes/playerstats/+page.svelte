@@ -1,5 +1,5 @@
 <script>
-	import PlayerGeneralStats from '../PlayerGeneralStats.svelte';
+	import PlayerGeneralStats from '$lib/components/PlayerGeneralStats.svelte';
 	import MatchIdInput from '$lib/components/MatchIdInput.svelte';
 </script>
 

@@ -11,15 +11,27 @@
 				'Real-time match simulation. Every fetch returns new values—watch stats and scores change!',
 			status: 'LIVE',
 			badge: 'badge-error'
+		},
+		{
+			id: MOCK_MATCH_IDS.ONE_PLAYED_WAITING,
+			name: 'One Map Finished, Next Not Started',
+			description:
+				'Best-of-2 style: first map finished (1-0), second map not yet started. Use this to verify picks UI.',
+			status: 'READY',
+			badge: 'badge-info'
 		}
 	];
 
 	function viewMapStats(matchId: string) {
-		goto(`/mapstats/view?id=${encodeURIComponent(matchId)}&mock=true`);
+		goto(`/view/mapstats?id=${encodeURIComponent(matchId)}&mock=true`);
 	}
 
 	function viewPlayerStats(matchId: string) {
-		goto(`/playerstats/view?id=${encodeURIComponent(matchId)}&mock=true`);
+		goto(`/view/playerstats?id=${encodeURIComponent(matchId)}&mock=true`);
+	}
+
+	function viewMapPicks(matchId: string) {
+		goto(`/view/mappicks?id=${encodeURIComponent(matchId)}&mock=true`);
 	}
 </script>
 
@@ -89,6 +101,23 @@
 								/>
 							</svg>
 							Map Stats
+						</button>
+						<button class="btn btn-outline btn-sm" on:click={() => viewMapPicks(scenario.id)}>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-4 w-4"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M3 5h2l3 7 3-7h2l-4 10H7L3 5zm12 6h7m-7 4h7"
+								/>
+							</svg>
+							Map Picks
 						</button>
 						<button class="btn btn-primary btn-sm" on:click={() => viewPlayerStats(scenario.id)}>
 							<svg

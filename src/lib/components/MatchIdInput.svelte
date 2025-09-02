@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 
-	export let pageType: 'mapstats' | 'playerstats' = 'mapstats';
+	export let pageType: 'mapstats' | 'playerstats' | 'mappicks' = 'mapstats';
 
 	let inputValue = '';
 
@@ -23,8 +24,8 @@
 	function handleSubmit() {
 		if (inputValue.trim()) {
 			const matchId = extractMatchId(inputValue);
-			// Redirect to the appropriate view page with the match ID as query parameter
-			const redirectUrl = `/${pageType}/view?id=${encodeURIComponent(matchId)}`;
+			// Redirect to the unified view route with the match ID as query parameter
+			const redirectUrl = `${base}/view/${pageType}?id=${encodeURIComponent(matchId)}`;
 			goto(redirectUrl);
 		}
 	}

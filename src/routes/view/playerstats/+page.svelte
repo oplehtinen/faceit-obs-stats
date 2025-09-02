@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { currentMatchId, useMockData } from '../../../stores';
-	import PlayerGeneralStats from '../../PlayerGeneralStats.svelte';
+	import PlayerGeneralStats from '$lib/components/PlayerGeneralStats.svelte';
 
 	let playerStatsComponent;
 
