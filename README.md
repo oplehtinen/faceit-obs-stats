@@ -1,6 +1,11 @@
 # FACEIT OBS Stats
 
 Match statistics overlay system for CS2 broadcasting and OBS overlays. Provides map analytics, player performance, and pick/ban cards.
+
+## Example
+
+![Map Picks view](static/mappicks-sample.png)
+
 ## Features
 
 - **Match Statistics**: Map breakdowns with round wins, team performance, and match results

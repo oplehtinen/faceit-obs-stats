@@ -95,6 +95,17 @@
 				</div>
 			</div>
 
+			<!-- Showcase: mappicks screenshot -->
+			<div class="my-8">
+				<div class="rounded-lg overflow-hidden border border-white/10 shadow-md">
+					<img
+						src={`${base}/mappicks-sample.png`}
+						alt="Map Picks Example"
+						class="w-full object-cover"
+					/>
+				</div>
+			</div>
+
 			<!-- Demo banner -->
 			<div class="alert bg-accent text-accent-content mb-6">
 				<svg
@@ -117,7 +128,7 @@
 						d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
 					/>
 				</svg>
-				<span>Try the app with realistic mock data.</span>
+				<span>Try the app with mock data.</span>
 				<div class="ml-auto">
 					<a href={`${base}/demo`} class="btn btn-sm">View Demo</a>
 				</div>
