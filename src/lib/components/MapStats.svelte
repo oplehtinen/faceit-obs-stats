@@ -63,7 +63,7 @@
 		</div>
 	{/if}
 
-	<div class="flex flex-wrap justify-around flex-row my-auto gap-4 mx-auto w-6/6 h-5/6">
+	<div class="flex flex-wrap justify-around flex-row my-auto gap-4 mx-auto w-5/6 h-4/6">
 		{#each mapEntries as [key, map], i (key)}
 			<div class="m-2">
 				<MapCard data={map} nextMap={false} order={i * 300} teams={teamArr} />
