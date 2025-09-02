@@ -8,7 +8,8 @@ export default {
 			},
 			animation: {
 				text: 'text 7s ease infinite',
-				'bg-pan': 'bg-pan 10s ease infinite'
+				'bg-pan': 'bg-pan 10s ease infinite',
+				'bg-pan-breathe': 'bg-pan 10s ease infinite, text 5s ease infinite'
 			},
 			keyframes: {
 				text: {
