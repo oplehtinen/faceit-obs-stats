@@ -1,7 +1,6 @@
 # FACEIT OBS Stats
 
-Match statistics overlay system for CS2 esports broadcasting and streaming. Provides match analytics, player performance data, and team comparisons.
-
+Match statistics overlay system for CS2 broadcasting and OBS overlays. Provides map analytics, player performance, and pick/ban cards.
 ## Features
 
 - **Match Statistics**: Map breakdowns with round wins, team performance, and match results
@@ -9,14 +8,15 @@ Match statistics overlay system for CS2 esports broadcasting and streaming. Prov
 - **FACEIT Integration**: Real-time match data from FACEIT API with automatic match ID extraction
 - **OBS Ready**: Clean overlay interface for broadcasting without input elements
 - **Smart URL Handling**: Supports direct match IDs and full FACEIT URLs
+ - **Demo Mode**: Built-in mock scenarios for fast previews
 
 ## Installation
 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/oplehtinen/pappaliiga-obs.git
-   cd pappaliiga-obs
+   git clone https://github.com/oplehtinen/faceit-obs-stats.git
+   cd faceit-obs-stats
    ```
 
 2. Install dependencies:
@@ -45,30 +45,33 @@ Match statistics overlay system for CS2 esports broadcasting and streaming. Prov
 
 1. Navigate to statistics page:
 
-   - `/mapstats` for map analysis
-   - `/playerstats` for player metrics
+   - `/mapstats` for map analysis (input page)
+   - `/playerstats` for player metrics (input page)
+   - `/mappicks` for map picks (input page)
 
 2. Enter match data:
 
    - Paste FACEIT match URL or enter match ID directly
 
-3. View statistics on dedicated pages:
-   - `/mapstats/view` or `/playerstats/view`
-   - Clean pages without input elements for OBS
+3. View statistics on dedicated read-only pages:
+   - `/view/mapstats`, `/view/playerstats`, `/view/mappicks`
+   - No input elements; ideal for OBS Browser Source
 
 ### Direct Links
 
 Access statistics directly:
 
-- Map Stats: `https://your-domain.com/mapstats/view?id=MATCH_ID`
-- Player Stats: `https://your-domain.com/playerstats/view?id=MATCH_ID`
+- Map Stats: `https://your-domain.com/view/mapstats?id=MATCH_ID`
+- Player Stats: `https://your-domain.com/view/playerstats?id=MATCH_ID`
+- Map Picks: `https://your-domain.com/view/mappicks?id=MATCH_ID`
 
 ## OBS Integration
 
 1. Add Browser Source in OBS
-2. Set URL to desired page:
-   - Map stats: `http://localhost:5173/mapstats`
-   - Player stats: `http://localhost:5173/playerstats`
+2. Set URL to desired view page:
+   - Map stats: `http://localhost:5173/view/mapstats`
+   - Player stats: `http://localhost:5173/view/playerstats`
+   - Map picks: `http://localhost:5173/view/mappicks`
 3. Set size to match canvas (e.g., 1920×1080)
 4. Right-click source > Interact, paste match ID or URL
 5. Optional: Enable "Shutdown source when not visible" to reset between scenes
@@ -81,7 +84,8 @@ Fetches match data from FACEIT API.
 
 **Parameters:**
 
-- `matchId` (required): FACEIT match ID
+- `matchId` (required)
+- `mock` (optional): `true` enables dynamic mock data
 
 **Response:**
 
@@ -99,32 +103,29 @@ Fetches match data from FACEIT API.
 }
 ```
 
-**Errors:**
-
-- `404`: Match not found
-- `401`: Authentication failed
-- `500`: Server error
+**Errors:** 404 Not Found, 401 Unauthorized, 500 Server Error
 
 ## Project Structure
 
 ```
 src/
 ├── routes/
-│   ├── +layout.svelte           # Main layout
-│   ├── +page.svelte             # Landing page
-│   ├── mapstats/
-│   │   ├── +page.svelte         # Map stats input
-│   │   └── view/+page.svelte    # Map stats display
-│   ├── playerstats/
-│   │   ├── +page.svelte         # Player stats input
-│   │   └── view/+page.svelte    # Player stats display
-│   └── api/
-│       └── match-data/+server.ts # FACEIT API endpoint
+│   ├── +layout.svelte            # Main layout
+│   ├── +page.svelte              # Landing page
+│   ├── mapstats/+page.svelte     # Map stats input
+│   ├── playerstats/+page.svelte  # Player stats input
+│   ├── mappicks/+page.svelte     # Map picks input
+│   ├── view/
+│   │   ├── mapstats/+page.svelte   # Map stats view-only
+│   │   ├── playerstats/+page.svelte # Player stats view-only
+│   │   └── mappicks/+page.svelte    # Map picks view-only
+│   └── api/match-data/+server.ts  # Unified match data endpoint
 ├── lib/
-│   ├── components/
-│   │   └── MatchIdInput.svelte  # Match input component
-│   └── faceit.ts                # FACEIT API client
-└── stores.ts                    # State management
+│   ├── components/               # UI components
+│   ├── poller.ts                 # Centralized polling to stores
+│   ├── faceit.ts                 # FACEIT API client wrappers
+│   └── mockMatchData.ts          # Mock data generators
+└── stores.ts                     # Centralized writable stores
 ```
 
 ## Development
@@ -167,4 +168,4 @@ MIT License - see [LICENSE](LICENSE) file.
 
 ## Support
 
-Use [GitHub Issues](https://github.com/oplehtinen/pappaliiga-obs/issues) for support and feature requests.
+Use [GitHub Issues](https://github.com/oplehtinen/faceit-obs-stats/issues) for support and feature requests.

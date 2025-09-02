@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { base } from '$app/paths';
-	const origin = browser ? window.location.origin : '';
-	const mapStatsUrl = `${origin}${base}/view/mapstats`;
-	const playerStatsUrl = `${origin}${base}/view/playerstats`;
+	// Front page offers links to input pages and read-only view routes
+	const mapStatsView = `${base}/view/mapstats`;
+	const playerStatsView = `${base}/view/playerstats`;
+	const mapPicksView = `${base}/view/mappicks`;
 </script>
 
 <svelte:head>
@@ -19,7 +19,7 @@
 				match statistics, player performance data, and team comparisons.
 			</p>
 
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
 				<div class="card bg-base-100 shadow-xl">
 					<div class="card-body">
 						<h2 class="card-title text-base-content">
@@ -43,9 +43,9 @@
 							View map-by-map statistics including round wins, team performance, and detailed
 							breakdowns for each played map.
 						</p>
-						<div class="card-actions justify-end">
-							<a href={`${base}/mapstats`} class="btn btn-primary">Map Stats (with input)</a>
-							<a href={`${base}/view/mapstats`} class="btn">Map Stats (view only)</a>
+						<div class="card-actions justify-end gap-2">
+							<a href={`${base}/mapstats`} class="btn btn-primary">With input</a>
+							<a href={mapStatsView} class="btn">View only</a>
 						</div>
 					</div>
 				</div>
@@ -73,10 +73,38 @@
 							Player performance analytics including K/D ratios, ADR, headshot percentages, and
 							individual player contributions.
 						</p>
-						<div class="card-actions justify-end">
-							<a href={`${base}/playerstats`} class="btn btn-secondary">Player Stats (with input)</a
+						<div class="card-actions justify-end gap-2">
+							<a href={`${base}/playerstats`} class="btn btn-secondary">With input</a>
+							<a href={playerStatsView} class="btn">View only</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="card bg-base-100 shadow-xl">
+					<div class="card-body">
+						<h2 class="card-title text-base-content">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-6 w-6"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
 							>
-							<a href={`${base}/view/playerstats`} class="btn">Player Stats (view only)</a>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M3 5h2l3 7 3-7h2l-4 10H7L3 5m9 6h7m-7 4h7"
+								/>
+							</svg>
+							Map Picks
+						</h2>
+						<p class="text-primary">
+							View pick/ban map cards showing historical win rates and the next map indicator.
+						</p>
+						<div class="card-actions justify-end gap-2">
+							<a href={`${base}/mappicks`} class="btn">With input</a>
+							<a href={mapPicksView} class="btn">View only</a>
 						</div>
 					</div>
 				</div>
@@ -108,10 +136,7 @@
 						</svg>
 						Demo Mode
 					</h2>
-					<p class="text-white/90">
-						Try the application with realistic mock data! Preview different match scenarios
-						including scheduled, ongoing, and finished matches.
-					</p>
+					<p class="text-white/90">Try realistic mock data with multiple scenarios.</p>
 					<div class="card-actions justify-end">
 						<a href={`${base}/demo`} class="btn btn-white">View Demo</a>
 					</div>
@@ -196,17 +221,16 @@
 						<ol class="list-decimal list-inside space-y-2 text-white/90">
 							<li>
 								In OBS: Sources → + → Browser Source. Set the URL to the page you need:
-								<code class="bg-black/30 px-2 py-1 rounded">/view/mapstats</code> or
-								<code class="bg-black/30 px-2 py-1 rounded">/view/playerstats</code>
-								(Use your full site URL in production, e.g.,
-								<code class="bg-black/30 px-2 py-1 rounded">{mapStatsUrl}</code>).
+								<code class="bg-black/30 px-2 py-1 rounded">/view/mapstats</code>,
+								<code class="bg-black/30 px-2 py-1 rounded">/view/playerstats</code> or
+								<code class="bg-black/30 px-2 py-1 rounded">/view/mappicks</code>.
 							</li>
 							<li>Set size to match your canvas (e.g., 1920×1080). Click OK to add the source.</li>
 							<li>
 								Provide the match via query parameter, e.g.
 								<code class="bg-black/30 px-2 py-1 rounded">/view/mapstats?id=1-abc123...</code>.
-								Alternatively, use the input pages to capture an ID interactively and they will
-								redirect to the view.
+								Alternatively, use the input pages to capture an ID interactively; they will set the
+								centralized state and show the view.
 							</li>
 						</ol>
 						<p class="text-white/60 text-sm">
