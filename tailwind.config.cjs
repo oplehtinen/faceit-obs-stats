@@ -7,7 +7,8 @@ export default {
 				'21/9': '21 / 9'
 			},
 			animation: {
-				text: 'text 7s ease infinite'
+				text: 'text 7s ease infinite',
+				'bg-pan': 'bg-pan 10s ease infinite'
 			},
 			keyframes: {
 				text: {
@@ -19,6 +20,17 @@ export default {
 					},
 					'100%': {
 						'background-size': '150% 150%'
+					}
+				},
+				'bg-pan': {
+					'0%': {
+						'background-position': '0% 0%'
+					},
+					'50%': {
+						'background-position': '100% 100%'
+					},
+					'100%': {
+						'background-position': '0% 0%'
 					}
 				}
 			}

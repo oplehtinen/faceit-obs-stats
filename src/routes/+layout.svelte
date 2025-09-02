@@ -13,7 +13,7 @@
 </script>
 
 <div
-	class={`flex py-2 items-center justify-center ${isHome ? 'min-h-screen' : 'h-screen'} animate-text bg-gradient-to-b from-secondary via-accent to-base-content`}
+	class={`flex py-2 items-center justify-center ${isHome ? 'min-h-screen' : 'h-screen'} bg-gradient-to-br from-secondary/35 via-accent/40 to-base-content/35 bg-[length:250%_250%] animate-bg-pan`}
 >
 	<div
 		class={`container-fluid mx-auto my-4 px-8 gap-4 flex flex-col w-full justify-evenly ${isHome ? '' : 'h-full'}`}
