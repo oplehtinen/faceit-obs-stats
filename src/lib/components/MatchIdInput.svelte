@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 
-	export let pageType: 'mapstats' | 'playerstats' = 'mapstats';
+	export let pageType: 'mapstats' | 'playerstats' | 'mappicks' = 'mapstats';
 
 	let inputValue = '';
 
