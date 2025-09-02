@@ -12,8 +12,5 @@
 			<ScoreBoard />
 		</div>
 	{/if}
-
-	<div class="flex-grow">
-		<slot />
-	</div>
+	<slot />
 </div>

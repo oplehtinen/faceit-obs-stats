@@ -36,7 +36,7 @@
 	<div class="stat place-items-center">
 		<div class="text-3xl text-info">{teamData?.faction2.name}</div>
 		<div class="text-6xl font-bold text-info leading-none">
-			{match?.results?.score?.faction1 || 0}
+			{match?.results?.score?.faction2 || 0}
 		</div>
 	</div>
 	<div class="avatar w-64 stat place-items-center">

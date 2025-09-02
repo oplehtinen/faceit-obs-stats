@@ -1,14 +1,9 @@
 <script lang="ts">
-	import ScoreBoard from '$lib/components/ScoreBoard.svelte';
-	import MapStats from '$lib/components/MapStats.svelte';
-	import PlayerGeneralStats from '$lib/components/PlayerGeneralStats.svelte';
-	import MapPicks from '$lib/components/MapPicks.svelte';
 	import { browser } from '$app/environment';
 	import { base } from '$app/paths';
-	import { page } from '$app/state';
 	const origin = browser ? window.location.origin : '';
-	const mapStatsUrl = `${origin}${base}/mapstats`;
-	const playerStatsUrl = `${origin}${base}/playerstats`;
+	const mapStatsUrl = `${origin}${base}/view/mapstats`;
+	const playerStatsUrl = `${origin}${base}/view/playerstats`;
 </script>
 
 <svelte:head>
@@ -49,7 +44,8 @@
 							breakdowns for each played map.
 						</p>
 						<div class="card-actions justify-end">
-							<a href="/mapstats" class="btn btn-primary">View Map Stats</a>
+							<a href={`${base}/mapstats`} class="btn btn-primary">Map Stats (with input)</a>
+							<a href={`${base}/view/mapstats`} class="btn">Map Stats (view only)</a>
 						</div>
 					</div>
 				</div>
@@ -78,7 +74,9 @@
 							individual player contributions.
 						</p>
 						<div class="card-actions justify-end">
-							<a href="/playerstats" class="btn btn-secondary">View Player Stats</a>
+							<a href={`${base}/playerstats`} class="btn btn-secondary">Player Stats (with input)</a
+							>
+							<a href={`${base}/view/playerstats`} class="btn">Player Stats (view only)</a>
 						</div>
 					</div>
 				</div>
@@ -115,7 +113,7 @@
 						including scheduled, ongoing, and finished matches.
 					</p>
 					<div class="card-actions justify-end">
-						<a href="/demo" class="btn btn-white">View Demo</a>
+						<a href={`${base}/demo`} class="btn btn-white">View Demo</a>
 					</div>
 				</div>
 			</div>
@@ -192,20 +190,23 @@
 					</h2>
 					<div class="text-left space-y-3">
 						<p class="text-white/80">
-							Use this app directly in OBS as a Browser Source and input your match ID via Interact.
+							Use this app directly in OBS as a Browser Source. For production overlays, prefer the
+							read-only view routes.
 						</p>
 						<ol class="list-decimal list-inside space-y-2 text-white/90">
 							<li>
 								In OBS: Sources → + → Browser Source. Set the URL to the page you need:
-								<code class="bg-black/30 px-2 py-1 rounded">/mapstats</code> or
-								<code class="bg-black/30 px-2 py-1 rounded">/playerstats</code>
+								<code class="bg-black/30 px-2 py-1 rounded">/view/mapstats</code> or
+								<code class="bg-black/30 px-2 py-1 rounded">/view/playerstats</code>
 								(Use your full site URL in production, e.g.,
 								<code class="bg-black/30 px-2 py-1 rounded">{mapStatsUrl}</code>).
 							</li>
 							<li>Set size to match your canvas (e.g., 1920×1080). Click OK to add the source.</li>
 							<li>
-								Right‑click the Browser Source → Interact…, then paste your FACEIT match ID or full
-								match URL and submit.
+								Provide the match via query parameter, e.g.
+								<code class="bg-black/30 px-2 py-1 rounded">/view/mapstats?id=1-abc123...</code>.
+								Alternatively, use the input pages to capture an ID interactively and they will
+								redirect to the view.
 							</li>
 						</ol>
 						<p class="text-white/60 text-sm">
@@ -219,6 +220,4 @@
 	</div>
 </div>
 
-<!-- <MapStats /> -->
-<!-- <MapPicks /> -->
-<!-- <PlayerGeneralStats  /> -->
+<!-- View components are available under /view/* routes; input pages under /mapstats and /playerstats. -->
