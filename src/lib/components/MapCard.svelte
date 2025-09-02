@@ -11,7 +11,7 @@
 	export let playedMap = false;
 	export let picks = false;
 	import { onMount } from 'svelte';
-	const getBetterStats = (winPercent1: number, winPercent2: number) => {
+	const getTeamClass = (winPercent1: number, winPercent2: number) => {
 		if (winPercent1 > winPercent2) {
 			return 'before:!bg-warning-content';
 		} else if (winPercent1 < winPercent2) {
@@ -24,7 +24,7 @@
 
 {#if data.map_stats}
 	<div
-		class="card shadow-xl before:!bg-opacity-90 grid h-16 shrink image-full flex-1 {getBetterStats(
+		class="card shadow-xl before:!bg-opacity-90 grid h-16 shrink image-full flex-1 {getTeamClass(
 			data.map_stats[0]['Win Rate %'],
 			data.map_stats[1]['Win Rate %']
 		)} {nextMap ? 'border-dotted border-2 border-slate-100/[.25]' : ''}"
@@ -53,7 +53,7 @@
 							</div>
 						</div>
 						{#if playedMap && data.round_stats}
-							<div class="stat-value text-6xl {i > 0 ? 'text-info' : ''} ">
+							<div class="stat-value w-36 text-6xl {i > 0 ? 'text-info' : ''} ">
 								{data.round_stats[i].team_stats['Final Score']}
 								{#if data.round_stats[i].team_stats['Team Win'] == '1'}
 									<WinIcon></WinIcon>
@@ -61,7 +61,7 @@
 							</div>
 						{:else}
 							<div class="flex flex-col">
-								<div class="stat-value text-5xl {i > 0 ? 'text-info' : ''}">
+								<div class="stat-value w-36 text-5xl {i > 0 ? 'text-info' : ''}">
 									{stat && stat.Matches > 0 ? stat['Win Rate %'] + '%' : '-'}
 								</div>
 								<!-- 	<div class="stat-title text-sm {i > 0 ? 'text-info' : ''}">Voittoprosentti</div> -->
