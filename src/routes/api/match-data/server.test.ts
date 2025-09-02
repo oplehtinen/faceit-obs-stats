@@ -190,7 +190,9 @@ describe('Match Data API - Dynamic Mock Mode', () => {
 
 	describe('Data Consistency', () => {
 		it('should maintain consistent team data across all endpoints', async () => {
-			const mockUrl = new URL(`http://localhost/api/match-data?matchId=${MOCK_MATCH_IDS.LIVE_UPDATING}&mock=true`);
+			const mockUrl = new URL(
+				`http://localhost/api/match-data?matchId=${MOCK_MATCH_IDS.LIVE_UPDATING}&mock=true`
+			);
 			const response = await (GET as any)({ url: mockUrl });
 			const data = await response.json();
 
@@ -216,7 +218,9 @@ describe('Match Data API - Dynamic Mock Mode', () => {
 		});
 
 		it('should have valid map stats processing', async () => {
-			const mockUrl = new URL(`http://localhost/api/match-data?matchId=${MOCK_MATCH_IDS.LIVE_UPDATING}&mock=true`);
+			const mockUrl = new URL(
+				`http://localhost/api/match-data?matchId=${MOCK_MATCH_IDS.LIVE_UPDATING}&mock=true`
+			);
 			const response = await (GET as any)({ url: mockUrl });
 			const data = await response.json();
 

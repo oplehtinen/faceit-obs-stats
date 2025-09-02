@@ -34,27 +34,27 @@ const mockTeam1: team = {
 		{
 			player_id: 'player1-id' as playerId,
 			nickname: 'Alpha1',
-			avatar: 'https://example.com/player1-avatar.jpg',
+			avatar: 'https://example.com/player1-avatar.jpg'
 		},
 		{
 			player_id: 'player2-id' as playerId,
 			nickname: 'Alpha2',
-			avatar: 'https://example.com/player2-avatar.jpg',
+			avatar: 'https://example.com/player2-avatar.jpg'
 		},
 		{
 			player_id: 'player3-id' as playerId,
 			nickname: 'Alpha3',
-			avatar: 'https://example.com/player3-avatar.jpg',
+			avatar: 'https://example.com/player3-avatar.jpg'
 		},
 		{
 			player_id: 'player4-id' as playerId,
 			nickname: 'Alpha4',
-			avatar: 'https://example.com/player4-avatar.jpg',
+			avatar: 'https://example.com/player4-avatar.jpg'
 		},
 		{
 			player_id: 'player5-id' as playerId,
 			nickname: 'Alpha5',
-			avatar: 'https://example.com/player5-avatar.jpg',
+			avatar: 'https://example.com/player5-avatar.jpg'
 		}
 	],
 	score: 0
@@ -68,27 +68,27 @@ const mockTeam2: team = {
 		{
 			player_id: 'player6-id' as playerId,
 			nickname: 'Beta1',
-			avatar: 'https://example.com/player6-avatar.jpg',
+			avatar: 'https://example.com/player6-avatar.jpg'
 		},
 		{
 			player_id: 'player7-id' as playerId,
 			nickname: 'Beta2',
-			avatar: 'https://example.com/player7-avatar.jpg',
+			avatar: 'https://example.com/player7-avatar.jpg'
 		},
 		{
 			player_id: 'player8-id' as playerId,
 			nickname: 'Beta3',
-			avatar: 'https://example.com/player8-avatar.jpg',
+			avatar: 'https://example.com/player8-avatar.jpg'
 		},
 		{
 			player_id: 'player9-id' as playerId,
 			nickname: 'Beta4',
-			avatar: 'https://example.com/player9-avatar.jpg',
+			avatar: 'https://example.com/player9-avatar.jpg'
 		},
 		{
 			player_id: 'player10-id' as playerId,
 			nickname: 'Beta5',
-			avatar: 'https://example.com/player10-avatar.jpg',
+			avatar: 'https://example.com/player10-avatar.jpg'
 		}
 	],
 	score: 0
@@ -202,8 +202,7 @@ export const MOCK_MATCH_DETAILS: Record<string, matchDetails> = {
 			}
 		},
 		status: 'FINISHED' // Match is completed
-	}
-	,
+	},
 	[MOCK_MATCH_IDS.LIVE_UPDATING]: {
 		match_id: MOCK_MATCH_IDS.LIVE_UPDATING,
 		competition_id: 'tournament-live' as tournamentId,
@@ -254,7 +253,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 						'Final Score': '16',
 						'Team Win': '1'
 					},
-					players: mockTeam1.roster.map(player => ({
+					players: mockTeam1.roster.map((player) => ({
 						player_id: player.player_id,
 						nickname: player.nickname,
 						avatar: player.avatar,
@@ -280,7 +279,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 						'Final Score': '14',
 						'Team Win': '0'
 					},
-					players: mockTeam2.roster.map(player => ({
+					players: mockTeam2.roster.map((player) => ({
 						player_id: player.player_id,
 						nickname: player.nickname,
 						avatar: player.avatar,
@@ -322,7 +321,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 						'Final Score': '16',
 						'Team Win': '1'
 					},
-					players: mockTeam1.roster.map(player => ({
+					players: mockTeam1.roster.map((player) => ({
 						player_id: player.player_id,
 						nickname: player.nickname,
 						avatar: player.avatar,
@@ -348,7 +347,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 						'Final Score': '14',
 						'Team Win': '0'
 					},
-					players: mockTeam2.roster.map(player => ({
+					players: mockTeam2.roster.map((player) => ({
 						player_id: player.player_id,
 						nickname: player.nickname,
 						avatar: player.avatar,
@@ -387,7 +386,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 						'Final Score': '13',
 						'Team Win': '0'
 					},
-					players: mockTeam1.roster.map(player => ({
+					players: mockTeam1.roster.map((player) => ({
 						player_id: player.player_id,
 						nickname: player.nickname,
 						avatar: player.avatar,
@@ -413,7 +412,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 						'Final Score': '16',
 						'Team Win': '1'
 					},
-					players: mockTeam2.roster.map(player => ({
+					players: mockTeam2.roster.map((player) => ({
 						player_id: player.player_id,
 						nickname: player.nickname,
 						avatar: player.avatar,
@@ -452,7 +451,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 						'Final Score': '8',
 						'Team Win': ''
 					},
-					players: mockTeam1.roster.map(player => ({
+					players: mockTeam1.roster.map((player) => ({
 						player_id: player.player_id,
 						nickname: player.nickname,
 						avatar: player.avatar,
@@ -478,7 +477,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 						'Final Score': '4',
 						'Team Win': ''
 					},
-					players: mockTeam2.roster.map(player => ({
+					players: mockTeam2.roster.map((player) => ({
 						player_id: player.player_id,
 						nickname: player.nickname,
 						avatar: player.avatar,
@@ -520,7 +519,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 						'Final Score': '16',
 						'Team Win': '1'
 					},
-					players: mockTeam1.roster.map(player => ({
+					players: mockTeam1.roster.map((player) => ({
 						player_id: player.player_id,
 						nickname: player.nickname,
 						avatar: player.avatar,
@@ -546,7 +545,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 						'Final Score': '14',
 						'Team Win': '0'
 					},
-					players: mockTeam2.roster.map(player => ({
+					players: mockTeam2.roster.map((player) => ({
 						player_id: player.player_id,
 						nickname: player.nickname,
 						avatar: player.avatar,
@@ -584,7 +583,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 						'Final Score': '13',
 						'Team Win': '0'
 					},
-					players: mockTeam1.roster.map(player => ({
+					players: mockTeam1.roster.map((player) => ({
 						player_id: player.player_id,
 						nickname: player.nickname,
 						avatar: player.avatar,
@@ -610,7 +609,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 						'Final Score': '16',
 						'Team Win': '1'
 					},
-					players: mockTeam2.roster.map(player => ({
+					players: mockTeam2.roster.map((player) => ({
 						player_id: player.player_id,
 						nickname: player.nickname,
 						avatar: player.avatar,
@@ -648,7 +647,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 						'Final Score': '16',
 						'Team Win': '1'
 					},
-					players: mockTeam1.roster.map(player => ({
+					players: mockTeam1.roster.map((player) => ({
 						player_id: player.player_id,
 						nickname: player.nickname,
 						avatar: player.avatar,
@@ -674,7 +673,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 						'Final Score': '14',
 						'Team Win': '0'
 					},
-					players: mockTeam2.roster.map(player => ({
+					players: mockTeam2.roster.map((player) => ({
 						player_id: player.player_id,
 						nickname: player.nickname,
 						avatar: player.avatar,
@@ -696,8 +695,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 				}
 			]
 		}
-	]
-	,
+	],
 	[MOCK_MATCH_IDS.LIVE_UPDATING]: [
 		{
 			match_round: 1,
@@ -715,7 +713,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 						'Final Score': '9',
 						'Team Win': ''
 					},
-					players: mockTeam1.roster.map(player => ({
+					players: mockTeam1.roster.map((player) => ({
 						player_id: player.player_id,
 						nickname: player.nickname,
 						avatar: player.avatar,
@@ -741,7 +739,7 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 						'Final Score': '7',
 						'Team Win': ''
 					},
-					players: mockTeam2.roster.map(player => ({
+					players: mockTeam2.roster.map((player) => ({
 						player_id: player.player_id,
 						nickname: player.nickname,
 						avatar: player.avatar,
@@ -830,7 +828,7 @@ export const MOCK_TEAM_STATS_FOR_MAPS: mapStatsForTeams = {
 export function generatePlayerTournamentStats() {
 	const faction1 = {
 		...mockTeam1,
-		roster: mockTeam1.roster.map(player => ({
+		roster: mockTeam1.roster.map((player) => ({
 			...player,
 			stats: {
 				'K/D Ratio': Number((Math.random() * 0.5 + 0.8).toFixed(2)), // 0.8 - 1.3
@@ -844,7 +842,7 @@ export function generatePlayerTournamentStats() {
 
 	const faction2 = {
 		...mockTeam2,
-		roster: mockTeam2.roster.map(player => ({
+		roster: mockTeam2.roster.map((player) => ({
 			...player,
 			stats: {
 				'K/D Ratio': Number((Math.random() * 0.5 + 0.8).toFixed(2)),
@@ -857,10 +855,10 @@ export function generatePlayerTournamentStats() {
 	};
 
 	// Calculate wins based on win rate for each faction
-	faction1.roster.forEach(player => {
+	faction1.roster.forEach((player) => {
 		player.stats.Wins = Math.floor(player.stats.Matches * (player.stats['Win Rate %'] / 100));
 	});
-	faction2.roster.forEach(player => {
+	faction2.roster.forEach((player) => {
 		player.stats.Wins = Math.floor(player.stats.Matches * (player.stats['Win Rate %'] / 100));
 	});
 
@@ -923,96 +921,103 @@ export function generateLiveUpdatingData(): { details: matchDetails; stats: matc
 				faction2: team2Score >= 16 ? 1 : 0
 			}
 		},
-		status: (team1Score >= 16 || team2Score >= 16) ? 'FINISHED' : 'ONGOING'
+		status: team1Score >= 16 || team2Score >= 16 ? 'FINISHED' : 'ONGOING'
 	};
 
 	// Generate dynamic player stats based on current progress
 	const progressRatio = totalRounds / 30; // How far through the match we are
 
-	const stats: matchStats[] = [{
-		match_round: 1,
-		played: team1Score >= 16 || team2Score >= 16,
-		round_stats: {
-			Winner: team1Score >= 16 ? 'team1-id' as teamId : team2Score >= 16 ? 'team2-id' as teamId : '',
-			Rounds: totalRounds,
-			Score: `${team1Score}-${team2Score}`,
-			Map: 'de_inferno'
-		},
-		teams: [
-			{
-				team_id: 'team1-id' as teamId,
-				team_stats: {
-					'Final Score': team1Score.toString(),
-					'Team Win': team1Score >= 16 ? '1' : ''
-				},
-				players: mockTeam1.roster.map(player => {
-					// Dynamic stats that increase over time
-					const baseKills = 8;
-					const baseDeaths = 6;
-					const kills = Math.floor(baseKills + (progressRatio * 12)); // 8-20 kills
-					const deaths = Math.floor(baseDeaths + (progressRatio * 10)); // 6-16 deaths
-					const headshots = Math.floor(kills * (0.35 + Math.random() * 0.15)); // 35-50% HS rate
-					const mvps = Math.floor(progressRatio * 5); // 0-5 MVPs
-
-					return {
-						player_id: player.player_id,
-						nickname: player.nickname,
-						avatar: player.avatar,
-						player_stats: {
-							'Quadro Kills': Math.floor(Math.random() * progressRatio * 2), // 0-2
-							MVPs: mvps,
-							Result: team1Score >= 16 ? 1 : 0,
-							'Penta Kills': progressRatio > 0.8 ? Math.floor(Math.random() * 2) : 0,
-							'K/D Ratio': Number((kills / Math.max(deaths, 1)).toFixed(2)),
-							Kills: kills,
-							'Triple Kills': Math.floor(progressRatio * 3), // 0-3
-							'K/R Ratio': Number((kills / Math.max(totalRounds, 1)).toFixed(2)),
-							Headshots: headshots,
-							Deaths: deaths,
-							'Headshots %': Math.floor((headshots / Math.max(kills, 1)) * 100),
-							Assists: Math.floor(progressRatio * 8) // 0-8 assists
-						}
-					};
-				})
+	const stats: matchStats[] = [
+		{
+			match_round: 1,
+			played: team1Score >= 16 || team2Score >= 16,
+			round_stats: {
+				Winner:
+					team1Score >= 16
+						? ('team1-id' as teamId)
+						: team2Score >= 16
+							? ('team2-id' as teamId)
+							: '',
+				Rounds: totalRounds,
+				Score: `${team1Score}-${team2Score}`,
+				Map: 'de_inferno'
 			},
-			{
-				team_id: 'team2-id' as teamId,
-				team_stats: {
-					'Final Score': team2Score.toString(),
-					'Team Win': team2Score >= 16 ? '1' : ''
-				},
-				players: mockTeam2.roster.map(player => {
-					// Slightly worse stats for team2 (they're losing)
-					const baseKills = 6;
-					const baseDeaths = 8;
-					const kills = Math.floor(baseKills + (progressRatio * 10)); // 6-16 kills
-					const deaths = Math.floor(baseDeaths + (progressRatio * 12)); // 8-20 deaths
-					const headshots = Math.floor(kills * (0.30 + Math.random() * 0.15)); // 30-45% HS rate
-					const mvps = Math.floor(progressRatio * 3); // 0-3 MVPs
+			teams: [
+				{
+					team_id: 'team1-id' as teamId,
+					team_stats: {
+						'Final Score': team1Score.toString(),
+						'Team Win': team1Score >= 16 ? '1' : ''
+					},
+					players: mockTeam1.roster.map((player) => {
+						// Dynamic stats that increase over time
+						const baseKills = 8;
+						const baseDeaths = 6;
+						const kills = Math.floor(baseKills + progressRatio * 12); // 8-20 kills
+						const deaths = Math.floor(baseDeaths + progressRatio * 10); // 6-16 deaths
+						const headshots = Math.floor(kills * (0.35 + Math.random() * 0.15)); // 35-50% HS rate
+						const mvps = Math.floor(progressRatio * 5); // 0-5 MVPs
 
-					return {
-						player_id: player.player_id,
-						nickname: player.nickname,
-						avatar: player.avatar,
-						player_stats: {
-							'Quadro Kills': Math.floor(Math.random() * progressRatio * 1.5), // 0-1
-							MVPs: mvps,
-							Result: team2Score >= 16 ? 1 : 0,
-							'Penta Kills': 0,
-							'K/D Ratio': Number((kills / Math.max(deaths, 1)).toFixed(2)),
-							Kills: kills,
-							'Triple Kills': Math.floor(progressRatio * 2), // 0-2
-							'K/R Ratio': Number((kills / Math.max(totalRounds, 1)).toFixed(2)),
-							Headshots: headshots,
-							Deaths: deaths,
-							'Headshots %': Math.floor((headshots / Math.max(kills, 1)) * 100),
-							Assists: Math.floor(progressRatio * 6) // 0-6 assists
-						}
-					};
-				})
-			}
-		]
-	}];
+						return {
+							player_id: player.player_id,
+							nickname: player.nickname,
+							avatar: player.avatar,
+							player_stats: {
+								'Quadro Kills': Math.floor(Math.random() * progressRatio * 2), // 0-2
+								MVPs: mvps,
+								Result: team1Score >= 16 ? 1 : 0,
+								'Penta Kills': progressRatio > 0.8 ? Math.floor(Math.random() * 2) : 0,
+								'K/D Ratio': Number((kills / Math.max(deaths, 1)).toFixed(2)),
+								Kills: kills,
+								'Triple Kills': Math.floor(progressRatio * 3), // 0-3
+								'K/R Ratio': Number((kills / Math.max(totalRounds, 1)).toFixed(2)),
+								Headshots: headshots,
+								Deaths: deaths,
+								'Headshots %': Math.floor((headshots / Math.max(kills, 1)) * 100),
+								Assists: Math.floor(progressRatio * 8) // 0-8 assists
+							}
+						};
+					})
+				},
+				{
+					team_id: 'team2-id' as teamId,
+					team_stats: {
+						'Final Score': team2Score.toString(),
+						'Team Win': team2Score >= 16 ? '1' : ''
+					},
+					players: mockTeam2.roster.map((player) => {
+						// Slightly worse stats for team2 (they're losing)
+						const baseKills = 6;
+						const baseDeaths = 8;
+						const kills = Math.floor(baseKills + progressRatio * 10); // 6-16 kills
+						const deaths = Math.floor(baseDeaths + progressRatio * 12); // 8-20 deaths
+						const headshots = Math.floor(kills * (0.3 + Math.random() * 0.15)); // 30-45% HS rate
+						const mvps = Math.floor(progressRatio * 3); // 0-3 MVPs
+
+						return {
+							player_id: player.player_id,
+							nickname: player.nickname,
+							avatar: player.avatar,
+							player_stats: {
+								'Quadro Kills': Math.floor(Math.random() * progressRatio * 1.5), // 0-1
+								MVPs: mvps,
+								Result: team2Score >= 16 ? 1 : 0,
+								'Penta Kills': 0,
+								'K/D Ratio': Number((kills / Math.max(deaths, 1)).toFixed(2)),
+								Kills: kills,
+								'Triple Kills': Math.floor(progressRatio * 2), // 0-2
+								'K/R Ratio': Number((kills / Math.max(totalRounds, 1)).toFixed(2)),
+								Headshots: headshots,
+								Deaths: deaths,
+								'Headshots %': Math.floor((headshots / Math.max(kills, 1)) * 100),
+								Assists: Math.floor(progressRatio * 6) // 0-6 assists
+							}
+						};
+					})
+				}
+			]
+		}
+	];
 
 	return { details, stats };
 }
@@ -1026,7 +1031,11 @@ export function generateMapStatsForTeams(): mapStatsForTeams {
 			const winRate = Number(((wins / Math.max(matches, 1)) * 100).toFixed(1));
 			return { Matches: matches, Wins: wins, 'Win Rate %': winRate } as mapStat;
 		};
-		return { label, img_regular: `https://example.com/${label.toLowerCase()}.jpg`, map_stats: [mk(), mk()] as [mapStat, mapStat] };
+		return {
+			label,
+			img_regular: `https://example.com/${label.toLowerCase()}.jpg`,
+			map_stats: [mk(), mk()] as [mapStat, mapStat]
+		};
 	};
 	return {
 		Inferno: makeMap('Inferno'),
@@ -1041,7 +1050,7 @@ export function generateAlwaysNewMockData(): { details: matchDetails; stats: mat
 	const rounds = Math.floor(Math.random() * 30) + 1; // 1-30
 	const scoreA = Math.floor(Math.random() * (rounds + 1));
 	const scoreB = rounds - scoreA;
-	const winner = scoreA === scoreB ? '' : (scoreA > scoreB ? 'team1-id' : 'team2-id');
+	const winner = scoreA === scoreB ? '' : scoreA > scoreB ? 'team1-id' : 'team2-id';
 	const maps = ['de_inferno', 'de_mirage', 'de_dust2'];
 	const picked = maps.slice();
 
@@ -1091,17 +1100,38 @@ export function generateAlwaysNewMockData(): { details: matchDetails; stats: mat
 		{
 			match_round: 1,
 			played: false,
-			round_stats: { Winner: winner as any, Rounds: rounds, Score: `${scoreA}-${scoreB}`, Map: maps[0] },
+			round_stats: {
+				Winner: winner as any,
+				Rounds: rounds,
+				Score: `${scoreA}-${scoreB}`,
+				Map: maps[0]
+			},
 			teams: [
 				{
 					team_id: 'team1-id' as teamId,
-					team_stats: { 'Final Score': String(scoreA), 'Team Win': winner === 'team1-id' ? '1' : '' },
-					players: mockTeam1.roster.map(p => ({ player_id: p.player_id, nickname: p.nickname, avatar: p.avatar, player_stats: mkPlayerStats(1) }))
+					team_stats: {
+						'Final Score': String(scoreA),
+						'Team Win': winner === 'team1-id' ? '1' : ''
+					},
+					players: mockTeam1.roster.map((p) => ({
+						player_id: p.player_id,
+						nickname: p.nickname,
+						avatar: p.avatar,
+						player_stats: mkPlayerStats(1)
+					}))
 				},
 				{
 					team_id: 'team2-id' as teamId,
-					team_stats: { 'Final Score': String(scoreB), 'Team Win': winner === 'team2-id' ? '1' : '' },
-					players: mockTeam2.roster.map(p => ({ player_id: p.player_id, nickname: p.nickname, avatar: p.avatar, player_stats: mkPlayerStats(0) }))
+					team_stats: {
+						'Final Score': String(scoreB),
+						'Team Win': winner === 'team2-id' ? '1' : ''
+					},
+					players: mockTeam2.roster.map((p) => ({
+						player_id: p.player_id,
+						nickname: p.nickname,
+						avatar: p.avatar,
+						player_stats: mkPlayerStats(0)
+					}))
 				}
 			]
 		}

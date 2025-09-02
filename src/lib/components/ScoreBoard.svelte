@@ -1,11 +1,7 @@
 <script lang="ts">
 	import type { matchDetails, team, teams } from '$lib/dataTypes';
 	import { onMount } from 'svelte';
-	import { 
-		matchDetailsDataStore, 
-		teamsDataStore,
-		organizerData
-	} from '../../stores';
+	import { matchDetailsDataStore, teamsDataStore, organizerData } from '../../stores';
 
 	// Use reactive statements to get data from stores
 	$: match = $matchDetailsDataStore as matchDetails | null;

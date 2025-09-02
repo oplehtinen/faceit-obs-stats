@@ -13,22 +13,26 @@ Match statistics overlay system for CS2 esports broadcasting and streaming. Prov
 ## Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/oplehtinen/pappaliiga-obs.git
    cd pappaliiga-obs
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
 
 3. Create `.env` file:
+
    ```bash
    FACEIT_API_KEY=your_faceit_api_key_here
    ```
 
 4. Start development server:
+
    ```bash
    npm run dev
    ```
@@ -40,10 +44,12 @@ Match statistics overlay system for CS2 esports broadcasting and streaming. Prov
 ### For Streamers
 
 1. Navigate to statistics page:
+
    - `/mapstats` for map analysis
    - `/playerstats` for player metrics
 
 2. Enter match data:
+
    - Paste FACEIT match URL or enter match ID directly
 
 3. View statistics on dedicated pages:
@@ -53,6 +59,7 @@ Match statistics overlay system for CS2 esports broadcasting and streaming. Prov
 ### Direct Links
 
 Access statistics directly:
+
 - Map Stats: `https://your-domain.com/mapstats/view?id=MATCH_ID`
 - Player Stats: `https://your-domain.com/playerstats/view?id=MATCH_ID`
 
@@ -73,18 +80,27 @@ Access statistics directly:
 Fetches match data from FACEIT API.
 
 **Parameters:**
+
 - `matchId` (required): FACEIT match ID
 
 **Response:**
+
 ```json
 {
-  "matchDetailsData": { /* Match details */ },
-  "teamsData": { /* Team information */ },
-  "organizerData": { /* Tournament data */ }
+	"matchDetailsData": {
+		/* Match details */
+	},
+	"teamsData": {
+		/* Team information */
+	},
+	"organizerData": {
+		/* Tournament data */
+	}
 }
 ```
 
 **Errors:**
+
 - `404`: Match not found
 - `401`: Authentication failed
 - `500`: Server error
@@ -114,6 +130,7 @@ src/
 ## Development
 
 **Scripts:**
+
 - `npm run dev` - Development server
 - `npm run build` - Build for production
 - `npm run preview` - Preview build
@@ -123,6 +140,7 @@ src/
 ## Deployment
 
 ### Vercel
+
 1. Connect GitHub repository to Vercel
 2. Set environment variables in dashboard
 3. Auto-deploy on push to main
@@ -131,9 +149,9 @@ For other platforms, see [SvelteKit deployment docs](https://kit.svelte.dev/docs
 
 ## Environment Variables
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `FACEIT_API_KEY` | FACEIT API key for match data | Yes |
+| Variable         | Description                   | Required |
+| ---------------- | ----------------------------- | -------- |
+| `FACEIT_API_KEY` | FACEIT API key for match data | Yes      |
 
 ## Tech Stack
 

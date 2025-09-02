@@ -125,4 +125,4 @@ export type matchDetails = {
 	results: matchResults;
 	status: matchStatus;
 };
-interface tournamentDetails { }
+interface tournamentDetails {}
