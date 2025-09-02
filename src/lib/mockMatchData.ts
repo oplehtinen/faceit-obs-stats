@@ -21,6 +21,7 @@ export const MOCK_MATCH_IDS = {
 	ONGOING_MAP2: 'match-ongoing-map2-789' as matchId,
 	FINISHED: 'match-finished-abc' as matchId,
 	LIVE_UPDATING: 'match-live-updating-xyz' as matchId,
+	ONE_PLAYED_WAITING: 'match-one-played-waiting-555' as matchId,
 	NOT_FOUND: 'match-not-found-xyz' as matchId,
 	INVALID_DATA: 'match-invalid-data-def' as matchId
 } as const;
@@ -229,6 +230,33 @@ export const MOCK_MATCH_DETAILS: Record<string, matchDetails> = {
 			}
 		},
 		status: 'ONGOING'
+	}
+	,
+	[MOCK_MATCH_IDS.ONE_PLAYED_WAITING]: {
+		match_id: MOCK_MATCH_IDS.ONE_PLAYED_WAITING,
+		competition_id: 'tournament-123' as tournamentId,
+		competition_name: 'Test Tournament',
+		organizer_id: 'organizer-123' as organizerId,
+		teams: {
+			faction1: { ...mockTeam1, score: 1 },
+			faction2: { ...mockTeam2, score: 0 }
+		},
+		voting: {
+			map: { pick: ['de_inferno', 'de_mirage'] }
+		},
+		round: 2,
+		scheduled_at: Date.now() - 7200000,
+		configured_at: Date.now() - 5400000,
+		started_at: Date.now() - 3600000,
+		finished_at: 0,
+		results: {
+			winner: '',
+			score: {
+				faction1: 1,
+				faction2: 0
+			}
+		},
+		status: 'READY' // One map done, next not started
 	}
 };
 
@@ -762,6 +790,74 @@ export const MOCK_MATCH_STATS: Record<string, matchStats[]> = {
 			]
 		}
 	]
+	,
+	[MOCK_MATCH_IDS.ONE_PLAYED_WAITING]: [
+		{
+			match_round: 1,
+			played: true,
+			round_stats: {
+				Winner: 'team1-id' as teamId,
+				Rounds: 30,
+				Score: '16-14',
+				Map: 'de_inferno'
+			},
+			teams: [
+				{
+					team_id: 'team1-id' as teamId,
+					team_stats: {
+						'Final Score': '16',
+						'Team Win': '1'
+					},
+					players: mockTeam1.roster.map((player) => ({
+						player_id: player.player_id,
+						nickname: player.nickname,
+						avatar: player.avatar,
+						player_stats: {
+							'Quadro Kills': 0,
+							MVPs: 3,
+							Result: 1,
+							'Penta Kills': 0,
+							'K/D Ratio': 1.2,
+							Kills: 18,
+							'Triple Kills': 1,
+							'K/R Ratio': 0.6,
+							Headshots: 8,
+							Deaths: 15,
+							'Headshots %': 44,
+							Assists: 4
+						}
+					}))
+				},
+				{
+					team_id: 'team2-id' as teamId,
+					team_stats: {
+						'Final Score': '14',
+						'Team Win': '0'
+					},
+					players: mockTeam2.roster.map((player) => ({
+						player_id: player.player_id,
+						nickname: player.nickname,
+						avatar: player.avatar,
+						player_stats: {
+							'Quadro Kills': 0,
+							MVPs: 2,
+							Result: 0,
+							'Penta Kills': 0,
+							'K/D Ratio': 0.9,
+							Kills: 14,
+							'Triple Kills': 0,
+							'K/R Ratio': 0.5,
+							Headshots: 6,
+							Deaths: 16,
+							'Headshots %': 43,
+							Assists: 3
+						}
+					}))
+				}
+			]
+		},
+		// Second map not started yet: we omit a second entry to reflect no stats yet
+	]
 };
 
 // Mock organizer data
@@ -1137,5 +1233,12 @@ export function generateAlwaysNewMockData(): { details: matchDetails; stats: mat
 		}
 	];
 
+	return { details, stats };
+}
+
+// Deterministic mock: one map finished, second not started
+export function generateOnePlayedWaitingData(): { details: matchDetails; stats: matchStats[] } {
+	const details = MOCK_MATCH_DETAILS[MOCK_MATCH_IDS.ONE_PLAYED_WAITING];
+	const stats = MOCK_MATCH_STATS[MOCK_MATCH_IDS.ONE_PLAYED_WAITING];
 	return { details, stats };
 }

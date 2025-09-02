@@ -7,11 +7,12 @@ import {
 	getTournamentStatsForPlayer
 } from '$lib/faceit';
 import type { matchId } from '$lib/dataTypes';
-import { MOCK_ORGANIZER_DATA } from '$lib/mockMatchData';
+import { MOCK_ORGANIZER_DATA, MOCK_MATCH_IDS } from '$lib/mockMatchData';
 import {
 	generatePlayerTournamentStats,
 	generateMapStatsForTeams,
-	generateAlwaysNewMockData
+	generateAlwaysNewMockData,
+	generateOnePlayedWaitingData
 } from '$lib/mockMatchData';
 
 export const GET: RequestHandler = async ({ url }) => {
@@ -22,10 +23,13 @@ export const GET: RequestHandler = async ({ url }) => {
 		return json({ error: 'Match ID is required' }, { status: 400 });
 	}
 
-	// Handle mock data requests (always dynamic values)
+	// Handle mock data requests (dynamic or scenario-specific)
 	if (useMockData) {
 		try {
-			const { details: mockMatchDetails, stats: mockMatchStats } = generateAlwaysNewMockData();
+			const { details: mockMatchDetails, stats: mockMatchStats } =
+				matchId === MOCK_MATCH_IDS.ONE_PLAYED_WAITING
+					? generateOnePlayedWaitingData()
+					: generateAlwaysNewMockData();
 			const teamsData = mockMatchDetails.teams;
 			const organizerData = MOCK_ORGANIZER_DATA;
 			const playerStats = generatePlayerTournamentStats();
