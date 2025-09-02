@@ -1,26 +1,22 @@
 <script lang="ts">
 	import { base } from '$app/paths';
-	// Front page offers links to input pages and read-only view routes
-	const mapStatsView = `${base}/view/mapstats`;
-	const playerStatsView = `${base}/view/playerstats`;
-	const mapPicksView = `${base}/view/mappicks`;
+	// Front page offers links to input pages only; views require prior input
 </script>
 
 <svelte:head>
 	<title>FACEIT OBS stats</title>
 </svelte:head>
 
-<div class="hero min-h-screen from-primary to-secondary">
+<div class="hero py-10">
 	<div class="hero-content text-center">
-		<div class="max-w-4xl">
-			<h1 class="text-5xl font-bold text-white mb-8">FACEIT OBS stats</h1>
-			<p class="text-xl text-white/80 mb-12">
-				FACEIT match statistics overlay system for esports broadcasting and streaming. View detailed
-				match statistics, player performance data, and team comparisons.
+		<div class="max-w-5xl">
+			<h1 class="text-4xl md:text-5xl font-bold text-white mb-4">FACEIT OBS stats</h1>
+			<p class="text-lg text-white/80 mb-8">
+				FACEIT match statistics overlay system for streaming. View detailed match statistics, player
+				performance data, and team comparisons.
 			</p>
-
-			<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-				<div class="card bg-base-100 shadow-xl">
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+				<div class="card card-compact bg-base-100 shadow-md">
 					<div class="card-body">
 						<h2 class="card-title text-base-content">
 							<svg
@@ -39,18 +35,14 @@
 							</svg>
 							Map Statistics
 						</h2>
-						<p class="text-primary">
-							View map-by-map statistics including round wins, team performance, and detailed
-							breakdowns for each played map.
-						</p>
-						<div class="card-actions justify-end gap-2">
-							<a href={`${base}/mapstats`} class="btn btn-primary">With input</a>
-							<a href={mapStatsView} class="btn">View only</a>
+						<p class="text-base-content/70">Enter a match to see map-by-map breakdowns.</p>
+						<div class="card-actions justify-end mt-2">
+							<a href={`${base}/mapstats`} class="btn">Open</a>
 						</div>
 					</div>
 				</div>
 
-				<div class="card bg-base-100 shadow-xl">
+				<div class="card card-compact bg-base-100 shadow-md">
 					<div class="card-body">
 						<h2 class="card-title text-base-content">
 							<svg
@@ -69,18 +61,14 @@
 							</svg>
 							Player Statistics
 						</h2>
-						<p class="text-primary">
-							Player performance analytics including K/D ratios, ADR, headshot percentages, and
-							individual player contributions.
-						</p>
-						<div class="card-actions justify-end gap-2">
-							<a href={`${base}/playerstats`} class="btn btn-secondary">With input</a>
-							<a href={playerStatsView} class="btn">View only</a>
+						<p class="text-base-content/70">Analyze K/D, ADR, headshots, and impact.</p>
+						<div class="card-actions justify-end mt-2">
+							<a href={`${base}/playerstats`} class="btn">Open</a>
 						</div>
 					</div>
 				</div>
 
-				<div class="card bg-base-100 shadow-xl">
+				<div class="card card-compact bg-base-100 shadow-md">
 					<div class="card-body">
 						<h2 class="card-title text-base-content">
 							<svg
@@ -99,53 +87,45 @@
 							</svg>
 							Map Picks
 						</h2>
-						<p class="text-primary">
-							View pick/ban map cards showing historical win rates and the next map indicator.
-						</p>
-						<div class="card-actions justify-end gap-2">
-							<a href={`${base}/mappicks`} class="btn">With input</a>
-							<a href={mapPicksView} class="btn">View only</a>
+						<p class="text-base-content/70">Pick/ban cards with win rates and next map.</p>
+						<div class="card-actions justify-end mt-2">
+							<a href={`${base}/mappicks`} class="btn">Open</a>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<!-- Demo Mode Card -->
-			<div class="card bg-gradient-to-r from-accent to-accent shadow-xl mb-12">
-				<div class="card-body">
-					<h2 class="card-title text-white">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							class="h-6 w-6"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-							/>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-							/>
-						</svg>
-						Demo Mode
-					</h2>
-					<p class="text-white/90">Try realistic mock data with multiple scenarios.</p>
-					<div class="card-actions justify-end">
-						<a href={`${base}/demo`} class="btn btn-white">View Demo</a>
-					</div>
+			<!-- Demo banner -->
+			<div class="alert bg-accent text-accent-content mb-6">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-5 w-5"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+					/>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+					/>
+				</svg>
+				<span>Try the app with realistic mock data.</span>
+				<div class="ml-auto">
+					<a href={`${base}/demo`} class="btn btn-sm">View Demo</a>
 				</div>
 			</div>
 
-			<div class="card bg-base-100 backdrop-blur-sm border border-white/20">
+			<div class="card card-compact bg-base-100 backdrop-blur-sm border border-white/20">
 				<div class="card-body">
-					<h2 class="card-title text-white text-2xl mb-4">
+					<h2 class="card-title text-white text-xl mb-2">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="h-6 w-6"
@@ -162,41 +142,30 @@
 						</svg>
 						How to Use
 					</h2>
-					<div class="text-left space-y-4">
+					<div class="text-left space-y-3 text-sm">
 						<div class="step">
-							<h3 class="font-semibold text-white text-lg">1. Get Match Data</h3>
+							<h3 class="font-semibold text-white">1. Get Match Data</h3>
+							<p class="text-white/80">Open a page and enter a FACEIT match ID or full URL.</p>
+						</div>
+						<div class="step">
+							<h3 class="font-semibold text-white">2. Supported Formats</h3>
 							<p class="text-white/80">
-								Navigate to either Map Statistics or Player Statistics and enter a FACEIT match ID
-								or complete FACEIT match URL.
+								ID (e.g. <code class="bg-black/30 px-1 rounded">1-58d8d...</code>) or full FACEIT
+								URL.
 							</p>
 						</div>
 						<div class="step">
-							<h3 class="font-semibold text-white text-lg">2. Supported URL Formats</h3>
-							<p class="text-white/80">
-								• Direct match ID: <code class="bg-black/30 px-2 py-1 rounded"
-									>1-58d8dbd0-dc69-4077-9970-7893f3fc07dc</code
-								><br />
-								• FACEIT URL:
-								<code class="bg-black/30 px-2 py-1 rounded"
-									>https://www.faceit.com/en/cs2/room/1-abc123.../scoreboard</code
-								>
-							</p>
-						</div>
-						<div class="step">
-							<h3 class="font-semibold text-white text-lg">3. View Statistics</h3>
-							<p class="text-white/80">
-								After entering the match data, you'll be redirected to a clean statistics view with
-								comprehensive match analytics.
-							</p>
+							<h3 class="font-semibold text-white">3. View</h3>
+							<p class="text-white/80">You're redirected to the clean stats view automatically.</p>
 						</div>
 					</div>
 				</div>
 			</div>
 
 			<!-- OBS Integration -->
-			<div class="card bg-base-100 backdrop-blur-sm border border-white/20 mt-8">
+			<div class="card card-compact bg-base-100 backdrop-blur-sm border border-white/20 mt-6">
 				<div class="card-body">
-					<h2 class="card-title text-white text-2xl mb-4">
+					<h2 class="card-title text-white text-xl mb-2">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="h-6 w-6"
@@ -208,32 +177,22 @@
 								stroke-linecap="round"
 								stroke-linejoin="round"
 								stroke-width="2"
-								d="M4 5h16M4 13h16M4 21h16"
+								d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
 							/>
 						</svg>
 						OBS Integration
 					</h2>
-					<div class="text-left space-y-3">
+					<div class="text-left space-y-2 text-sm">
 						<p class="text-white/80">
-							Use this app directly in OBS as a Browser Source. For production overlays, prefer the
-							read-only view routes.
+							Use this app in OBS as a Browser Source. Start from an input page, enter your match,
+							then copy the resulting URL into OBS.
 						</p>
-						<ol class="list-decimal list-inside space-y-2 text-white/90">
-							<li>
-								In OBS: Sources → + → Browser Source. Set the URL to the page you need:
-								<code class="bg-black/30 px-2 py-1 rounded">/view/mapstats</code>,
-								<code class="bg-black/30 px-2 py-1 rounded">/view/playerstats</code> or
-								<code class="bg-black/30 px-2 py-1 rounded">/view/mappicks</code>.
-							</li>
-							<li>Set size to match your canvas (e.g., 1920×1080). Click OK to add the source.</li>
-							<li>
-								Provide the match via query parameter, e.g.
-								<code class="bg-black/30 px-2 py-1 rounded">/view/mapstats?id=1-abc123...</code>.
-								Alternatively, use the input pages to capture an ID interactively; they will set the
-								centralized state and show the view.
-							</li>
+						<ol class="list-decimal list-inside space-y-1 text-white/90">
+							<li>In OBS: Sources → + → Browser Source.</li>
+							<li>Open a page, enter the match, then copy the resulting URL.</li>
+							<li>Set size to match your canvas (e.g., 1920×1080), then add.</li>
 						</ol>
-						<p class="text-white/60 text-sm">
+						<p class="text-white/60 text-xs">
 							Tip: Use “Refresh cache of current page” to reload, or enable “Shutdown source when
 							not visible” to reset between scenes.
 						</p>
@@ -244,4 +203,4 @@
 	</div>
 </div>
 
-<!-- View components are available under /view/* routes; input pages under /mapstats and /playerstats. -->
+<!-- Input pages: /mapstats, /playerstats, /mappicks -->
