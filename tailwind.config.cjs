@@ -24,7 +24,8 @@ export default {
 			}
 		}
 	},
-	content: ['./src/routes/**/*.{svelte,js,ts}'],
+	// Make sure Tailwind scans all Svelte components, including src/lib
+	content: ['./src/**/*.{svelte,js,ts}'],
 	plugins: [require('@tailwindcss/typography'), require('daisyui')],
 	daisyui: {
 		themes: ['luxury']

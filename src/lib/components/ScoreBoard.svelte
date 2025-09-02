@@ -21,7 +21,7 @@
 	</div>
 	<div class="stat place-items-center">
 		<div class="text-3xl">{teamData?.faction1.name}</div>
-		<div class="stat-value">{match?.results?.score?.faction1 || 0}</div>
+		<div class="text-6xl font-bold leading-none">{match?.results?.score?.faction1 || 0}</div>
 	</div>
 	<div class="stat w-64 place-items-center text-primary">
 		<!-- 	<span class="countdown font-mono text-2xl">
@@ -35,7 +35,9 @@
 
 	<div class="stat place-items-center">
 		<div class="text-3xl text-info">{teamData?.faction2.name}</div>
-		<div class="stat-value text-info">{match?.results?.score?.faction2 || 0}</div>
+		<div class="text-6xl font-bold text-info leading-none">
+			{match?.results?.score?.faction1 || 0}
+		</div>
 	</div>
 	<div class="avatar w-64 stat place-items-center">
 		<div class="w-24 h-24 rounded mix-blend-screen">
