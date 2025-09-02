@@ -2,6 +2,7 @@
 	import type { matchDetails, team, teams } from '$lib/dataTypes';
 	import { onMount } from 'svelte';
 	import { matchDetailsDataStore, teamsDataStore, organizerData } from '../../stores';
+	import Avatar from './Avatar.svelte';
 
 	// Use reactive statements to get data from stores
 	$: match = $matchDetailsDataStore as matchDetails | null;
@@ -15,8 +16,8 @@
 
 <div class="stats shadow w-auto flex bg-opacity-80 justify-between flex-row mt-4">
 	<div class="avatar w-64 stat place-items-center">
-		<div class="w-24 h-24 rounded mix-blend-screen">
-			<img src={teamData?.faction1.avatar} alt="Team 1 logo" />
+		<div class="w-24 h-24 rounded mix-blend-screen overflow-hidden">
+			<Avatar src={teamData?.faction1.avatar} alt="Team 1 logo" text={teamData?.faction1.name} />
 		</div>
 	</div>
 	<div class="stat place-items-center">
@@ -28,8 +29,12 @@
 				<span style="--value:{startTime.minutes};" />:
 				<span style="--value:{startTime.seconds};" />
 			</span> -->
-		<div class="w-24 h-24 rounded mix-blend-screen">
-			<img src={organizerDataValue?.avatar} alt="Organizer logo" />
+		<div class="w-24 h-24 rounded mix-blend-screen overflow-hidden">
+			<Avatar
+				src={organizerDataValue?.avatar}
+				alt="Organizer logo"
+				text={organizerDataValue?.name}
+			/>
 		</div>
 	</div>
 
@@ -40,8 +45,8 @@
 		</div>
 	</div>
 	<div class="avatar w-64 stat place-items-center">
-		<div class="w-24 h-24 rounded mix-blend-screen">
-			<img src={teamData?.faction2.avatar} alt="Team 2 logo" />
+		<div class="w-24 h-24 rounded mix-blend-screen overflow-hidden">
+			<Avatar src={teamData?.faction2.avatar} alt="Team 2 logo" text={teamData?.faction2.name} />
 		</div>
 	</div>
 </div>

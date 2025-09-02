@@ -1,5 +1,6 @@
 <script lang="ts">
 	import WinIcon from './WinIcon.svelte';
+	import Avatar from './Avatar.svelte';
 
 	import { fade, fly } from 'svelte/transition';
 	import { expoIn, expoOut } from 'svelte/easing';
@@ -48,8 +49,8 @@
 						stat flex flex-row justify-between items-center {i == 1 ? '!flex-row-reverse' : 'flex-row'}"
 					>
 						<div class="stat-figure">
-							<div class="w-16 rounded-full">
-								<img src={teams[i].avatar} alt="logo" />
+							<div class="w-16 rounded-full overflow-hidden">
+								<Avatar src={teams[i].avatar} alt={teams[i].name + ' logo'} text={teams[i].name} />
 							</div>
 						</div>
 						{#if playedMap && data.round_stats}
