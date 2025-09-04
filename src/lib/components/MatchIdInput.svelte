@@ -5,6 +5,7 @@
 	export let pageType: 'mapstats' | 'playerstats' | 'mappicks' = 'mapstats';
 
 	let inputValue = '';
+	let countdownMinutes = '';
 
 	// Function to extract match ID from FACEIT URL or return as-is if it's already an ID
 	function extractMatchId(input: string): string {
@@ -24,8 +25,19 @@
 	function handleSubmit() {
 		if (inputValue.trim()) {
 			const matchId = extractMatchId(inputValue);
-			// Redirect to the unified view route with the match ID as query parameter
-			const redirectUrl = `${base}/view/${pageType}?id=${encodeURIComponent(matchId)}`;
+			// Build redirect URL with match ID
+			let redirectUrl = `${base}/view/${pageType}?id=${encodeURIComponent(matchId)}`;
+
+			// Add countdown parameter if it's playerstats and countdown is specified
+			if (
+				pageType === 'playerstats' &&
+				countdownMinutes &&
+				String(countdownMinutes).trim() &&
+				!isNaN(parseInt(String(countdownMinutes)))
+			) {
+				redirectUrl += `&countdown=${encodeURIComponent(String(countdownMinutes))}`;
+			}
+
 			goto(redirectUrl);
 		}
 	}
@@ -53,5 +65,23 @@
 			/>
 			<button class="btn btn-primary" on:click={handleSubmit}> Load Match </button>
 		</div>
+
+		{#if pageType === 'playerstats'}
+			<label class="label mt-4" for="countdown-input">
+				<span class="label-text">Starting Soon Countdown (minutes)</span>
+			</label>
+			<div class="input-group">
+				<input
+					id="countdown-input"
+					type="number"
+					placeholder="Enter countdown time in minutes (optional)"
+					class="input input-bordered w-full"
+					bind:value={countdownMinutes}
+					on:keypress={handleKeyPress}
+					min="0"
+					max="60"
+				/>
+			</div>
+		{/if}
 	</div>
 </div>
