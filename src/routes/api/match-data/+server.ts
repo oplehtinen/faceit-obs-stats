@@ -14,7 +14,6 @@ import {
 	generateAlwaysNewMockData,
 	generateOnePlayedWaitingData
 } from '$lib/mockMatchData';
-import { _getCurrentMapPool } from '../config/maps/+server';
 
 export const GET: RequestHandler = async ({ url }) => {
 	const matchId = url.searchParams.get('matchId');
@@ -87,7 +86,11 @@ export const GET: RequestHandler = async ({ url }) => {
 			matchDetailsData.competition_id,
 			teamsData
 		);
-		const tournamentMaps = _getCurrentMapPool();
+		
+		// Extract map pool from match voting data instead of using hardcoded values
+		const tournamentMaps = matchDetailsData.voting?.map?.entities
+			? matchDetailsData.voting.map.entities.map((entity: any) => entity.name)
+			: ['Inferno', 'Train', 'Ancient', 'Mirage', 'Nuke', 'Dust2', 'Anubis']; // Fallback
 
 		const teamArr = [teamsData.faction1, teamsData.faction2];
 		const mapStatsTeam = await getTeamStatsForMap(teamArr, tournamentMaps);
