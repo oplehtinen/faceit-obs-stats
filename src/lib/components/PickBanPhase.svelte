@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { fade, fly } from 'svelte/transition';
+	import Avatar from './Avatar.svelte';
+	import { fly } from 'svelte/transition';
 	import { expoIn, expoOut } from 'svelte/easing';
 	import type { matchDetails, team } from '$lib/dataTypes';
 	import { maps as staticMapData } from '$lib/maps';
@@ -31,55 +32,97 @@
 	$: allMaps = match?.voting?.map?.entities || [];
 	$: pickedMaps = match?.voting?.map?.pick || [];
 
-	// Determine map status (picked or banned)
-	// If a map is in pickedMaps, it's picked; otherwise it's banned from the pool
-	$: mapStatuses = allMaps.map((mapEntity) => {
-		const isPicked = pickedMaps.includes(mapEntity.guid);
-		return {
-			...mapEntity,
-			status: isPicked ? 'picked' : 'banned'
-		};
-	});
+	interface MapWithStatus {
+		guid: string;
+		name: string;
+		image_lg: string;
+		image_sm: string;
+		class_name: string;
+		game_map_id: string;
+		status: 'picked' | 'banned';
+		pickIndex?: number;
+		teamIndex?: number; // 0 or 1 for faction1 or faction2
+	}
 
-	// If entities are not available, use the picked maps list and static map data
-	$: fallbackMaps = pickedMaps.map((mapGuid, index) => {
-		const mapName = mapGuid.replace('de_', '');
-		const capitalizedName = mapName.charAt(0).toUpperCase() + mapName.slice(1);
-		const mapKey = capitalizedName as keyof typeof staticMapData;
-		const mapInfo = staticMapData[mapKey];
+	// Process maps with pick/ban status and team attribution
+	$: processedMaps = (() => {
+		const maps: MapWithStatus[] = [];
+		
+		if (allMaps.length > 0) {
+			// Use entities data
+			allMaps.forEach((mapEntity) => {
+				const pickIndex = pickedMaps.indexOf(mapEntity.guid);
+				const isPicked = pickIndex >= 0;
+				
+				// Simulate team attribution based on pick order (alternating teams)
+				// In real data, this would come from the API
+				let teamIndex: number | undefined;
+				if (isPicked) {
+					teamIndex = pickIndex % 2; // Alternate between teams
+				} else {
+					// For bans, also alternate
+					const bannedIndex = allMaps.filter(m => !pickedMaps.includes(m.guid)).indexOf(mapEntity);
+					teamIndex = bannedIndex % 2;
+				}
+				
+				maps.push({
+					guid: mapEntity.guid,
+					name: mapEntity.name,
+					image_lg: mapEntity.image_lg,
+					image_sm: mapEntity.image_sm,
+					class_name: mapEntity.class_name,
+					game_map_id: mapEntity.game_map_id,
+					status: isPicked ? 'picked' : 'banned',
+					pickIndex: isPicked ? pickIndex : undefined,
+					teamIndex
+				});
+			});
+		} else if (pickedMaps.length > 0) {
+			// Fallback to picked maps only
+			pickedMaps.forEach((mapGuid, index) => {
+				const mapName = mapGuid.replace('de_', '');
+				const capitalizedName = mapName.charAt(0).toUpperCase() + mapName.slice(1);
+				const mapKey = capitalizedName as keyof typeof staticMapData;
+				const mapInfo = staticMapData[mapKey];
 
-		return {
-			guid: mapGuid,
-			name: capitalizedName,
-			image_lg: mapInfo?.image_lg || '',
-			image_sm: mapInfo?.image_sm || '',
-			class_name: mapGuid,
-			game_map_id: mapGuid,
-			status: 'picked'
-		};
-	});
-
-	// Use entities if available, otherwise use fallback
-	$: displayMaps = allMaps.length > 0 ? mapStatuses : fallbackMaps;
-
-	// Get status badge class
-	const getStatusClass = (status: string) => {
-		if (status === 'picked') {
-			return 'badge-success';
-		} else if (status === 'banned') {
-			return 'badge-error';
+				maps.push({
+					guid: mapGuid,
+					name: capitalizedName,
+					image_lg: mapInfo?.image_lg || '',
+					image_sm: mapInfo?.image_sm || '',
+					class_name: mapGuid,
+					game_map_id: mapGuid,
+					status: 'picked',
+					pickIndex: index,
+					teamIndex: index % 2
+				});
+			});
 		}
-		return 'badge-neutral';
+		
+		return maps;
+	})();
+
+	// Sort: picks first (by index), then bans
+	$: sortedMaps = [...processedMaps].sort((a, b) => {
+		if (a.status === 'picked' && b.status === 'picked') {
+			return (a.pickIndex ?? 0) - (b.pickIndex ?? 0);
+		}
+		if (a.status === 'picked') return -1;
+		if (b.status === 'picked') return 1;
+		return 0;
+	});
+
+	// Get background color based on status
+	const getStatusClass = (status: 'picked' | 'banned') => {
+		return status === 'picked' ? 'before:!bg-success-content' : 'before:!bg-error-content';
 	};
 
 	// Get status text
-	const getStatusText = (status: string) => {
-		if (status === 'picked') {
-			return 'PICKED';
-		} else if (status === 'banned') {
-			return 'BANNED';
+	const getStatusText = (status: 'picked' | 'banned', pickIndex?: number) => {
+		if (status === 'picked' && pickIndex !== undefined) {
+			return `PICK ${pickIndex + 1}`;
 		}
-		return 'AVAILABLE';
+		return status === 'picked' ? 'PICKED' : 'BANNED';
 	};
 </script>
 
@@ -96,7 +139,7 @@
 	<div class="alert alert-info">
 		<span>Please enter a match ID above to load pick/ban phase.</span>
 	</div>
-{:else if displayMaps.length > 0}
+{:else if sortedMaps.length > 0}
 	{#if isMockData}
 		<div class="alert alert-info mb-4">
 			<svg
@@ -116,25 +159,44 @@
 		</div>
 	{/if}
 
-	<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-		{#each displayMaps as map, i (map.guid)}
-			<div
-				class="card shadow-xl image-full"
-				in:fly={{ y: -50, duration: 300 + i * 100, easing: expoIn }}
-				out:fly={{ y: 50, duration: 300, easing: expoOut }}
-			>
-				<figure>
-					<img src={map.image_lg} class="w-full h-full object-cover" alt={map.name} />
-				</figure>
-				<div class="card-body justify-between p-4">
-					<div class="card-actions justify-end">
-						<div class="badge {getStatusClass(map.status)} badge-lg">
-							{getStatusText(map.status)}
-						</div>
+	<div class="flex flex-wrap justify-around flex-row my-auto gap-4 mx-auto w-5/6 h-5/6">
+		{#each sortedMaps as map, i (map.guid)}
+			<div class="m-2">
+				<div
+					class="card shadow-xl before:!bg-opacity-90 grid h-16 shrink image-full flex-1 {getStatusClass(
+						map.status
+					)}"
+					in:fly={{ y: -150, duration: i * 300, easing: expoIn }}
+					out:fly={{ y: 150, duration: 500, easing: expoOut }}
+				>
+					<figure><img src={map.image_lg} class="w-full" alt={map.name} /></figure>
+					<div class="card-body justify-end">
+						<h1 class="text-4xl text-primary capitalize">
+							{map.name}
+							<div class="badge badge-lg {map.status === 'picked' ? 'badge-success' : 'badge-error'}">
+								{getStatusText(map.status, map.pickIndex)}
+							</div>
+						</h1>
+						{#if teamArr.length === 2 && map.teamIndex !== undefined}
+							<div class="stats bg-base-200 bg-opacity-80">
+								<div class="stat flex flex-row items-center">
+									<div class="stat-figure">
+										<div class="w-16 rounded-full overflow-hidden">
+											<Avatar
+												src={teamArr[map.teamIndex].avatar}
+												alt={teamArr[map.teamIndex].name + ' logo'}
+												text={teamArr[map.teamIndex].name}
+											/>
+										</div>
+									</div>
+									<div class="stat-title text-lg">
+										{map.status === 'picked' ? 'Picked by' : 'Banned by'}
+										{teamArr[map.teamIndex].name}
+									</div>
+								</div>
+							</div>
+						{/if}
 					</div>
-					<h2 class="card-title text-3xl text-primary capitalize">
-						{map.name}
-					</h2>
 				</div>
 			</div>
 		{/each}
