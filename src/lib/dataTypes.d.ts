@@ -115,7 +115,17 @@ export type matchDetails = {
 		faction2: team;
 	} | null;
 	voting: {
-		map: { pick: mapPicks };
+		map: { 
+			pick: mapPicks;
+			entities?: Array<{
+				name: string;
+				class_name: string;
+				game_map_id: string;
+				guid: string;
+				image_lg: string;
+				image_sm: string;
+			}>;
+		};
 	};
 	round?: number;
 	scheduled_at: number;
