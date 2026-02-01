@@ -55,7 +55,7 @@
 				const isPicked = pickIndex >= 0;
 				
 				// Simulate team attribution based on pick order (alternating teams)
-				// In real data, this would come from the API
+				// TODO: Update this when FACEIT API provides team attribution data in voting object
 				let teamIndex: number | undefined;
 				if (isPicked) {
 					teamIndex = pickIndex % 2; // Alternate between teams
@@ -163,10 +163,10 @@
 		{#each sortedMaps as map, i (map.guid)}
 			<div class="m-2">
 				<div
-					class="card shadow-xl before:!bg-opacity-90 grid h-16 shrink image-full flex-1 {getStatusClass(
+					class="card shadow-xl before:!bg-opacity-90 grid min-h-16 shrink image-full flex-1 {getStatusClass(
 						map.status
 					)}"
-					in:fly={{ y: -150, duration: i * 300, easing: expoIn }}
+					in:fly={{ y: -150, duration: Math.min(i * 300, 900), easing: expoIn }}
 					out:fly={{ y: 150, duration: 500, easing: expoOut }}
 				>
 					<figure><img src={map.image_lg} class="w-full" alt={map.name} /></figure>
