@@ -14,7 +14,7 @@ import {
 	generateAlwaysNewMockData,
 	generateOnePlayedWaitingData
 } from '$lib/mockMatchData';
-import { getCurrentMapPool } from '../config/maps/+server';
+import { _getCurrentMapPool } from '../config/maps/+server';
 
 export const GET: RequestHandler = async ({ url }) => {
 	const matchId = url.searchParams.get('matchId');
@@ -87,7 +87,7 @@ export const GET: RequestHandler = async ({ url }) => {
 			matchDetailsData.competition_id,
 			teamsData
 		);
-		const tournamentMaps = getCurrentMapPool();
+		const tournamentMaps = _getCurrentMapPool();
 
 		const teamArr = [teamsData.faction1, teamsData.faction2];
 		const mapStatsTeam = await getTeamStatsForMap(teamArr, tournamentMaps);
